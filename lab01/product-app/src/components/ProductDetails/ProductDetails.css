@@ -1,0 +1,14 @@
+div.product {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: lightblue;
+}
+
+div.product p {
+    font-size: 12px;
+}
+
+div.product p.big {
+    font-size: 16px;
+    
+}

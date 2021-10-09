@@ -1,0 +1,12 @@
+.add-product {
+    display: flex;
+    flex-direction: row;
+    width: 200px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.add-product input{
+    display: block;
+    text-align: center;
+}
