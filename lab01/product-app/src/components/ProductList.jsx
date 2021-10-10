@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import ProductDetails from './ProductDetails/ProductDetails';
 import CreateProduct from './CreateProduct/CreateProduct';
+import { useConfirm } from 'material-ui-confirm';
 
 
 const ProductList = () => {
+    const confirm = useConfirm();
     const [productList, setProductList] = useState(null);
     const [newProductId, setNewProductId] = useState(0);
 
@@ -25,7 +27,7 @@ const ProductList = () => {
 
     const createProduct = async (newProduct, {resetForm}) => {
         const response = await axios.post('https://fakestoreapi.com/products', newProduct);
-        console.log(response);
+        //console.log(response);
         if (response.status === 200) {
             const newProduct = response.data;
             newProduct.id = newProductId;
@@ -37,7 +39,20 @@ const ProductList = () => {
         }
     }
 
-    const content = (productList ? productList.map(product => <ProductDetails key={product.id} {...product}/>)
+    const deleteProduct = async (id) => {
+        confirm({description: "Czy jesteś pewien, że chcesz usunąć produkt?"})
+        .then( async () => {
+            const response = await axios.delete(`https://fakestoreapi.com/products/${id}`);
+            if (response.status === 200) {
+                const newProductList = productList.filter(product => product.id !== id)
+                setProductList(newProductList);
+            } 
+        })
+        .catch(() => {/* ... */});
+    }
+
+
+    const content = (productList ? productList.map(product => <ProductDetails key={product.id} deleteProduct={deleteProduct} {...product}/>)
     : null)
 
     return (
