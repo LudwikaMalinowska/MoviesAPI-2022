@@ -11,6 +11,7 @@ const userSchema = Yup.object().shape({
     price: Yup.number().positive().required(),
     category: Yup.string().required("Kategoria jest wymagana"),
     image: Yup.string().url(),
+    description: Yup.string(),
 })
 
 
@@ -38,6 +39,9 @@ const ProductForm = ({onSubmit, initialValues}) => {
         <label>Zdjęcie (opcjonalne): </label>
         <Field name="image"/>
         <ErrorMessage name="image" component="div"/>
+        <label>Opis (opcjonalne): </label>
+        <Field name="description"/>
+        <ErrorMessage name="description" component="div"/>
         <button type="submit">Dodaj</button>
       </Form>
     </Formik>

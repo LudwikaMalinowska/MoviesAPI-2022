@@ -5,8 +5,9 @@ const initialValues = {
     title: '',
     price: 0,
     category: '',
-    url: '',
-  }
+    image: '',
+    description: '',
+}
 
 const CreateProduct = ({onSubmit}) => {
     return (

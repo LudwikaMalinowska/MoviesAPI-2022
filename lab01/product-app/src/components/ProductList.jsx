@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import ProductDetails from './ProductDetails/ProductDetails';
 import CreateProduct from './CreateProduct/CreateProduct';
+import EditProduct from './EditProduct';
 import { useConfirm } from 'material-ui-confirm';
 
 
@@ -9,14 +10,13 @@ const ProductList = () => {
     const confirm = useConfirm();
     const [productList, setProductList] = useState(null);
     const [newProductId, setNewProductId] = useState(0);
+    const [selectedProduct, setSelectedProduct] = useState(null);
 
     useEffect( () => {
         async function fetchData() {
             const products = await axios.get('https://fakestoreapi.com/products')
             //.then(res => res.data)
             .catch(err => console.log(err) )
-
-            console.log(products.data)
 
             setProductList(products.data)
             setNewProductId(products.data.length+1)
@@ -31,7 +31,8 @@ const ProductList = () => {
         if (response.status === 200) {
             const newProduct = response.data;
             newProduct.id = newProductId;
-            setProductList([...productList, newProduct]);
+            // setProductList([...productList, newProduct]);
+            setProductList([...productList, response.data]);
             setNewProductId(prev => prev+1)
             resetForm();
             
@@ -51,13 +52,42 @@ const ProductList = () => {
         .catch(() => {/* ... */});
     }
 
+    const editProduct = async (editedProduct) => {
+        const response = await axios.put(`https://fakestoreapi.com/products/${editedProduct.id}`, editedProduct);
+        
+        if (response.status === 200) {
+            const productIndex = productList.findIndex(product => product.id === editedProduct.id);
+            let newProductList = [...productList];
+            // newProductList[productIndex] = editedProduct;
+            newProductList[productIndex] = response.data;
 
-    const content = (productList ? productList.map(product => <ProductDetails key={product.id} deleteProduct={deleteProduct} {...product}/>)
+            setProductList(newProductList);
+            setSelectedProduct(null);
+        }
+    }
+
+
+    const content = (productList ? productList.map(product =>
+        <div className="product" key={product.id}>
+            <ProductDetails  {...product}/>
+            <button onClick={() => deleteProduct(product.id)}>Usuń</button>
+            <button onClick={() => {setSelectedProduct(product)}}>Edytuj</button>
+        </div>
+        )
     : null)
 
     return (
         <div>
             <CreateProduct onSubmit={createProduct}/>
+            {selectedProduct && (<div>
+                    <p>Edycja</p>
+                    <EditProduct
+                        selectedProduct={selectedProduct}
+                        onSubmit={editProduct}
+                    />
+            </div>
+
+            )}
             {productList ? content : null}
         </div>
     )
