@@ -4,6 +4,7 @@ import ProductDetails from './ProductDetails/ProductDetails';
 import CreateProduct from './CreateProduct/CreateProduct';
 import EditProduct from './EditProduct';
 import { useConfirm } from 'material-ui-confirm';
+import ProductPage from './ProductPage';
 
 
 const ProductList = () => {
@@ -68,11 +69,12 @@ const ProductList = () => {
 
 
     const content = (productList ? productList.map(product =>
-        <div className="product" key={product.id}>
-            <ProductDetails  {...product}/>
-            <button onClick={() => deleteProduct(product.id)}>Usuń</button>
-            <button onClick={() => {setSelectedProduct(product)}}>Edytuj</button>
-        </div>
+        // <div className="product" key={product.id}>
+        //     <ProductDetails  {...product}/>
+        //     <button onClick={() => deleteProduct(product.id)}>Usuń</button>
+        //     <button onClick={() => {setSelectedProduct(product)}}>Edytuj</button>
+        // </div>
+        <ProductPage key={product.id} product={product} deleteProduct={deleteProduct} setSelectedProduct={setSelectedProduct}/>
         )
     : null)
 
