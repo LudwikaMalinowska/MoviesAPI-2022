@@ -1,14 +1,15 @@
-// function notesReducer(state = {todos: [], notes: []}, action) {
-//     //console.log(state);
-//     const todosCopy = [...state.todos];
-//     let todoIndex;
-//     switch(action.type) {
-//         case 'ADD_NOTE':
-//             return {...state, notes: [...state.notes, action.payload]}
-//         case 'DELETE_NOTE':
-//             const newNotes = state.notes.filter(note => note.id !== action.payload.id)
-//             return {...state, notes: newNotes};
-//         default:
-//             return {...state}
-//     }
-// }
+function notesReducer(state = [], action) {
+    //console.log(state);
+    let todoIndex;
+    switch(action.type) {
+        case 'ADD_NOTE':
+            return [...state, action.payload];
+        case 'DELETE_NOTE':
+            const newNotes = state.filter(note => note.id !== action.payload.id)
+            return newNotes;
+        default:
+            return state;
+    }
+}
+
+module.exports = notesReducer;
