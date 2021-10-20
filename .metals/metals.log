@@ -1,0 +1,16 @@
+[0m2021.10.13 12:22:49 INFO  Started: Metals version 0.10.7 in workspace '/home/LABPK/lmalinowska/Semestr3_2/Frontend/Laby/malinowska-ludwika' for client Visual Studio Code 1.61.0.[0m
+[0m2021.10.13 12:22:50 INFO  time: initialize in 1.15s[0m
+[0m2021.10.13 12:22:51 WARN  Build server is not auto-connectable.[0m
+[0m2021.10.13 12:22:51 WARN  no build tool detected in workspace '/home/LABPK/lmalinowska/Semestr3_2/Frontend/Laby/malinowska-ludwika'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+paź 13, 2021 12:22:51 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTrace
+paź 13, 2021 12:22:51 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTrace
+[0m2021.10.20 12:40:21 INFO  Started: Metals version 0.10.7 in workspace '/home/LABPK/lmalinowska/Semestr3_2/Frontend/Laby/malinowska-ludwika' for client Visual Studio Code 1.61.0.[0m
+[0m2021.10.20 12:40:22 INFO  time: initialize in 1.4s[0m
+[0m2021.10.20 12:40:22 WARN  Build server is not auto-connectable.[0m
+[0m2021.10.20 12:40:22 WARN  no build tool detected in workspace '/home/LABPK/lmalinowska/Semestr3_2/Frontend/Laby/malinowska-ludwika'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+paź 20, 2021 12:40:25 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTrace
+paź 20, 2021 12:40:25 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTrace
