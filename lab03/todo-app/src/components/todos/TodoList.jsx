@@ -1,20 +1,30 @@
 import {useState} from 'react';
 import { connect } from "react-redux";
-import { deleteTodoAction, editTodoAction, finishTodoAction} from "../actions/TodoActions";
+import { deleteTodoAction, editTodoAction, finishTodoAction} from "../../actions/TodoActions";
 import EditForm from './EditForm';
 
 const TodoList = (props) => {
     const [editMode, setEditMode] = useState(false);
-    const content = props.todos ? props.todos.map(todo => (
+    const [editId, setEditId] = useState('');
+
+    const todos = props.state.todos;
+
+    const content = todos ? todos.map(todo => (
         <div key={todo.id}>
         <p>{todo.name} {todo.date} {String(todo.done)}</p>
+
         {todo.done ? null : <button onClick={() => props.finishTodoAction(todo)}>Wykonane</button>}
-        {editMode ? <EditForm setEditMode={setEditMode} {...todo}/> : <button onClick={() => {
+
+        {(editMode && editId == todo.id)  ? <EditForm setEditMode={setEditMode} setEditId={setEditId} {...todo}/> : <button onClick={() => {
+            setEditId(todo.id);
             setEditMode(true)
         }}>Edytuj</button>}
+
         <button onClick={() => props.deleteTodoAction(todo)}>X</button>
+
         </div>)) : null;
-    console.log(props)
+    // console.log(props)
+    // console.log("content: ", content);
     return (
         <div>{content}</div>
     )
@@ -22,7 +32,7 @@ const TodoList = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        todos: state
+        state
     };
 }
 

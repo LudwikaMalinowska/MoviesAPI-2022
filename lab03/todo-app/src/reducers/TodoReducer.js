@@ -1,5 +1,5 @@
 export const todoReducer = (state = [], action) => {
-    console.log(state)
+    // console.log(state)
     let newTodos;
     let index;
     switch(action.type) {
@@ -16,7 +16,7 @@ export const todoReducer = (state = [], action) => {
         case 'TODO_EDIT':
             newTodos = [...state]
             index = newTodos.findIndex(todo => todo.id === action.payload.id)
-            console.log("payload:", action.payload);
+            // console.log("payload:", action.payload);
             const newValues = action.payload;
             newTodos[index].name = newValues.name;
             newTodos[index].date = newValues.date;

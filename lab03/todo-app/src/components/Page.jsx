@@ -1,12 +1,15 @@
-import TodoForm from "./TodoForm"
-import TodoList from "./TodoList"
+import NotesPage from "./notes/NotesPage"
+import TodoPage from "./todos/TodoPage"
+
 
 const Page = () => {
 
     return (
         <>
-        <TodoForm/>
-        <TodoList/>
+        <TodoPage/>
+        <br/>
+        <br/>
+        <NotesPage/>
         </>
     )
 }

@@ -3,25 +3,24 @@ import { useEffect } from "react";
 import { Formik, Field, Form, ErrorMessage} from "formik";
 import { connect } from 'react-redux';
 import {v4 as uuidv4 } from 'uuid';
-import {editTodoAction} from '../actions/TodoActions';
+import {addTodoAction} from '../../actions/TodoActions';
 
 
 
 
-const EditForm = (props) => {
+const TodoForm = (props) => {
     // useEffect(() => {
     //     console.log('Todos', todos);
     // }, [todos])
 
     const initialValues = {
-        name: props.name,
-        date: props.date,
-        done: props.done
+        id: uuidv4(),
+        name: "",
+        date: "",
+        done: false
     }
     const handleSubmit = (values) => {
-        console.log(values);
-        props.editTodoAction({id: props.id, ...values});
-        props.setEditMode(false);
+        props.addTodoAction(values);
     }
 
   return (
@@ -39,11 +38,8 @@ const EditForm = (props) => {
         <label >Data: </label>
         <Field name="date" type="date"></Field>
         {/* <ErrorMessage name="date" component="div"/> */}
-
-        <label >Done: </label>
-        <Field name="done" type="checkbox"></Field>
         
-        <button type="submit">Zatwierdź</button>
+        <button type="submit">Dodaj</button>
       </Form>
     </Formik>
   )
@@ -52,13 +48,13 @@ const EditForm = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        todos: state
+        state
     }
 };
 
 const mapDispatchToProps = {
-    editTodoAction
+    addTodoAction
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditForm);
+export default connect(mapStateToProps, mapDispatchToProps)(TodoForm);
