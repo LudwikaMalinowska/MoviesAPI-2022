@@ -1,24 +1,35 @@
+import {useState} from 'react';
 import { connect } from "react-redux";
-import { deleteTodoAction} from "../actions/TodoActions";
+import { deleteTodoAction, editTodoAction, finishTodoAction} from "../actions/TodoActions";
+import EditForm from './EditForm';
 
-const TodoList = ({todos, deleteTodoAction}, props) => {
-    const content = todos.map(todo => (<div>
-        {todo.name} 
-        <button onClick={() => deleteTodoAction(todo)}>X</button>
-        </div>));
+const TodoList = (props) => {
+    const [editMode, setEditMode] = useState(false);
+    const content = props.todos ? props.todos.map(todo => (
+        <div key={todo.id}>
+        <p>{todo.name} {todo.date} {String(todo.done)}</p>
+        {todo.done ? null : <button onClick={() => props.finishTodoAction(todo)}>Wykonane</button>}
+        {editMode ? <EditForm setEditMode={setEditMode} {...todo}/> : <button onClick={() => {
+            setEditMode(true)
+        }}>Edytuj</button>}
+        <button onClick={() => props.deleteTodoAction(todo)}>X</button>
+        </div>)) : null;
+    console.log(props)
     return (
-        <div></div>
+        <div>{content}</div>
     )
 }
 
 const mapStateToProps = (state) => {
     return {
-        todos: state.todos
+        todos: state
     };
 }
 
 const mapDispatchToProps = {
-    deleteTodoAction
+    deleteTodoAction,
+    editTodoAction,
+    finishTodoAction
 }
 
 
