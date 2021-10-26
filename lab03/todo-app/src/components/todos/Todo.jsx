@@ -44,7 +44,7 @@ const Todo = (props) => {
 const mapStateToProps = (state, props) => {
     //console.log(props);
     const todoId = props.match.params.todoId;
-    const todoToShow = state.todos.find(todo => todo.id = todoId);
+    const todoToShow = state.todos.find(todo => todo.id == todoId);
     
     return {
         state,
