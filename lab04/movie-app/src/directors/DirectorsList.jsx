@@ -1,16 +1,32 @@
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { deleteDirectorAction } from "../actions/DirectorActions";
 
-const DirectorsList = () => {
+const DirectorsList = (props) => {
+    const directors = props.directors;
+    
+    const content = directors.map(director =>{
+        const toLink = `/directors/${director.id}`
+        return (
+            <li className="director" key={director.id}>
+                <p>{director.firstName} {director.lastName}</p>
+                <p>Wiek: {director.age}</p>
+                <Link to={toLink}><button>Szczegóły</button></Link>
+                <button onClick={() => props.deleteDirectorAction(director)}>Usuń</button>
+            </li>
+        )
+    }
+        )
 
     return (
-        <div>DirectorsList
-            <br />
-            <Link to="directors/add">Dodaj reżysera</Link>
-            <br />
-            <Link to="directors/1">Szczegóły</Link>
+        <div>
+            <Link to="/directors/add"><button>Dodaj reżysera</button></Link>
+            <ul>
+                {content}
+            </ul>
         </div>
     )
+    
 }
 
 const mapStateToProps = (state) => {
@@ -19,4 +35,8 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, null)(DirectorsList);
+const mapDispatchToProps = {
+    deleteDirectorAction
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DirectorsList);

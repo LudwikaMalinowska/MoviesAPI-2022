@@ -6,14 +6,17 @@ import reportWebVitals from './reportWebVitals';
 
 import {combineReducers, createStore} from 'redux';
 import {Provider} from 'react-redux';
-import { movieReducer } from './reducers/MovieReducer';
+import rootReducer from "./reducers/RootReducer";
 import {addMovieAction} from './actions/MovieActions';
 import {addDirectorAction} from './actions/DirectorActions';
 
-let store = createStore(movieReducer);
+let store = createStore(rootReducer);
 
-store.dispatch(addMovieAction({id: 1, title: "movie1", productionYear: 2000}))
-store.dispatch(addDirectorAction({id: 1, firstName: "Jan", lastName: "Kowalski", age: 40}))
+store.dispatch(addMovieAction({id: '1', title: "movie1", productionYear: 2000, directorId: "-1"}))
+store.dispatch(addMovieAction({id: '2', title: "movie2", productionYear: 2001, directorId: "-1"}))
+store.dispatch(addMovieAction({id: '3', title: "movie3", productionYear: 2002, directorId: "-1"}))
+store.dispatch(addDirectorAction({id: '1', firstName: "Jan", lastName: "Kowalski", age: 40}))
+store.dispatch(addDirectorAction({id: '2', firstName: "Janek", lastName: "Kowal", age: 35}))
 
 ReactDOM.render(
   <React.StrictMode>

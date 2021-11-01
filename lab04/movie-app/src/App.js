@@ -17,9 +17,11 @@ import DirectorsList from './directors/DirectorsList';
 import DirectorDetails from './directors/DirectorDetails';
 import AddDirector from './directors/AddDirector';
 import EditDirector from './directors/EditDirector';
+import EditMovie from './movies/EditMovie';
 
 
 function App() {
+  
   return (
     <Router>
     <div className="App">
@@ -44,6 +46,7 @@ function App() {
         <Route exact path="/movies" component={MovieList}/>
         <Route exact path="/movies/add" component={AddMovie}/>
         <Route exact path="/movies/:id" component={MovieDetails}/>
+        <Route exact path="/movies/:id/edit" component={EditMovie}/>
 
         <Route exact path="/directors" component={DirectorsList}/>
         <Route exact path="/directors/add" component={AddDirector}/>
