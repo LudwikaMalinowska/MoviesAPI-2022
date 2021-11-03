@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import {addDirectorAction} from "../actions/DirectorActions"
+import {addActorAction} from "../actions/ActorActions"
 import { Formik, Field, Form, ErrorMessage} from "formik";
 import {v4 as uuidv4 } from 'uuid';
 import * as Yup from 'yup';
@@ -8,12 +8,12 @@ const userSchema = Yup.object().shape({
     firstName: Yup.string().required("Imię jest wymagane"),
     lastName: Yup.string().required("Nazwisko jest wymagane"),
     age: Yup.number()
-    .min(10)
+    .min(1)
     .max(99)
     .required("Wiek jest wymagany")
 })
 
-const AddDirector = (props) => {
+const AddActor = (props) => {
     const initialValues = {
         id: uuidv4(),
         firstName: "",
@@ -21,7 +21,7 @@ const AddDirector = (props) => {
         age: 0
     }
     const handleSubmit = (values) => {
-        props.addDirectorAction(values);
+        props.addActorAction(values);
         window.history.back();
     }
 
@@ -52,12 +52,12 @@ const AddDirector = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        directors: state.directors
+        actors: state.actors
     }
 }
 
 const mapDispatchToProps = {
-    addDirectorAction
+    addActorAction
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddDirector);
+export default connect(mapStateToProps, mapDispatchToProps)(AddActor);

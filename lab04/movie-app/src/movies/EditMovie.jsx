@@ -1,6 +1,15 @@
 import { connect } from "react-redux";
 import { editMovieAction } from "../actions/MovieActions";
-import { Formik, Field, Form} from "formik";
+import { Formik, Field, Form, ErrorMessage} from "formik";
+import * as Yup from 'yup';
+
+const userSchema = Yup.object().shape({
+    title: Yup.string().required('Nazwa produktu jest wymagana'),
+    productionYear: Yup.number()
+    .min(1800)
+    .max(2022)
+    .required('Rok produkcji jest wymagany')
+})
 
 const EditMovie = (props) => {
     // console.log(props);
@@ -24,14 +33,17 @@ const EditMovie = (props) => {
     return (
         <Formik
         initialValues={initialValues}
+        validationSchema={userSchema}
         onSubmit={(values) => handleSubmit(values)}
         enableReinitialize={true}>
         <Form>
-        <label >Tytuł filmu : </label>
+            <label >Tytuł filmu : </label>
             <Field name="title" ></Field>
+            <ErrorMessage name="title" component="div"/>
 
             <label >Rok produkcji: </label>
             <Field name="productionYear" type="number" ></Field>
+            <ErrorMessage name="productionYear" component="div"/>
             
             <button type="submit">Zatwierdź</button>
         </Form>

@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { editDirectorAction } from "../actions/DirectorActions";
+import { editActorAction } from "../actions/ActorActions";
 import { Formik, Field, Form, ErrorMessage} from "formik";
 import * as Yup from 'yup';
 
@@ -7,33 +7,30 @@ const userSchema = Yup.object().shape({
     firstName: Yup.string().required("Imię jest wymagane"),
     lastName: Yup.string().required("Nazwisko jest wymagane"),
     age: Yup.number()
-    .min(10)
+    .min(1)
     .max(99)
     .required("Wiek jest wymagany")
 })
 
-const EditDirector = (props) => {
-    // console.log(props);
-    const director = props.director; 
-    // console.log(props);
-    // console.log(director);
+const EditActor = (props) => {
+
+    const actor = props.actor; 
 
     const initialValues = {
-        firstName: director.firstName,
-        lastName: director.lastName,
-        age: director.age
+        firstName: actor.firstName,
+        lastName: actor.lastName,
+        age: actor
     }
     const handleSubmit = (values) => {
         
-        // console.log(values);
-        const editedDirector = {
-            ...director,
+        const editedActor = {
+            ...actor,
             firstName: values.firstName,
             lastName: values.lastName,
             age: values.age
         }
-        // console.log(editedDirector);
-        props.editDirectorAction(editedDirector);
+        
+        props.editActorAction(editedActor);
         window.history.back()
     }
     return (
@@ -63,19 +60,17 @@ const EditDirector = (props) => {
 
 const mapStateToProps = (state, props) => {
     const id = props.match.params.id;
-    // console.log("id: ", id);
-    // console.log(props);
-    const director = state.directors.find(director => director.id === id)
-    // console.log(director);
+    const actor = state.actors.find(actor => actor.id === id)
+
     return {
-        directors: state.directors,
+        actors: state.actors,
         movies: state.movies,
-        director
+        actor
     }
 }
 
 const mapDispatchToProps = {
-    editDirectorAction
+    editActorAction
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditDirector);
+export default connect(mapStateToProps, mapDispatchToProps)(EditActor);
