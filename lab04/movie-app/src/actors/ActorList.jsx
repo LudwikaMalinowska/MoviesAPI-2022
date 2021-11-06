@@ -4,9 +4,10 @@ import { deleteActorAction } from "../actions/ActorActions";
 
 const ActorList = (props) => {
     const actors = props.actors;
+    //console.log(actors);
     
     const content = actors.map(actor =>{
-        const toLink = `/actor/${actor.id}`
+        const toLink = `/actors/${actor.id}`
         return (
             <li className="actor" key={actor.id}>
                 <p>{actor.firstName} {actor.lastName}</p>

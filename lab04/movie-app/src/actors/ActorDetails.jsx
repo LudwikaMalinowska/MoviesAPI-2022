@@ -9,6 +9,8 @@ const ActorDetails = (props) => {
     ))
     const actor = props.actor;
     const toLink = `/actors/${actor.id}/edit`
+    console.log(props.actor);
+    
 
     return (
         <div>
@@ -17,7 +19,7 @@ const ActorDetails = (props) => {
             <p>Wiek: {actor.age}</p>
             <p>Filmy: </p>
             <ul>
-                {movieList}
+                {movies.length ? movieList : null}
             </ul>
             <Link to={toLink}><button>Edytuj</button></Link>
         </div>
@@ -27,12 +29,13 @@ const ActorDetails = (props) => {
 const mapStateToProps = (state, props) => {
     const id = props.match.params.id;
     const actor = state.actors.find(actor => actor.id === id);
-    const actorMovies = state.movies.filter(movie => movie.actorId === actor.id)
+    const actorMovies = state.movies.filter(movie => actor.movieIds.includes(movie.id));
 
     return {
         actors: state.actors,
         actor,
-        actorMovies
+        actorMovies,
+        movies: state.movies
     }
 }
 

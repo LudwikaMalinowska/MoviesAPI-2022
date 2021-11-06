@@ -12,3 +12,13 @@ export const deleteActorAction = (payload) => ({
     type: 'ACTOR_DELETE',
     payload
 });
+
+export const addMovieToActorAction = (payload) => ({
+    type: 'ACTOR_ADD_MOVIE',
+    payload
+});
+
+export const deleteMovieFromActorAction = (payload) => ({
+    type: 'ACTOR_DELETE_MOVIE',
+    payload
+});

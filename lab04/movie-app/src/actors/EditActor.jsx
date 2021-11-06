@@ -19,7 +19,7 @@ const EditActor = (props) => {
     const initialValues = {
         firstName: actor.firstName,
         lastName: actor.lastName,
-        age: actor
+        age: actor.age
     }
     const handleSubmit = (values) => {
         
@@ -30,6 +30,7 @@ const EditActor = (props) => {
             age: values.age
         }
         
+        console.log(editedActor);
         props.editActorAction(editedActor);
         window.history.back()
     }

@@ -13,10 +13,12 @@ export const movieReducer = (state = [], action) => {
             newMovies = [...state];
             const editedMovie = action.payload;
             index = newMovies.findIndex(movie => movie.id === editedMovie.id);
+            console.log(editedMovie);
 
             newMovies[index].title = editedMovie.title;
             newMovies[index].productionYear = editedMovie.productionYear;
             newMovies[index].directorId = editedMovie.directorId;
+            newMovies[index].actorIds = editedMovie.actorIds;
             // console.log(newMovies);
             return newMovies;
         default: 

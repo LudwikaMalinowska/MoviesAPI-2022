@@ -1,26 +1,48 @@
 export const actorReducer = (state = [], action) => {
-    let newDirectors;
-    let index;
+    let newActors;
+    let index, movieIds, actorId, movieId;
     switch(action.type) {
         case 'ACTOR_ADD':
             return [...state, action.payload];
         case 'ACTOR_EDIT':
             
-            // newDirectors = [...state];
-            // const editedDirector = action.payload;
+            newActors = [...state];
+            const editedActor = action.payload;
+            index = newActors.findIndex(actor => actor.id === editedActor.id);
             
-            // index = newDirectors.findIndex(director => director.id === editedDirector.id);
+            newActors[index].firstName = editedActor.firstName;
+            newActors[index].lastName = editedActor.lastName;
+            newActors[index].age = editedActor.age;
             
-            // newDirectors[index].firstName = editedDirector.firstName;
-            // newDirectors[index].lastName = editedDirector.lastName;
-            // newDirectors[index].age = editedDirector.age;
-            
-            // return newDirectors;
+            return newActors;
 
-            return state;
+        case 'ACTOR_ADD_MOVIE':
+            newActors = [...state];
+            actorId = action.payload.actorId;
+            movieId = action.payload.movieId;
+
+
+            index = newActors.findIndex(actor => actor.id === actorId);
+            movieIds = newActors[index].movieIds;
+            // console.log(movieIds);
+            newActors[index].movieIds = [...movieIds, movieId];
+
+            return newActors;
+        case 'ACTOR_DELETE_MOVIE':
+            newActors = [...state];
+            actorId = action.payload.actorId;
+            movieId = action.payload.movieId;
+
+            index = newActors.findIndex(actor => actor.id === actorId);
+            // console.log("index: ", index, "actor_id:", actorId);
+            movieIds = [...newActors[index].movieIds];
+            // console.log("movieIds:", newActors[index].movieIds);
+            newActors[index].movieIds = movieIds.filter(id => id !== movieId);
+
+            return newActors;
         case 'ACTOR_DELETE':
-            newDirectors = state.filter(director => director.id !== action.payload.id)
-            return newDirectors;
+            newActors = state.filter(actor => actor.id !== action.payload.id)
+            return newActors;
         default: 
             return state;
     }

@@ -19,7 +19,8 @@ const AddMovie = (props) => {
         id: uuidv4(),
         title: "",
         productionYear: "",
-        directorId: "-1"
+        directorId: "-1",
+        actorIds: []
     }
     const handleSubmit = (values) => {
         props.addMovieAction(values);

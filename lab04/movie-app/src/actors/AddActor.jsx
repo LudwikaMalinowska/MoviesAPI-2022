@@ -18,7 +18,8 @@ const AddActor = (props) => {
         id: uuidv4(),
         firstName: "",
         lastName: "",
-        age: 0
+        age: 0,
+        movieIds: []
     }
     const handleSubmit = (values) => {
         props.addActorAction(values);
