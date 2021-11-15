@@ -1,27 +1,37 @@
 
-import {incrementCounterAction} from "./actions/CounterActions"
+import {incrementCounterAction, startCounterAction, stopCounterAction} from "./actions/CounterActions"
 import { connect } from "react-redux";
 
 
-const Counter = ({ counter, incrementCounterAction } ,props) => {
+const Counter = ({ counter, incrementCounterAction,
+startCounterAction, stopCounterAction } ,props) => {
 
   return (
     <div className="counter">
       <p>{counter}</p>
+      <button
+        onClick={startCounterAction}
+      >Start</button>
       <button onClick={() => incrementCounterAction(1)}
       >+</button>
+      <button
+      onClick={stopCounterAction}
+      >Stop</button>
     </div>
   );
 }
 
 const mapStateToProps = (state) => {
   return {
-      counter: state
+      counter: state.counter,
+      counting: state.counting
   };
 }
 
 const mapDispatchToProps = {
-  incrementCounterAction
+  incrementCounterAction,
+  startCounterAction,
+  stopCounterAction
 }
 
 
