@@ -1,15 +1,20 @@
 import logo from './logo.svg';
 import './App.css';
 
+//In react-router-dom v6, "Switch" is replaced by routes "Routes".
 import {
   BrowserRouter as Router,
-  Switch,
-  Route,
+  Route, Switch,
   Link
 } from "react-router-dom";
 
 import UserList from './users/UserList';
 import UserDetails from './users/UserDetails';
+
+import ProductList from "./products/ProductList";
+import ProductDetails from "./products/ProductDetails";
+
+import Dashboard from './core/Dashboard'
 
 function App() {
   return (
@@ -17,11 +22,14 @@ function App() {
       <div className="App">
         <nav>
           <ul>
-            {/* <li>
+            <li>
               <Link to="/">Home</Link>
-            </li> */}
+            </li>
             <li>
               <Link to="/users">Users</Link>
+            </li>
+            <li>
+              <Link to="/products">Products</Link>
             </li>
           </ul>
         </nav>
@@ -30,6 +38,11 @@ function App() {
         <Switch>
         <Route exact path="/users" component={UserList}/>
         <Route exact path="/users/:idUser" component={UserDetails}/>
+
+        <Route exact path="/products" component={ProductList}/>
+        <Route exact path="/products/:id" component={ProductDetails}/>
+
+        <Route exact path="/" component={Dashboard}/>
         </Switch>
 
       </div>
@@ -37,5 +50,6 @@ function App() {
    
   );
 }
+//and in Route change component={...} to element={...}
 
 export default App;

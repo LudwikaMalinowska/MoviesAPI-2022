@@ -5,14 +5,13 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 import { applyMiddleware, combineReducers, createStore } from 'redux';
-import userReducer from './reducers/UserReducer';
+import rootReducer from './reducers/rootReducer'
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 
 const store = createStore(
-  combineReducers({
-    users: userReducer
-  }), applyMiddleware(thunk)
+  rootReducer,
+  applyMiddleware(thunk)
 )
 
 ReactDOM.render(
