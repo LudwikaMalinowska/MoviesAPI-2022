@@ -1,14 +1,14 @@
 import { useEffect } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { deleteProductAction } from "../../ducks/actions/ProductActions";
+import { deleteProduct } from "../../ducks/products/operations"; 
 import {getProductList} from "../../ducks/products/operations";
 import { getAllProducts } from "../../ducks/products/selectors";
 
 import AddProduct from "./AddProduct";
 import ProductDetails from "./ProductDetails";
 
-const ProductList = ({ products, getProductList, deleteProductAction, loading }, props) => {
+const ProductList = ({ products, getProductList, deleteProduct, loading }, props) => {
 // const UserList = (props) => {
     useEffect(() => {
         getProductList();
@@ -17,12 +17,13 @@ const ProductList = ({ products, getProductList, deleteProductAction, loading },
     
     const productList = products ? (
         products.map(product => {
+            console.log(product);
             const productLink = `/products/${product.id}`
             return (
                 <li key={product.id}>
                     <p>{product.title}</p>
                     <Link to={productLink}><button>Szczegóły</button></Link>
-                    <button onClick={() => deleteProductAction(product)}>X</button>
+                    <button onClick={() => deleteProduct(product)}>X</button>
                 </li>
             )
         })
@@ -40,7 +41,7 @@ const ProductList = ({ products, getProductList, deleteProductAction, loading },
 }
 
 const mapStateToProps = (state) => {
-    console.log(state);
+    // console.log(state);
     return {
         // state
         products: getAllProducts(state),
@@ -51,7 +52,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
     getProductList,
-    deleteProductAction
+    deleteProduct
 }
 
 

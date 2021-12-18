@@ -5,6 +5,7 @@ import {v4 as uuidv4 } from 'uuid';
 import * as Yup from 'yup';
 
 import { getAllProducts } from "../../ducks/products/selectors";
+import { createProduct } from "../../ducks/products/operations";
 
 
 const productSchema = Yup.object().shape({
@@ -23,7 +24,7 @@ const AddProduct = (props) => {
         description: "",
     }
     const handleSubmit = (values) => {
-        props.addProductAction(values);
+        props.createProduct(values);
         // window.history.back();
     }
 
@@ -63,7 +64,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
-    addProductAction
+    createProduct
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddProduct);

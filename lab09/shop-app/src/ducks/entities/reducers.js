@@ -1,5 +1,5 @@
+import * as _ from 'lodash';
 const normalizr = require('normalizr');
-
 
 const allEntities = [
     "users",
@@ -46,15 +46,23 @@ export const entityReducer = (entity, state = { allIds: [], byId: {} }, action) 
             }
         case 'ADD':
             const newObj = action.payload;
+            const newObjId = Object.keys(newObj.products)[0];
+            console.log(newObjId);
+            console.log("newObj: ", newObj);
             return {
                 byId: {
                     ...state.byId,
-                    [newObj.id]: newObj 
+                    [newObjId]: newObj.products[newObjId] 
                 },
                 allIds: [
                     ...state.allIds,
-                    newObj.id
+                    newObjId
                 ]
+            }
+        case 'DELETE':
+            return {
+                byId: _.omit(state.byId, actionEntities),
+                allIds: state.allIds.filter(id => !Object.keys(actionEntities).includes(id)),
             }
         default:
             // console.log('Error action not recognized');

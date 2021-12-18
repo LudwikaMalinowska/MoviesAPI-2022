@@ -11,12 +11,21 @@ const initState = {
 
 const productReducer = (state = initState, action) => {
     switch(action.type) {
-        case PRODUCT_ADD:
-            return {...state, 
-                products: [...state.products, action.payload]}
-        case PRODUCT_DELETE:
-            return {...state,
-            products: state.products.filter(product => product.id !== action.payload.id)}
+        // case PRODUCT_ADD:
+        //     return {...state, 
+        //         products: [...state.products, action.payload]}
+        case 'PRODUCT_CREATE_START':
+            return [...state];
+        case 'PRODUCT_CREATE_SUCCESS':
+            return [...state];
+        case 'PRODUCT_CREATE_FAILURE':
+            return [...state, action.payload];
+        case 'PRODUCT_DELETE_START':
+            return [...state];
+        case 'PRODUCT_DELETE_SUCCESS':
+            return [...state];
+        case 'PRODUCT_DELETE_FAILURE':
+            return [...state, action.payload]
         case PRODUCT_LIST_REQUEST_START: 
             // return { ...state, loading: true }
             return [...state];

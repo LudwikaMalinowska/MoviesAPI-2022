@@ -15,7 +15,7 @@ const ProductDetails = ({product}, props) => {
             <img src={product.image} alt={product.name}
             style={{width: "100px"}}
             />
-            <p>ocena: {product.rating.rate} ({product.rating.count} ocen)</p>
+            {product.rating && (<p>ocena: {product.rating.rate} ({product.rating.count} ocen)</p>) }
             <p>opis: {product.description}</p>
         </div>
     ) : null;
