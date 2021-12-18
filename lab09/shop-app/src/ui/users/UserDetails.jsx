@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { getUserList } from "../actions/UserActions";
+import { getUserList } from "../../ducks/users/operations";
 import { useParams } from 'react-router-dom';
 
 
@@ -37,7 +37,7 @@ const mapStateToProps = (state, props) => {
     console.log(props);
     console.log(state);
     return {
-        user: state.users.users.find(user => user.id === Number(id)),
+        user: state.entities.users.byId[id],
         state
     };
 }

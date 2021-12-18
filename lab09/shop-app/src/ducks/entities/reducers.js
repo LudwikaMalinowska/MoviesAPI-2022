@@ -24,10 +24,12 @@ export const entityReducer = (entity, state = { allIds: [], byId: {} }, action) 
     console.log("\nentity: ", entity, "\nstate: ", state, "\naction: ", action);
     // const actionEntities = action.payload.entities[entity];
     // console.log('Entity', actionEntities);
+    const {actionType} = action.meta;
+    const actionEntities = action.payload[entity];
 
-    switch(action.type) {
+    switch(actionType) {
         case 'GET_ALL':
-            const actionEntities = action.payload.entities[entity];
+            
             return {
                 byId: {
                     ...Object.keys(actionEntities).reduce(
@@ -55,7 +57,23 @@ export const entityReducer = (entity, state = { allIds: [], byId: {} }, action) 
                 ]
             }
         default:
-            console.log('Error action not recognized');
+            // console.log('Error action not recognized');
+            return state;
+    }
+}
+
+export const entities = (state = defaultState, action) => {
+    if(!action.meta || !action.meta.actionType) return state;
+
+    console.log(action);
+    return {
+        ...state,
+        ...Object.keys(action.payload).reduce(
+            (acc, entity) => ({
+                ...acc,
+                [entity]: entityReducer(entity, state[entity], action)
+            }), {}
+        ),
     }
 }
 

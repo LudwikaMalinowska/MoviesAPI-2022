@@ -1,8 +1,10 @@
 import { connect } from "react-redux";
-import {addProductAction} from "../actions/ProductActions";
+import {addProductAction} from "../../ducks/actions/ProductActions";
 import { Formik, Field, Form, ErrorMessage} from "formik";
 import {v4 as uuidv4 } from 'uuid';
 import * as Yup from 'yup';
+
+import { getAllProducts } from "../../ducks/products/selectors";
 
 
 const productSchema = Yup.object().shape({
@@ -56,7 +58,7 @@ const AddProduct = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        products: state.products.products
+        products: getAllProducts(state),
     }
 }
 

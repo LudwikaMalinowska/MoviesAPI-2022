@@ -18,11 +18,14 @@ const productReducer = (state = initState, action) => {
             return {...state,
             products: state.products.filter(product => product.id !== action.payload.id)}
         case PRODUCT_LIST_REQUEST_START: 
-            return { ...state, loading: true }
+            // return { ...state, loading: true }
+            return [...state];
         case PRODUCT_LIST_REQUEST_FAILED:
-            return { ...state, loading: false, error: action.payload }
+            // return { ...state, loading: false, error: action.payload }
+            return [...state, action.payload]
         case PRODUCT_LIST_REQUEST:
-            return {...state, products: [...action.payload], loading: false };
+            // return {...state, products: [...action.payload], loading: false };
+            return [...state];
         default:
             return state;
     }

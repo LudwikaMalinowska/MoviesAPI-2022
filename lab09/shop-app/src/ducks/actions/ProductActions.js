@@ -21,13 +21,13 @@ export const productListRequestAction = (products) => ({
     payload: products
 })
 
-export const productListRequestStartAction = ({
-    type: PRODUCT_LIST_REQUEST_START
-});
+// export const productListRequestStartAction = ({
+//     type: PRODUCT_LIST_REQUEST_START
+// });
 
-export const productListRequestFailAction = (error) => ({
-    type: PRODUCT_LIST_REQUEST_FAILED,
-    payload: error
-})
+// export const productListRequestFailAction = (error) => ({
+//     type: PRODUCT_LIST_REQUEST_FAILED,
+//     payload: error
+// })
 
 

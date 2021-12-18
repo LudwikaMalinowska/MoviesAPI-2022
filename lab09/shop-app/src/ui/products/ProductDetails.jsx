@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { getProductList } from "../actions/ProductActions";
+import { getProductList } from "../../ducks/products/operations";
 
 
 
@@ -34,7 +34,7 @@ const mapStateToProps = (state, props) => {
     console.log(props);
     console.log(state);
     return {
-        product: state.products.products.find(product => product.id === Number(id)),
+        product: state.entities.products.byId[id],
         state
     };
 }

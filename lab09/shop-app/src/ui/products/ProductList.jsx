@@ -1,7 +1,10 @@
 import { useEffect } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { getProductList, deleteProductAction } from "../actions/ProductActions";
+import { deleteProductAction } from "../../ducks/actions/ProductActions";
+import {getProductList} from "../../ducks/products/operations";
+import { getAllProducts } from "../../ducks/products/selectors";
+
 import AddProduct from "./AddProduct";
 import ProductDetails from "./ProductDetails";
 
@@ -40,8 +43,8 @@ const mapStateToProps = (state) => {
     console.log(state);
     return {
         // state
-        products: state.products.products,
-        loading: state.products.loading
+        products: getAllProducts(state),
+        // loading: state.products.loading
     };
     
 }

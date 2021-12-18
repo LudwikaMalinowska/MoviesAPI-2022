@@ -8,11 +8,11 @@ import {
   Link
 } from "react-router-dom";
 
-import UserList from './ducks/users/UserList';
-import UserDetails from './ducks/users/UserDetails';
+import UserList from './ui/users/UserList';
+import UserDetails from './ui/users/UserDetails';
 
-import ProductList from "./ducks/products/ProductList";
-import ProductDetails from "./ducks/products/ProductDetails";
+import ProductList from "./ui/products/ProductList";
+import ProductDetails from "./ui/products/ProductDetails";
 
 import Dashboard from './ui/core/Dashboard'
 

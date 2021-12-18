@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { getUserList } from "../actions/UserActions";
+import { getUserList } from "../../ducks/users/operations";
 import UserDetails from "./UserDetails";
+import {getAllUsers} from "../../ducks/users/selectors";
 
 const UserList = ({ users, getUserList, loading }, props) => {
 // const UserList = (props) => {
@@ -11,6 +12,7 @@ const UserList = ({ users, getUserList, loading }, props) => {
     }, []);
 
     // const users = props.users;
+    console.log("users: ", users);
     const userList = users ?  (users.map(user => {
         // console.log(user)
         const userLink = `/users/${user.id}`
@@ -31,15 +33,16 @@ const UserList = ({ users, getUserList, loading }, props) => {
 }
 
 const mapStateToProps = (state) => {
+    console.log("bbb:", state);
     return {
-        users: state.users.users,
-        loading: state.users.loading
+        users: getAllUsers(state),
+        // loading: state.users.loading
     };
     
 }
 
 const mapDispatchToProps = {
-    getUserList
+    getUserList,
 }
 
 
