@@ -26,6 +26,12 @@ const productReducer = (state = initState, action) => {
             return [...state];
         case 'PRODUCT_DELETE_FAILURE':
             return [...state, action.payload]
+        case 'PRODUCT_UPDATE_START':
+            return [...state];
+        case 'PRODUCT_UPDATE_SUCCESS':
+            return [...state];
+        case 'PRODUCT_UPDATE_FAILURE':
+            return [...state, action.payload]
         case PRODUCT_LIST_REQUEST_START: 
             // return { ...state, loading: true }
             return [...state];

@@ -74,7 +74,7 @@ export const deleteProduct = (productToDelete) => {
  }
 
  export const createProduct = (newProduct) => {
-     console.log("newpr: ", newProduct);
+    //  console.log("newpr: ", newProduct);
     return createAction({
         endpoint: 'https://fakestoreapi.com/products',
         method: 'POST',
@@ -95,4 +95,28 @@ export const deleteProduct = (productToDelete) => {
             'PRODUCT_CREATE_FAILURE'
         ]
     })
+}
+
+export const updateProduct = (updatedProduct) => {
+    console.log(updatedProduct);
+   return createAction({
+       endpoint: `https://fakestoreapi.com/products/${updatedProduct.id}`,
+       method: 'PUT',
+       headers: {
+           'Content-Type': 'application/json'
+       },
+       body: JSON.stringify(updatedProduct),
+       types: [
+           'PRODUCT_UPDATE_START',
+           {
+               type: 'PRODUCT_UPDATE_SUCCESS',
+               payload: async (action, state, res) => {
+                   const { entities } = normalize(updatedProduct, productSchema);
+                   return entities;
+               },
+               meta: { actionType: 'UPDATE' }
+          },
+           'PRODUCT_UPDATE_FAILURE'
+       ]
+   })
 }

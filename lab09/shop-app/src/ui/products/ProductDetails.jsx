@@ -1,12 +1,10 @@
-import { useEffect } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { getProductList } from "../../ducks/products/operations";
-
+import {Link} from "react-router-dom";
 
 
 const ProductDetails = ({product}, props) => {
-    console.log("product: ", product);
+    // console.log("product: ", product);
+    const toEditLink = `/products/${product.id}/edit`
     const content = product ? (
         <div>
             <p>nazwa: {product.title}</p>
@@ -17,6 +15,9 @@ const ProductDetails = ({product}, props) => {
             />
             {product.rating && (<p>ocena: {product.rating.rate} ({product.rating.count} ocen)</p>) }
             <p>opis: {product.description}</p>
+            <br/>
+            <Link to={toEditLink}><button>Edytuj</button></Link>
+            <Link to="/products"><button>Powrót do listy produktów</button></Link>
         </div>
     ) : null;
     
@@ -31,8 +32,8 @@ const ProductDetails = ({product}, props) => {
 const mapStateToProps = (state, props) => {
     const id = props.match.params.id;
     // const {id} = useParams();
-    console.log(props);
-    console.log(state);
+    // console.log(props);
+    // console.log(state);
     return {
         product: state.entities.products.byId[id],
         state

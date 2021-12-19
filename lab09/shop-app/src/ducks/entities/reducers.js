@@ -47,8 +47,8 @@ export const entityReducer = (entity, state = { allIds: [], byId: {} }, action) 
         case 'ADD':
             const newObj = action.payload;
             const newObjId = Object.keys(newObj.products)[0];
-            console.log(newObjId);
-            console.log("newObj: ", newObj);
+            // console.log(newObjId);
+            // console.log("newObj: ", newObj);
             return {
                 byId: {
                     ...state.byId,
@@ -64,6 +64,16 @@ export const entityReducer = (entity, state = { allIds: [], byId: {} }, action) 
                 byId: _.omit(state.byId, actionEntities),
                 allIds: state.allIds.filter(id => !Object.keys(actionEntities).includes(id)),
             }
+        case 'UPDATE':
+            let newState = state;
+            const id = Object.keys(action.payload.products)[0];
+            let updatedObj = action.payload.products[id];
+            // console.log("id", id);
+            // console.log("ddddd");
+            // console.log("d", updatedObj);
+            newState.byId[id] = updatedObj;
+            
+            return newState;
         default:
             // console.log('Error action not recognized');
             return state;

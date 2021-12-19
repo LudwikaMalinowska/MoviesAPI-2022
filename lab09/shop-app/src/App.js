@@ -13,6 +13,7 @@ import UserDetails from './ui/users/UserDetails';
 
 import ProductList from "./ui/products/ProductList";
 import ProductDetails from "./ui/products/ProductDetails";
+import EditProduct from './ui/products/EditProduct';
 
 import Dashboard from './ui/core/Dashboard'
 
@@ -41,6 +42,7 @@ function App() {
 
         <Route exact path="/products" component={ProductList}/>
         <Route exact path="/products/:id" component={ProductDetails}/>
+        <Route exact path="/products/:id/edit" component={EditProduct}/>
 
         <Route exact path="/" component={Dashboard}/>
         </Switch>

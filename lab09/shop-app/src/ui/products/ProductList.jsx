@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { deleteProduct } from "../../ducks/products/operations"; 
+import { deleteProduct} from "../../ducks/products/operations"; 
 import {getProductList} from "../../ducks/products/operations";
 import { getAllProducts } from "../../ducks/products/selectors";
 
@@ -11,13 +11,17 @@ import ProductDetails from "./ProductDetails";
 const ProductList = ({ products, getProductList, deleteProduct, loading }, props) => {
 // const UserList = (props) => {
     useEffect(() => {
-        getProductList();
+        // console.log(products);
+        if (products.length === 0)
+            getProductList();
     }, []);
+
+    
 
     
     const productList = products ? (
         products.map(product => {
-            console.log(product);
+            // console.log(product);
             const productLink = `/products/${product.id}`
             return (
                 <li key={product.id}>
@@ -52,7 +56,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
     getProductList,
-    deleteProduct
+    deleteProduct,
 }
 
 

@@ -12,7 +12,7 @@ const UserList = ({ users, getUserList, loading }, props) => {
     }, []);
 
     // const users = props.users;
-    console.log("users: ", users);
+    // console.log("users: ", users);
     const userList = users ?  (users.map(user => {
         // console.log(user)
         const userLink = `/users/${user.id}`
@@ -33,7 +33,7 @@ const UserList = ({ users, getUserList, loading }, props) => {
 }
 
 const mapStateToProps = (state) => {
-    console.log("bbb:", state);
+    // console.log("bbb:", state);
     return {
         users: getAllUsers(state),
         // loading: state.users.loading
