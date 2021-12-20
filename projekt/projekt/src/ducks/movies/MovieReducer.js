@@ -6,7 +6,7 @@ const movieReducer = (state = [], action) => {
             return [...action.payload];
         case 'MOVIE_LIST_REQUEST_FAILED':
             return [...state, action.payload]
-        case 'MOVIE_LIST_REQUEST':
+        case 'MOVIE_LIST_REQUEST_SUCCESS':
             // console.log("ac payload: ", action.payload);
             return [...state, action.payload]
         default:
