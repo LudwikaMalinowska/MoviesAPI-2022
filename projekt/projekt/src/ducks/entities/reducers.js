@@ -3,7 +3,8 @@ const normalizr = require('normalizr');
 
 const allEntities = [
     "movies",
-    "persons"
+    "persons",
+    "actors"
 ]
 
 const defaultState = allEntities.reduce(

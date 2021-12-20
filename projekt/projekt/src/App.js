@@ -16,6 +16,10 @@ import PersonList from './ui/persons/PersonList';
 import PersonDetails from './ui/persons/PersonDetails';
 import PersonForm from './ui/persons/PersonForm';
 
+import ActorList from './ui/actors/ActorList';
+import ActorDetails from './ui/actors/ActorDetails';
+import ActorForm from './ui/actors/ActorForm';
+
 function App() {
   return (
     <Router>
@@ -31,6 +35,9 @@ function App() {
             <li>
               <Link to="/persons">Persons</Link>
             </li>
+            <li>
+              <Link to="/actors">Actors</Link>
+            </li>
           </ul>
         </nav>
 
@@ -45,6 +52,11 @@ function App() {
         <Route exact path="/persons/add" component={PersonForm}/>
         <Route exact path="/persons/:id" component={PersonDetails}/>
         <Route exact path="/persons/:id/edit" component={PersonForm}/>
+
+        <Route exact path="/actors" component={ActorList}/>
+        <Route exact path="/actors/add" component={ActorForm}/>
+        <Route exact path="/actors/:id" component={ActorDetails}/>
+        <Route exact path="/actors/:id/edit" component={ActorForm}/>
 
         <Route exact path="/" component={Dashboard}/>
         </Switch>
