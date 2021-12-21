@@ -1,0 +1,23 @@
+{
+    "home": "Home",
+    "users": "Users",
+    "products": "Products",
+    "details": "Detail",
+    "name": "Name",
+    "username": "Username",
+    "email": "E-mail",
+    "phone": "Phone",
+    "address": "Address",
+    "city": "City",
+    "street": "Street",
+    "zipcode": "Zipcode",
+    "product_name": "Product name",
+    "price": "Proce",
+    "category": "Category",
+    "rate": "Rate",
+    "rates": "Rates",
+    "description": "Description",
+    "edit": "Edit",
+    "back_to_products": "Back to list of products",
+    "submit": "Submit"
+}
