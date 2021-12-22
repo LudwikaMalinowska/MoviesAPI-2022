@@ -35,8 +35,8 @@ i18next.use(Backend)
     // aktywuje LanguageDetector 
     // detection: { order: ["path", "navigator"] },
     fallbackLng: 'en',
-    ns: [ 'en', 'pl' ],
-    defaultNS: 'en',
+    ns: [ 'main' ],
+    defaultNS: 'main',
     react: {
       wait: true,
       useSuspense: false

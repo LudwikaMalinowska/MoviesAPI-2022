@@ -1,23 +1,25 @@
 import { connect } from "react-redux";
 import {Link} from "react-router-dom";
+import { initReactI18next, useTranslation } from 'react-i18next';
 
 
 const ProductDetails = ({product}, props) => {
+    const { t } = useTranslation();
     // console.log("product: ", product);
     const toEditLink = `/products/${product.id}/edit`
     const content = product ? (
         <div>
-            <p>nazwa: {product.title}</p>
-            <p>cena: {product.price}</p>
-            <p>kategoria: {product.category}</p>
+            <p>{t('product_name')}: {product.title}</p>
+            <p>{t('price')}: {product.price}</p>
+            <p>{t('category')}: {product.category}</p>
             <img src={product.image} alt={product.name}
             style={{width: "100px"}}
             />
-            {product.rating && (<p>ocena: {product.rating.rate} ({product.rating.count} ocen)</p>) }
-            <p>opis: {product.description}</p>
+            {product.rating && (<p>{t('rate')}: {product.rating.rate} ({product.rating.count} {t('rates')})</p>) }
+            <p>{t('description')}: {product.description}</p>
             <br/>
-            <Link to={toEditLink}><button>Edytuj</button></Link>
-            <Link to="/products"><button>Powrót do listy produktów</button></Link>
+            <Link to={toEditLink}><button>{t('edit')}</button></Link>
+            <Link to="/products"><button>{t('back_to_products')}</button></Link>
         </div>
     ) : null;
     

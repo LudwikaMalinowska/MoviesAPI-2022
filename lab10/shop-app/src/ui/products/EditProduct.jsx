@@ -1,6 +1,7 @@
 import { connect } from "react-redux";
 import { Formik, Field, Form, ErrorMessage} from "formik";
 import * as Yup from 'yup';
+import { initReactI18next, useTranslation } from 'react-i18next';
 
 import { getAllProducts } from "../../ducks/products/selectors";
 import { updateProduct } from "../../ducks/products/operations";
@@ -14,6 +15,8 @@ const productSchema = Yup.object().shape({
 })
 
 const EditProduct = (props) => {
+    const { t } = useTranslation();
+
     // console.log(props)
     const product = props.product;
     const initialValues = {
@@ -38,23 +41,23 @@ const EditProduct = (props) => {
             onSubmit={(values) => handleSubmit(values)}
             enableReinitialize={true}>
         <Form>
-            <label >Nazwa produktu : </label>
+            <label >{t('product_name')}: </label>
             <Field name="title"></Field>
             <ErrorMessage name="title" component="div"/>
 
-            <label >Kategoria: </label>
+            <label >{t('category')}: </label>
             <Field name="category" type="text"></Field>
             <ErrorMessage name="category" component="div"/>
 
-            <label >Cena: </label>
+            <label >{t('price')}: </label>
             <Field name="price" type="number"></Field>
             <ErrorMessage name="price" component="div"/>
 
-            <label >Opis: </label>
+            <label >{t('description')}: </label>
             <Field name="description" type="text"></Field>
             <ErrorMessage name="description" component="div"/>
             
-            <button type="submit">Dodaj</button>
+            <button type="submit">{t('submit')}</button>
         </Form>
         </Formik>
     )
