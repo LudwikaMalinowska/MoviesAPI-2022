@@ -1,12 +1,14 @@
 import { useEffect } from "react";
 import { connect } from "react-redux";
 import { getPersonList } from "../../ducks/persons/operations";
+import { getAllPersons } from "../../ducks/persons/selectors";
 
 
 
 const PersonList = ({persons, getPersonList}, props) => {
+    console.log("persons: ", persons);
+    
     useEffect(() => {
-        console.log("persons: ", persons);
 
         // if (persons.length === 0)
         getPersonList();
@@ -22,7 +24,7 @@ const PersonList = ({persons, getPersonList}, props) => {
 const mapStateToProps = (state) => {
     // console.log(state);
     return {
-        state: state,
+        persons: getAllPersons(state)
     };
     
 }

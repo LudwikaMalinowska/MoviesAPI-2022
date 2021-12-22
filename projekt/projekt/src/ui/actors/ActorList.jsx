@@ -1,11 +1,13 @@
 import { useEffect } from "react";
 import { connect } from "react-redux";
 import { getActorList } from '../../ducks/actors/operations';
+import {getAllActors} from '../../ducks/actors/selectors';
 
 
 const ActorList = ({actors, getActorList}, props) => {
+    console.log("actors:", actors);
     useEffect(() => {
-        console.log("actors:", actors);
+        
 
         // if (movies.length === 0)
         getActorList();
@@ -21,7 +23,7 @@ const ActorList = ({actors, getActorList}, props) => {
 const mapStateToProps = (state) => {
     // console.log(state);
     return {
-        state: state,
+        actors: getAllActors(state)
     };
     
 }

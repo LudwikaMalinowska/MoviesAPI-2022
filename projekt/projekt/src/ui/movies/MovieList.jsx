@@ -1,10 +1,12 @@
 import { useEffect } from "react";
 import { connect } from "react-redux";
 import { getMovieList } from "../../ducks/movies/operations";
+import { getAllMovies } from "../../ducks/movies/selectors";
 
 const MovieList = ({movies, getMovieList}, props) => {
+    console.log("movies:", movies);
+    
     useEffect(() => {
-        console.log("movies:", movies);
 
         // if (movies.length === 0)
         getMovieList();
@@ -20,7 +22,7 @@ const MovieList = ({movies, getMovieList}, props) => {
 const mapStateToProps = (state) => {
     // console.log(state);
     return {
-        state: state,
+        movies: getAllMovies(state)
     };
     
 }
