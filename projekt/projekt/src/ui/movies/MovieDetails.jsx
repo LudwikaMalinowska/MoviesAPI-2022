@@ -1,9 +1,44 @@
-const MovieDetails = () => {
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+
+const MovieDetails = ({movie}, props) => {
+
+    const content = movie ? (
+        <div>
+            <p>{movie.title}</p>
+        <img src={movie.image_url} alt={movie.title}/>
+        <p>{movie.description}</p>
+        <p>{movie.release_date}</p>
+        <p>{movie.genre}</p>
+        <p>{movie.id}</p>
+        <p>Reżyser: {movie.director_id ? movie.director_id : "Brak danych"}</p>
+
+        <button>Edytuj</button>
+        </div>
+    ) : "Nie znaleziono filmu";
+
     return ( 
         <div>
-            Movie Details
+        
+        {content}
+        
+        <Link to ="/movies"><button>Powrót do listy filmów</button></Link>
         </div>
      );
 }
  
-export default MovieDetails;
+const mapStateToProps = (state, props) => {
+    // console.log(state);
+    const id = props.match.params.idMovie;
+    //console.log(id);
+    return {
+        movie: state.entities.movies.byId[id]
+    };
+    
+}
+
+// const mapDispatchToProps = {
+//     //tutaj edit
+// }
+
+export default connect(mapStateToProps, null)(MovieDetails);

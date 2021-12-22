@@ -1,9 +1,41 @@
-const PersonDetails = () => {
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+
+
+const PersonDetails = ({person}, props) => {
+
+    const content = person ? (
+        <div>
+        <p>{person.first_name} {person.last_name}</p>
+        <p>{person.id}</p>
+        <p>{person.birth_date}</p>
+        <p>{person.nationality}</p>
+
+        <button>Edytuj</button>
+        </div>
+    ) : "Nie znaleziono osoby";
+
     return ( 
         <div>
-            PersonDetails
+        {content}
+        <Link to="/persons"><button>Powrót do listy osób</button></Link>
+        
+        
         </div>
      );
 }
  
-export default PersonDetails;
+const mapStateToProps = (state, props) => {
+    // console.log(state);
+    const id = props.match.params.id;
+    return {
+        person: state.entities.persons.byId[id]
+    };
+    
+}
+
+// const mapDispatchToProps = {
+//     //tutaj edit
+// }
+
+export default connect(mapStateToProps, null)(PersonDetails);
