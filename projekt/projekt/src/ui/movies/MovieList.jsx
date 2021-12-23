@@ -16,6 +16,7 @@ const MovieList = ({movies, getMovieList}, props) => {
     const movieList = movies ? (movies.map(movie => {
         const movieLink = `/movies/${movie.id}`
         return (<li key={movie.id}>
+            <img src={movie.image_url} alt={movie.title} style={{height: "200px"}} />
             <p>{movie.title}</p>
             <Link to={movieLink}><button>Szczegóły</button></Link>
 
@@ -26,6 +27,8 @@ const MovieList = ({movies, getMovieList}, props) => {
 
     return ( 
         <ul>
+            <Link to="/movies/add"><button>Dodaj nowy film</button></Link>
+            <br/>
             {movieList}
         </ul>
      );
