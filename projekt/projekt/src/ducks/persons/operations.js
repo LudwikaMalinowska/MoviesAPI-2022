@@ -30,3 +30,27 @@ export const getPersonList = () => {
         ],
     })
 }
+
+export const createPerson = (newPerson) => {
+    
+    return createAction({
+        endpoint: 'http://localhost:5000/api/persons',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newPerson),
+        types: [
+            'PERSON_CREATE_START',
+            {
+                type: 'PERSON_CREATE_SUCCESS',
+                payload: async (action, state, res) => {
+                    const { entities } = normalize(newPerson, personSchema);
+                    return entities;
+                },
+                meta: { actionType: 'ADD' }
+           },
+            'PERSON_CREATE_FAILURE'
+        ]
+    })
+}

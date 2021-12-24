@@ -28,6 +28,7 @@ const PersonList = ({persons, getPersonList}, props) => {
 
     return ( 
         <ul>
+            <Link to="persons/add"><button>Dodaj nowa osobę</button></Link>
             {personList}
         </ul>
      );

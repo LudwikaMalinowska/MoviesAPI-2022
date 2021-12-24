@@ -7,8 +7,14 @@ const personReducer = (state = [], action) => {
         case 'PERSON_LIST_REQUEST_FAILED':
             return [...state, action.payload]
         case 'PERSON_LIST_REQUEST':
-            // console.log("ac payload: ", action.payload);
             return [...state, action.payload]
+        case 'PERSON_CREATE_START':
+            return [...action.payload];
+        case 'PERSON_CREATE_FAILURE':
+            return [...state, action.payload]
+        case 'PERSON_CREATE_SUCCESS':
+            return [...state, action.payload]
+         
         default:
             return state;
     }
