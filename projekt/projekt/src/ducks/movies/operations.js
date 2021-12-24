@@ -32,3 +32,26 @@ export const getMovieList = () => {
     })
 }
 
+export const createMovie = (newMovie) => {
+    //  console.log("newpr: ", newProduct);
+    return createAction({
+        endpoint: 'http://localhost:5000/api/movies',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newMovie),
+        types: [
+            'MOVIE_CREATE_START',
+            {
+                type: 'MOVIE_CREATE_SUCCESS',
+                payload: async (action, state, res) => {
+                    const { entities } = normalize(newMovie, movieSchema);
+                    return entities;
+                },
+                meta: { actionType: 'ADD' }
+           },
+            'MOVIE_CREATE_FAILURE'
+        ]
+    })
+}

@@ -2,9 +2,11 @@ import { connect } from "react-redux";
 import { Formik, Field, Form, ErrorMessage} from "formik";
 import {v4 as uuidv4 } from 'uuid';
 import * as Yup from 'yup';
-import { getAllMovies } from "../../ducks/movies/selectors";
+import { getAllMovies} from "../../ducks/movies/selectors";
+import { createMovie } from "../../ducks/movies/operations";
 
-const productSchema = Yup.object().shape({
+
+const movieSchema = Yup.object().shape({
     title: Yup.string().required('Nazwa filmu jest wymagana'),
     genre: Yup.string().required(),
     description: Yup.string().required(),
@@ -23,14 +25,14 @@ const MovieForm = (props) => {
         director: null,
     }
     const handleSubmit = (values) => {
-        props.createProduct(values);
+        props.createMovie(values);
         // window.history.back();
     }
 
     return ( 
         <Formik
             initialValues={initialValues}
-            validationSchema={productSchema}
+            validationSchema={movieSchema}
             onSubmit={(values) => handleSubmit(values)}
             enableReinitialize={true}>
         <Form>
@@ -62,13 +64,12 @@ const MovieForm = (props) => {
  
 const mapStateToProps = (state) => {
     return {
-        products: getAllMovies(state),
+        movies: getAllMovies(state),
     }
 }
 
-// const mapDispatchToProps = {
-//     createMovie,
-//     editMovie
-// };
+const mapDispatchToProps = {
+    createMovie,
+};
 
-export default connect(mapStateToProps, null)(MovieForm);
+export default connect(mapStateToProps, mapDispatchToProps)(MovieForm);
