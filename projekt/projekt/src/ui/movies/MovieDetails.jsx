@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 const MovieDetails = ({movie}, props) => {
 
+    const editLink = `/movies/${movie.id}/edit`
     const content = movie ? (
         <div>
             <p>{movie.title}</p>
@@ -13,7 +14,8 @@ const MovieDetails = ({movie}, props) => {
         <p>{movie.id}</p>
         <p>Reżyser: {movie.director_id ? movie.director_id : "Brak danych"}</p>
 
-        <button>Edytuj</button>
+        <Link to={editLink}><button>Edytuj</button></Link>
+        
         </div>
     ) : "Nie znaleziono filmu";
 

@@ -1,9 +1,10 @@
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage} from "formik";
 import {v4 as uuidv4 } from 'uuid';
 import * as Yup from 'yup';
 import { getAllMovies} from "../../ducks/movies/selectors";
-import { createMovie } from "../../ducks/movies/operations";
+import { createMovie, editMovie} from "../../ducks/movies/operations";
 
 
 const movieSchema = Yup.object().shape({
@@ -15,7 +16,17 @@ const movieSchema = Yup.object().shape({
 })
 
 const MovieForm = (props) => {
-    const initialValues = {
+    const movie = props.movie;
+    const initialValues = movie ? ({
+        id: movie.id,
+        title: movie.title,
+        genre: movie.genre,
+        release_date: movie.release_date.substring(0, 10),
+        description: movie.description,
+        image_url: movie.image_url,
+        director: movie.director,
+    }) :
+    ({
         id: uuidv4(),
         title: "",
         genre: "",
@@ -23,9 +34,19 @@ const MovieForm = (props) => {
         description: "",
         image_url: "",
         director: null,
-    }
+    })
     const handleSubmit = (values) => {
-        props.createMovie(values);
+        console.log(values);
+        console.log("movie:", movie);
+        if (movie) {
+            props.editMovie(values);
+            alert("Edytowano")
+        }
+        else {
+            props.createMovie(values);
+            alert("dodano")
+        }
+            
         // window.history.back();
     }
 
@@ -36,7 +57,8 @@ const MovieForm = (props) => {
             onSubmit={(values) => handleSubmit(values)}
             enableReinitialize={true}>
         <Form>
-            <label >Nazwa filmu : </label>
+        <div>
+        <label >Nazwa filmu : </label>
             <Field name="title"></Field>
             <ErrorMessage name="title" component="div"/>
 
@@ -57,19 +79,28 @@ const MovieForm = (props) => {
             <ErrorMessage name="image_url" component="div"/>
             
             <button type="submit">Dodaj</button>
+        </div>
+            
+            <Link to="/movies"><button>Powrót do listy filmów</button></Link>
         </Form>
+
+        
         </Formik>
      );
 }
  
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, props) => {
+    const id = props.match.params.idMovie;
+    const movie = id ? (state.entities.movies.byId[id]) : null;
     return {
         movies: getAllMovies(state),
+        movie: movie
     }
 }
 
 const mapDispatchToProps = {
     createMovie,
+    editMovie
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MovieForm);

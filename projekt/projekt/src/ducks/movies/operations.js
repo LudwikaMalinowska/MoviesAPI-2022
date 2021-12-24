@@ -55,3 +55,27 @@ export const createMovie = (newMovie) => {
         ]
     })
 }
+
+export const editMovie = (editedMovie) => {
+
+    return createAction({
+        endpoint: `http://localhost:5000/api/movies/${editedMovie.id}`,
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(editedMovie),
+        types: [
+            'MOVIE_EDIT_START',
+            {
+                type: 'MOVIE_EDIT_SUCCESS',
+                payload: async (action, state, res) => {
+                    const { entities } = normalize(editedMovie, movieSchema);
+                    return entities;
+                },
+                meta: { actionType: 'EDIT' }
+           },
+            'MOVIE_EDIT_FAILURE'
+        ]
+    })
+}

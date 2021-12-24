@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 const PersonDetails = ({person}, props) => {
 
+    const editLink = `/persons/${person.id}/edit`
     const content = person ? (
         <div>
         <p>{person.first_name} {person.last_name}</p>
@@ -11,7 +12,7 @@ const PersonDetails = ({person}, props) => {
         <p>{person.birth_date}</p>
         <p>{person.nationality}</p>
 
-        <button>Edytuj</button>
+        <Link to={editLink}><button>Edytuj</button></Link>
         </div>
     ) : "Nie znaleziono osoby";
 

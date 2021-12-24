@@ -14,7 +14,13 @@ const movieReducer = (state = [], action) => {
             return [...state, action.payload];
         case 'MOVIE_CREATE_SUCCESS':
             return [...state, action.payload]
-            
+        case 'MOVIE_EDIT_START':
+            return [...action.payload];
+        case 'MOVIE_EDIT_FAILURE':
+            return [...state, action.payload];
+        case 'MOVIE_EDIT_SUCCESS':
+            return [...state, action.payload];
+                
         
         default:
             return state;
