@@ -54,3 +54,27 @@ export const createPerson = (newPerson) => {
         ]
     })
 }
+
+export const editPerson = (editedPerson) => {
+
+    return createAction({
+        endpoint: `http://localhost:5000/api/persons/${editedPerson.id}`,
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(editedPerson),
+        types: [
+            'PERSON_EDIT_START',
+            {
+                type: 'PERSON_EDIT_SUCCESS',
+                payload: async (action, state, res) => {
+                    const { entities } = normalize(editedPerson, personSchema);
+                    return entities;
+                },
+                meta: { actionType: 'EDIT' }
+           },
+            'PERSON_EDIT_FAILURE'
+        ]
+    })
+}
