@@ -1,10 +1,16 @@
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { deleteMovie } from "../../ducks/movies/operations";
 
-const MovieDetails = ({movie}, props) => {
+const MovieDetails = ({movie, deleteMovie}, props) => {
+
+    const handleDelete = () => {
+        deleteMovie(movie);
+        alert("usunięto");
+    }
 
     const editLink = `/movies/${movie.id}/edit`
-    const content = movie ? (
+    let content = movie ? (
         <div>
             <p>{movie.title}</p>
         <img src={movie.image_url} alt={movie.title}/>
@@ -15,6 +21,7 @@ const MovieDetails = ({movie}, props) => {
         <p>Reżyser: {movie.director_id ? movie.director_id : "Brak danych"}</p>
 
         <Link to={editLink}><button>Edytuj</button></Link>
+        <button onClick={handleDelete}>Usuń</button>
         
         </div>
     ) : "Nie znaleziono filmu";
@@ -39,8 +46,8 @@ const mapStateToProps = (state, props) => {
     
 }
 
-// const mapDispatchToProps = {
-//     //tutaj edit
-// }
+const mapDispatchToProps = {
+    deleteMovie
+}
 
-export default connect(mapStateToProps, null)(MovieDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(MovieDetails);

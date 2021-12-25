@@ -79,3 +79,27 @@ export const editMovie = (editedMovie) => {
         ]
     })
 }
+
+export const deleteMovie = (movieToDelete) => {
+
+    return createAction({
+        endpoint: `http://localhost:5000/api/movies/${movieToDelete.id}`,
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(movieToDelete),
+        types: [
+            'MOVIE_DELETE_START',
+            {
+                type: 'MOVIE_DELETE_SUCCESS',
+                payload: async (action, state, res) => {
+                    const { entities } = normalize(movieToDelete, movieSchema);
+                    return entities;
+                },
+                meta: { actionType: 'DELETE' }
+           },
+            'MOVIE_DELETE_FAILURE'
+        ]
+    })
+}
