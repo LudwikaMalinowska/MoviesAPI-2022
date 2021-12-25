@@ -1,8 +1,14 @@
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { deletePerson } from "../../ducks/persons/operations";
 
 
-const PersonDetails = ({person}, props) => {
+const PersonDetails = ({person, deletePerson}, props) => {
+
+    const handleDelete = () => {
+        deletePerson(person);
+        alert("usunięto")
+    }
 
     const editLink = `/persons/${person.id}/edit`
     const content = person ? (
@@ -13,7 +19,9 @@ const PersonDetails = ({person}, props) => {
         <p>{person.nationality}</p>
 
         <Link to={editLink}><button>Edytuj</button></Link>
+        <button onClick={handleDelete}>Usuń</button>
         </div>
+        
     ) : "Nie znaleziono osoby";
 
     return ( 
@@ -35,8 +43,8 @@ const mapStateToProps = (state, props) => {
     
 }
 
-// const mapDispatchToProps = {
-//     //tutaj edit
-// }
+const mapDispatchToProps = {
+    deletePerson
+}
 
-export default connect(mapStateToProps, null)(PersonDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(PersonDetails);

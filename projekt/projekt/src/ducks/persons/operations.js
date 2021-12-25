@@ -78,3 +78,27 @@ export const editPerson = (editedPerson) => {
         ]
     })
 }
+
+export const deletePerson = (personToDelete) => {
+
+    return createAction({
+        endpoint: `http://localhost:5000/api/persons/${personToDelete.id}`,
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(personToDelete),
+        types: [
+            'PERSON_DELETE_START',
+            {
+                type: 'PERSON_DELETE_SUCCESS',
+                payload: async (action, state, res) => {
+                    const { entities } = normalize(personToDelete, personSchema);
+                    return entities;
+                },
+                meta: { actionType: 'DELETE' }
+           },
+            'PERSON_DELETE_FAILURE'
+        ]
+    })
+}

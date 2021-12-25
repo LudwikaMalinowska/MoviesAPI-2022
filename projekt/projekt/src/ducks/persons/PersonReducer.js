@@ -5,24 +5,32 @@ const personReducer = (state = [], action) => {
         case 'PERSON_LIST_REQUEST_START': 
             return [...action.payload];
         case 'PERSON_LIST_REQUEST_FAILED':
-            return [...state, action.payload]
+            return [...state, action.payload];
         case 'PERSON_LIST_REQUEST_SUCCESS':
-            return [...state, action.payload]
+            return [...state, action.payload];
 
         case 'PERSON_CREATE_START':
             return [...action.payload];
         case 'PERSON_CREATE_FAILURE':
-            return [...state, action.payload]
+            return [...state, action.payload];
         case 'PERSON_CREATE_SUCCESS':
-            return [...state, action.payload]
+            return [...state, action.payload];
 
         case 'PERSON_EDIT_START':
             return [...action.payload];
         case 'PERSON_EDIT_FAILURE':
-            return [...state, action.payload]
+            return [...state, action.payload];
         case 'PERSON_EDIT_SUCCESS':
-            return [...state, action.payload]
+            return [...state, action.payload];
 
+        case 'PERSON_DELETE_START':
+            return [...action.payload];
+        case 'PERSON_DELETE_FAILURE':
+            return [...state, action.payload];
+        case 'PERSON_DELETE_SUCCESS':
+            return [...state, action.payload];
+            
+        
         default:
             return state;
     }
