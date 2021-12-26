@@ -7,10 +7,11 @@ import { getAllPersons } from "../../ducks/persons/selectors";
 
 
 const PersonList = ({persons, getPersonList}, props) => {
-    console.log("persons: ", persons);
+    // console.log("persons: ", persons);
     const [displayedPersons, setDisplayedPersons] = useState(persons);
     const inputEl = useRef(null);
     const selectEl = useRef(null);
+    const sortSelectEl = useRef(null);
     
 
     let nationalities = persons.map(person => person.nationality);
@@ -22,14 +23,15 @@ const PersonList = ({persons, getPersonList}, props) => {
 
     useEffect(() => {
 
-        // if (persons.length === 0)
-        getPersonList();
+        if (persons.length === 0)
+            getPersonList();
     }, []);
 
     const personList = displayedPersons ? (displayedPersons.map(person => {
         const personLink = `/persons/${person.id}`
         return (<li key={person.id}>
             <p>{person.first_name} {person.last_name}</p>
+            <p>{person.birth_date.substring(0, 10)}</p>
             <Link to={personLink}><button>Szczegóły</button></Link>
 
         </li>
@@ -60,6 +62,59 @@ const PersonList = ({persons, getPersonList}, props) => {
         setDisplayedPersons(newPersons);
     }
 
+    const handleSortChange = () => {
+        const sortValue = sortSelectEl.current.value;
+
+        const sortedPersons = [...persons];
+        switch (sortValue){
+            case "sort-alphabetic":
+                sortedPersons.sort((person1, person2) => {
+                    const name1 = `${person1.first_name} ${person1.last_name}`;
+                    const name2 = `${person2.first_name} ${person2.last_name}`;
+
+                    return name1.localeCompare(name2)
+                })
+                break;
+            case "sort-alphabetic-reverse":
+                sortedPersons.sort((person1, person2) => {
+                    const name1 = `${person1.first_name} ${person1.last_name}`;
+                    const name2 = `${person2.first_name} ${person2.last_name}`;
+
+                    return name1.localeCompare(name2)
+                })
+
+                sortedPersons.reverse();
+                break;
+            case "sort-date":
+                sortedPersons.sort((person1, person2) => {
+                    const date1 = new Date(person1.birth_date);
+                    const date2 = new Date(person2.birth_date);
+
+                    return date1.getTime() - date2.getTime();
+                });
+                break;
+            case "sort-date-reverse":
+                sortedPersons.sort((person1, person2) => {
+                    const date1 = new Date(person1.birth_date);
+                    const date2 = new Date(person2.birth_date);
+
+                    return date2.getTime() - date1.getTime();
+                });
+                break;
+            case "sort-id":
+                sortedPersons.sort((person1, person2) => person1.id - person2.id);
+                break;
+            case "sort-id-reverse":
+                sortedPersons.sort((person1, person2) => person2.id - person1.id);
+                break;
+            default:
+                break;
+        }
+
+        console.log("sorted:", sortedPersons);
+        setDisplayedPersons(sortedPersons);
+    }
+
     return ( 
         <ul>
             
@@ -78,6 +133,19 @@ const PersonList = ({persons, getPersonList}, props) => {
             Szukaj: <input type="text" 
             ref={inputEl}
             onChange={handleInputChange}/>
+
+            Sortuj: <select name="sort" id="sort"
+            ref={sortSelectEl}
+            onChange={handleSortChange}
+            >
+                <option value="sort-alphabetic">Alfabetycznie A-Z</option>
+                <option value="sort-alphabetic-reverse">Alfabetycznie Z-A</option>
+                <option value="sort-date">Według daty - rosnąco</option>
+                <option value="sort-date-reverse">Według daty - malejąco</option>
+                <option value="sort-id">Według id - rosnąco</option>
+                <option value="sort-id-reverse">Według id - malejąco</option>
+            </select>
+
             {personList}
         </ul>
      );

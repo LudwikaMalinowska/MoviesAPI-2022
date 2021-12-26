@@ -30,7 +30,7 @@ const MovieList = ({movies, getMovieList}, props) => {
         return (<li key={movie.id}>
             <img src={movie.image_url} alt={movie.title} style={{height: "200px"}} />
             <p>{movie.title}</p>
-            <p>{movie.release_date}</p>
+            <p>{movie.release_date.substring(0, 10)}</p>
             <Link to={movieLink}><button>Szczegóły</button></Link>
 
         </li>
