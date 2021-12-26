@@ -8,9 +8,10 @@ import { getAllPersons } from "../../ducks/persons/selectors";
 
 const PersonList = ({persons, getPersonList}, props) => {
     console.log("persons: ", persons);
+    const [displayedPersons, setDisplayedPersons] = useState(persons);
     const inputEl = useRef(null);
     const selectEl = useRef(null);
-    const [displayedPersons, setDisplayedPersons] = useState(persons);
+    
 
     let nationalities = persons.map(person => person.nationality);
     nationalities = [...new Set(nationalities)];
@@ -55,7 +56,7 @@ const PersonList = ({persons, getPersonList}, props) => {
     const handleSelectChange = () => {
         const value = selectEl.current.value;
         const newPersons = persons.filter(person => person.nationality === value);
-        
+
         setDisplayedPersons(newPersons);
     }
 
