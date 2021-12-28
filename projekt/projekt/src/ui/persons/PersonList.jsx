@@ -12,13 +12,17 @@ const PersonList = ({persons, getPersonList}, props) => {
     const inputEl = useRef(null);
     const selectEl = useRef(null);
     const sortSelectEl = useRef(null);
+
+    const selectDateEl = useRef(null);
+    const inputDate1El = useRef(null);
+    const inputDate2El = useRef(null);
     
 
     let nationalities = persons.map(person => person.nationality);
     nationalities = [...new Set(nationalities)];
     const selectOptions = nationalities.map(nationality =>
         (
-            <option value={nationality}>{nationality}</option>
+            <option value={nationality} key={nationality}>{nationality}</option>
         ))
 
     useEffect(() => {
@@ -60,6 +64,49 @@ const PersonList = ({persons, getPersonList}, props) => {
         const newPersons = persons.filter(person => person.nationality === value);
 
         setDisplayedPersons(newPersons);
+    }
+
+    const handleDateFilter = () => {
+        const selectValue = selectDateEl.current.value;
+        const inputDate1 = new Date(inputDate1El.current.value);
+        let newPersons = displayedPersons;
+
+        switch (selectValue) {
+            case "date-before":
+                newPersons = persons.filter(person => {
+                    const personDate = new Date(person.birth_date);
+
+                    return personDate.getTime() < inputDate1.getTime()
+                })
+
+                break;
+            case "date-after":
+                newPersons = persons.filter(person => {
+                    const personDate = new Date(person.birth_date);
+
+                    return personDate.getTime() > inputDate1.getTime()
+                })
+
+                break;
+            case "date-between":
+                newPersons = persons.filter(person => {
+                    const personDate = new Date(person.birth_date);
+                    const inputDate2 = new Date(inputDate2El.current.value);
+
+                    const afterDate1 = personDate.getTime() > inputDate1.getTime();
+                    const beforeDate2 = personDate.getTime() < inputDate2.getTime();
+
+                    return afterDate1 && beforeDate2;
+                })
+                break;
+            default:
+                break;
+        }
+
+        console.log("newPersons:", newPersons);
+
+        setDisplayedPersons(newPersons);
+
     }
 
     const handleSortChange = () => {
@@ -127,6 +174,23 @@ const PersonList = ({persons, getPersonList}, props) => {
             >
                 {selectOptions}
             </select>
+
+            <div className="date-filters">
+
+                <select name="date-filter" id="date-filter"
+                ref={selectDateEl}
+                >
+                    <option value="date-before">Osoby starsze niż</option>
+                    <option value="date-after">Osoby młodsze niż</option>
+                    <option value="date-between">Data urodzenia pomiędzy</option>
+                </select>
+                <input type="date" ref={inputDate1El}/> 
+
+                <input type="date" ref={inputDate2El}/> 
+                {/* display hidden */}
+                <button onClick={handleDateFilter}>Filtruj</button>
+
+            </div>
 
 
             <br/>
