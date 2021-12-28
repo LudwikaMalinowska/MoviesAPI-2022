@@ -11,6 +11,11 @@ const MovieList = ({movies, getMovieList}, props) => {
     const selectEl = useRef(null);
     const sortSelectEl = useRef(null);
 
+    const selectDateEl = useRef(null);
+    const inputDate1El = useRef(null);
+    const inputDate2El = useRef(null);
+    
+
     let genres = movies.map(movie => movie.genre);
     genres = [...new Set(genres)];
     const selectOptions = genres.map(genre => (
@@ -42,20 +47,63 @@ const MovieList = ({movies, getMovieList}, props) => {
         const inputValue = inputEl.current.value.toLowerCase();
 
         console.log(inputValue);
-        const newMovies = displayedMovies.filter(movie => (movie.title.toLowerCase().includes(inputValue)))
+        const newMovies = movies.filter(movie => (movie.title.toLowerCase().includes(inputValue)))
 
-        console.log(displayedMovies);
-        console.log(newMovies);
         if (inputValue !== "")
             setDisplayedMovies(newMovies);
+        else 
+            setDisplayedMovies(movies);
     }
 
-    const handleSelectChange = () => {
+    const handleSelectGenreChange = () => {
         const selectValue = selectEl.current.value;
 
         const newMovies = movies.filter(movie => movie.genre === selectValue);
 
         setDisplayedMovies(newMovies);
+    }
+
+    const handleDateFilter = () => {
+        const selectValue = selectDateEl.current.value;
+        const inputDate1 = new Date(inputDate1El.current.value);
+        let newMovies = displayedMovies;
+
+        switch (selectValue) {
+            case "date-before":
+                newMovies = movies.filter(movie => {
+                    const movieDate = new Date(movie.release_date);
+
+                    return movieDate.getTime() < inputDate1.getTime()
+                })
+
+                break;
+            case "date-after":
+                newMovies = movies.filter(movie => {
+                    const movieDate = new Date(movie.release_date);
+
+                    return movieDate.getTime() > inputDate1.getTime()
+                })
+
+                break;
+            case "date-between":
+                newMovies = movies.filter(movie => {
+                    const movieDate = new Date(movie.release_date);
+                    const inputDate2 = new Date(inputDate2El.current.value);
+
+                    const afterDate1 = movieDate.getTime() > inputDate1.getTime();
+                    const beforeDate2 = movieDate.getTime() < inputDate2.getTime();
+
+                    return afterDate1 && beforeDate2;
+                })
+                break;
+            default:
+                break;
+        }
+
+        console.log("newMovies:", newMovies);
+
+        setDisplayedMovies(newMovies);
+
     }
 
     const handleSortChange = () => {
@@ -107,12 +155,36 @@ const MovieList = ({movies, getMovieList}, props) => {
         <ul>
             <Link to="/movies/add"><button>Dodaj nowy film</button></Link>
             <br/>
+            Gatunek:  
             <select name="genre" id="genre"
-            onChange={handleSelectChange}
+            onChange={handleSelectGenreChange}
             ref={selectEl}
             >
                 {selectOptions}
             </select>
+
+            <div className="date-filters">
+
+                <select name="date-filter" id="date-filter"
+                // onChange={handleSelectDateChange}
+                ref={selectDateEl}
+                >
+                    <option value="date-before">Filmy starsze niż</option>
+                    <option value="date-after">Filmy nowsze niż</option>
+                    <option value="date-between">Release date pomiędzy</option>
+                </select>
+                <input type="date" ref={inputDate1El}/> 
+
+                {/* {selectDateEl.current.value === "date-between" ? (
+                    <input type="date" ref={inputDate2El}/> 
+                ): null } */}
+                <input type="date" ref={inputDate2El}/> 
+                {/* display hidden */}
+                <button onClick={handleDateFilter}>Filtruj</button>
+
+            </div>
+            
+            
 
 
             <br/>
@@ -131,6 +203,7 @@ const MovieList = ({movies, getMovieList}, props) => {
                 <option value="sort-id">Według id - rosnąco</option>
                 <option value="sort-id-reverse">Według id - malejąco</option>
             </select>
+
             
 
             {movieList}
