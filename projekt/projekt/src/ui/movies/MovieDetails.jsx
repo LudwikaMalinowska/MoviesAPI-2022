@@ -49,7 +49,11 @@ const MovieDetails = ({movie, persons, actors, deleteMovie, getMovieActors}, pro
     const movie_actors = actors.map(actor => {
         console.log(actor);
         const person = persons.find(person => person.id === actor.person_id)
-        return (<li key={actor.id}>{person.first_name} {person.last_name}</li>)
+        const toLink = `/persons/${actor.person_id}`
+        return (<li key={actor.id}>
+        <Link to={toLink}>
+        {person.first_name} {person.last_name}
+        </Link></li>)
     })
 
     const addActorOptions = persons.map(person => {

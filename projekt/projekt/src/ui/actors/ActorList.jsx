@@ -17,7 +17,7 @@ const ActorList = ({actors, persons, getActorList}, props) => {
 
     const actorList = actors ? (actors.map(actor => {
         const id = actor.person_id;
-        const person = persons.find(person => person.id == id);
+        const person = persons.find(person => person.id === id);
         const actorLink = `/persons/${actor.person_id}`
         return (<li key={actor.id}>
             <p>{person.first_name} {person.last_name}</p>
@@ -25,9 +25,6 @@ const ActorList = ({actors, persons, getActorList}, props) => {
 
         </li>
         )
-        console.log("a", actor);
-        console.log("p", person);
-        return (<li></li>)
     })
     ) : null;
 
