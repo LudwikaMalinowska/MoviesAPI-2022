@@ -8,34 +8,9 @@ const actorsSchema = [actorSchema];
 
 
 
-// export const getActorList = () => {
-//     return createAction({
-//         endpoint: 'http://localhost:5000/api/actors',
-//         method: 'GET',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         types: [
-//             'ACTORS_LIST_REQUEST_START',
-//             {
-//                 type: 'ACTORS_LIST_REQUEST_SUCCESS',
-//                 payload: async (action, state, res) => {
-//                     console.log('PAYLOAD', action, state, res);
-//                     const json = await res.json();
-//                     const { entities } = normalize(json, actorsSchema)
-//                     return entities;
-//                 },
-//                 meta: { actionType: 'GET_ALL' }
-//            },
-//            'ACTORS_LIST_REQUEST_FAILED'
-//         ]
-//     })
-// }
-
-
-export const getActorList = (movieId) => {
+export const getActorList = () => {
     return createAction({
-        endpoint: `http://localhost:5000/api/movies/${movieId}/actors`,
+        endpoint: 'http://localhost:5000/api/actors',
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -53,6 +28,31 @@ export const getActorList = (movieId) => {
                 meta: { actionType: 'GET_ALL' }
            },
            'ACTORS_LIST_REQUEST_FAILED'
+        ]
+    })
+}
+
+
+export const getMovieActors = (movieId) => {
+    return createAction({
+        endpoint: `http://localhost:5000/api/movies/${movieId}/actors`,
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        types: [
+            'MOVIE_ACTORS_REQUEST_START',
+            {
+                type: 'MOVIE_ACTORS_REQUEST_SUCCESS',
+                payload: async (action, state, res) => {
+                    console.log('PAYLOAD', action, state, res);
+                    const json = await res.json();
+                    const { entities } = normalize(json, actorsSchema)
+                    return entities;
+                },
+                meta: { actionType: 'GET_ALL' }
+           },
+           'MOVIE_ACTORS_REQUEST_FAILED'
         ]
     })
 }
@@ -82,11 +82,11 @@ export const addActor = (movieId, actor) => {
     })
 }
 
-export const getMovieActors = (movieId) => {
-    axios.get(`http://localhost:5000/api/movies/${movieId}/actors`)
-    .then(function (response) {
-      // handle success
-      console.log("mactors response: ", response.data);
-      return response.data;
-    })
-} 
+// export const getMovieActors = (movieId) => {
+//     axios.get(`http://localhost:5000/api/movies/${movieId}/actors`)
+//     .then(function (response) {
+//       // handle success
+//       console.log("mactors response: ", response.data);
+//       return response.data;
+//     })
+// } 

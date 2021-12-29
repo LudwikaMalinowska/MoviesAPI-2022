@@ -3,9 +3,10 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { getActorList } from '../../ducks/actors/operations';
 import {getAllActors} from '../../ducks/actors/selectors';
+import { getAllPersons } from "../../ducks/persons/selectors";
 
 
-const ActorList = ({actors, getActorList}, props) => {
+const ActorList = ({actors, persons, getActorList}, props) => {
     console.log("actors:", actors);
     useEffect(() => {
         
@@ -15,13 +16,18 @@ const ActorList = ({actors, getActorList}, props) => {
     }, []);
 
     const actorList = actors ? (actors.map(actor => {
-        const actorLink = `/actors/${actor.id}`
+        const id = actor.person_id;
+        const person = persons.find(person => person.id == id);
+        const actorLink = `/persons/${actor.person_id}`
         return (<li key={actor.id}>
-            <p>{actor.first_name} {actor.last_name}</p>
+            <p>{person.first_name} {person.last_name}</p>
             <Link to={actorLink}><button>Szczegóły</button></Link>
 
         </li>
         )
+        console.log("a", actor);
+        console.log("p", person);
+        return (<li></li>)
     })
     ) : null;
 
@@ -35,7 +41,8 @@ const ActorList = ({actors, getActorList}, props) => {
 const mapStateToProps = (state) => {
     // console.log(state);
     return {
-        actors: getAllActors(state)
+        actors: getAllActors(state),
+        persons: getAllPersons(state)
     };
     
 }

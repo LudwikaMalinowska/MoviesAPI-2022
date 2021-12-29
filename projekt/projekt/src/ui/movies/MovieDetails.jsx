@@ -4,17 +4,17 @@ import { Link } from "react-router-dom";
 import { deleteMovie} from "../../ducks/movies/operations";
 // import { getAllMovieActors } from "../../ducks/movies/selectors";
 import { getAllPersons } from "../../ducks/persons/selectors";
-import { addActor, getActorList} from "../../ducks/actors/operations";
+import { addActor, getMovieActors} from "../../ducks/actors/operations";
 import { getAllActors } from "../../ducks/actors/selectors";
 
 
-const MovieDetails = ({movie, persons, actors, deleteMovie, getActorList}, props) => {
+const MovieDetails = ({movie, persons, actors, deleteMovie, getMovieActors}, props) => {
     const selectActorEl = useRef(null);
     console.log(actors);
 
     useEffect(() => {
 
-        getActorList(movie.id)  
+        getMovieActors(movie.id)  
         // mActors(movie.id);  
             
     }, []);
@@ -48,7 +48,8 @@ const MovieDetails = ({movie, persons, actors, deleteMovie, getActorList}, props
 
     const movie_actors = actors.map(actor => {
         console.log(actor);
-        return (<li key={actor.id}>{actor.first_name} {actor.last_name}</li>)
+        const person = persons.find(person => person.id === actor.person_id)
+        return (<li key={actor.id}>{person.first_name} {person.last_name}</li>)
     })
 
     const addActorOptions = persons.map(person => {
@@ -110,7 +111,7 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = {
     deleteMovie,
-    getActorList,
+    getMovieActors,
     addActor
 }
 
