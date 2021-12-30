@@ -1,15 +1,17 @@
 import { connect } from "react-redux";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { deleteMovie} from "../../ducks/movies/operations";
+import { deleteMovie, setMovieDirector} from "../../ducks/movies/operations";
 // import { getAllMovieActors } from "../../ducks/movies/selectors";
 import { getAllPersons } from "../../ducks/persons/selectors";
 import { addActor, deleteMovieActor, getMovieActors} from "../../ducks/actors/operations";
 import { getAllActors } from "../../ducks/actors/selectors";
 
 
-const MovieDetails = ({movie, persons, actors, deleteMovie, getMovieActors, addActor, deleteMovieActor}, props) => {
+const MovieDetails = ({movie, persons, actors, deleteMovie, getMovieActors, addActor, deleteMovieActor, setMovieDirector}, props) => {
     const selectActorEl = useRef(null);
+    const selectDirectorEl = useRef(null);
+    const [changingDirector, setChangingDirector] = useState(false);
     console.log(actors);
 
     useEffect(() => {
@@ -32,20 +34,31 @@ const MovieDetails = ({movie, persons, actors, deleteMovie, getMovieActors, addA
         const actorToAdd = persons.find(person => person.id === actorId);
         // console.log("actorToAdd", actorToAdd);
         addActor(movie.id, actorToAdd);
-
     }
+
+    const handleChooseDirector = () => {
+        const personId = Number(selectDirectorEl.current.value);
+        const choosenPerson = persons.find(person => person.id === personId);
+        setMovieDirector(movie.id, choosenPerson);
+        setChangingDirector(false);
+    } 
 
     let movieDirectorLink = "Brak danych";
     if (movie.director_id) {
         const director = persons.find(person => person.id === movie.director_id);
         console.log("director: ", director);
         const linkTo = `/persons/${director.id}`;
-        movieDirectorLink = (
-        <Link to={linkTo}>
+        movieDirectorLink = (<p>
+            <Link to={linkTo}>
         {director.first_name} {director.last_name}
         </Link>
+        <button onClick={() => setChangingDirector(true)}>Zmień</button>
+        </p>
+        
         );
     }
+
+    
 
     const movie_actors = actors.map(actor => {
         console.log(actor);
@@ -59,10 +72,23 @@ const MovieDetails = ({movie, persons, actors, deleteMovie, getMovieActors, addA
         </li>)
     })
 
-    const addActorOptions = persons.map(person => {
+    // const addActorOptions = persons.map(person => {
+    //     return <option value={person.id} key={person.id}>{person.first_name} {person.last_name}</option>
+    // })
+
+    const personOptions = persons.map(person => {
         return <option value={person.id} key={person.id}>{person.first_name} {person.last_name}</option>
     })
-    
+
+    let directorSelect = (
+        <div>
+            <select name="choose-director" id="choose-director"
+            ref={selectDirectorEl}> 
+            {personOptions}
+        </select>
+        <button onClick={handleChooseDirector}>Zapisz</button>
+        </div>
+    )
 
     const editLink = `/movies/${movie.id}/edit`
     let content = movie ? (
@@ -73,7 +99,7 @@ const MovieDetails = ({movie, persons, actors, deleteMovie, getMovieActors, addA
         <p>{movie.release_date}</p>
         <p>{movie.genre}</p>
         <p>{movie.id}</p>
-        <p>Reżyser: {movieDirectorLink}</p>
+        <div>Reżyser: {changingDirector ? directorSelect : movieDirectorLink}</div>
 
         <div>
         <p>Aktorzy</p>
@@ -82,7 +108,7 @@ const MovieDetails = ({movie, persons, actors, deleteMovie, getMovieActors, addA
         </ul>
         <select name="actors" id="actors"
         ref={selectActorEl}> 
-            {addActorOptions}
+            {personOptions}
         </select>
         <button onClick={handleActorAdd}>Dodaj aktora</button>
         </div>
@@ -120,7 +146,8 @@ const mapDispatchToProps = {
     deleteMovie,
     getMovieActors,
     addActor,
-    deleteMovieActor
+    deleteMovieActor,
+    setMovieDirector
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MovieDetails);

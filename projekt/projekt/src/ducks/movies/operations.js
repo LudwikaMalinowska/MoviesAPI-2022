@@ -103,3 +103,27 @@ export const deleteMovie = (movieToDelete) => {
         ]
     })
 }
+
+export const setMovieDirector = (movieId, person) => {
+
+    return createAction({
+        endpoint: `http://localhost:5000/api/movies/${movieId}/director`,
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(person),
+        types: [
+            'MOVIE_DIRECTOR_SET_START',
+            {
+                type: 'MOVIE_DIRECTOR_SET_SUCCESS',
+                payload: async (action, state, res) => {
+                    const { entities } = normalize(person, movieSchema);
+                    return entities;
+                },
+                meta: { actionType: 'PATCH' }
+           },
+           'MOVIE_DIRECTOR_SET_FAILURE'
+        ]
+    })
+}
