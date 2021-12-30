@@ -1,23 +1,25 @@
 import { connect } from "react-redux";
 import { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { deleteMovie, setMovieDirector} from "../../ducks/movies/operations";
+import { initReactI18next, useTranslation } from 'react-i18next';
+import { deleteMovie, getMovie, setMovieDirector} from "../../ducks/movies/operations";
 // import { getAllMovieActors } from "../../ducks/movies/selectors";
 import { getAllPersons } from "../../ducks/persons/selectors";
 import { addActor, deleteMovieActor, getMovieActors} from "../../ducks/actors/operations";
 import { getAllActors } from "../../ducks/actors/selectors";
 
 
-const MovieDetails = ({movie, persons, actors, deleteMovie, getMovieActors, addActor, deleteMovieActor, setMovieDirector}, props) => {
+const MovieDetails = ({movie, persons, actors, deleteMovie, getMovieActors, addActor, deleteMovieActor, setMovieDirector, movieId, getMovie}, props) => {
+    const { t } = useTranslation();
     const selectActorEl = useRef(null);
     const selectDirectorEl = useRef(null);
     const [changingDirector, setChangingDirector] = useState(false);
-    console.log(actors);
+    console.log(movie);
 
     useEffect(() => {
-
-        getMovieActors(movie.id)  
-        // mActors(movie.id);  
+        getMovie(movieId);
+        console.log("mid:", movieId);
+        // getMovieActors(movieId);  
             
     }, []);
 
@@ -28,11 +30,7 @@ const MovieDetails = ({movie, persons, actors, deleteMovie, getMovieActors, addA
 
     const handleActorAdd = () => {
         const actorId = Number(selectActorEl.current.value);
-        // console.log("actors:", actors);
-        // console.log("actorId:", actorId);
-        // console.log("persons:", persons);
         const actorToAdd = persons.find(person => person.id === actorId);
-        // console.log("actorToAdd", actorToAdd);
         addActor(movie.id, actorToAdd);
     }
 
@@ -44,7 +42,7 @@ const MovieDetails = ({movie, persons, actors, deleteMovie, getMovieActors, addA
     } 
 
     let movieDirectorLink = "Brak danych";
-    if (movie.director_id) {
+    if (movie && movie.director_id) {
         const director = persons.find(person => person.id === movie.director_id);
         console.log("director: ", director);
         const linkTo = `/persons/${director.id}`;
@@ -52,7 +50,7 @@ const MovieDetails = ({movie, persons, actors, deleteMovie, getMovieActors, addA
             <Link to={linkTo}>
         {director.first_name} {director.last_name}
         </Link>
-        <button onClick={() => setChangingDirector(true)}>Zmień</button>
+        <button onClick={() => setChangingDirector(true)}>{t("change")}</button>
         </p>
         
         );
@@ -60,7 +58,7 @@ const MovieDetails = ({movie, persons, actors, deleteMovie, getMovieActors, addA
 
     
 
-    const movie_actors = actors.map(actor => {
+    const movie_actors = (actors) => actors.map(actor => {
         console.log(actor);
         const person = persons.find(person => person.id === actor.person_id)
         const toLink = `/persons/${actor.person_id}`
@@ -72,11 +70,8 @@ const MovieDetails = ({movie, persons, actors, deleteMovie, getMovieActors, addA
         </li>)
     })
 
-    // const addActorOptions = persons.map(person => {
-    //     return <option value={person.id} key={person.id}>{person.first_name} {person.last_name}</option>
-    // })
 
-    const personOptions = persons.map(person => {
+    const personOptions = (persons) => persons.map(person => {
         return <option value={person.id} key={person.id}>{person.first_name} {person.last_name}</option>
     })
 
@@ -84,14 +79,15 @@ const MovieDetails = ({movie, persons, actors, deleteMovie, getMovieActors, addA
         <div>
             <select name="choose-director" id="choose-director"
             ref={selectDirectorEl}> 
-            {personOptions}
+            {persons && personOptions(persons) }
         </select>
-        <button onClick={handleChooseDirector}>Zapisz</button>
+        <button onClick={handleChooseDirector}>{t("save")}</button>
         </div>
     )
-
-    const editLink = `/movies/${movie.id}/edit`
-    let content = movie ? (
+    
+    const contentEl = (movie) => {
+        const editLink = `/movies/${movie.id}/edit`
+        let content = (
         <div>
             <p>{movie.title}</p>
         <img src={movie.image_url} alt={movie.title}/>
@@ -99,33 +95,36 @@ const MovieDetails = ({movie, persons, actors, deleteMovie, getMovieActors, addA
         <p>{movie.release_date}</p>
         <p>{movie.genre}</p>
         <p>{movie.id}</p>
-        <div>Reżyser: {changingDirector ? directorSelect : movieDirectorLink}</div>
+        <div>{t("director")}: {changingDirector ? directorSelect : movieDirectorLink}</div>
 
         <div>
-        <p>Aktorzy</p>
+        <p>{t("actors")}</p>
         <ul>
-            {movie_actors}
+            {actors && movie_actors(actors)}
         </ul>
         <select name="actors" id="actors"
         ref={selectActorEl}> 
             {personOptions}
         </select>
-        <button onClick={handleActorAdd}>Dodaj aktora</button>
+        <button onClick={handleActorAdd}>{t("add_actor")}</button>
         </div>
         
 
-        <Link to={editLink}><button>Edytuj film</button></Link>
-        <button onClick={handleDelete}>Usuń film</button>
+        <Link to={editLink}><button>{t("edit_movie")}</button></Link>
+        <button onClick={handleDelete}>{t("delete_movie")}</button>
         
-        </div>
-    ) : "Nie znaleziono filmu";
+        </div>)
+
+        return content;
+    }
+    
 
     return ( 
         <div>
         
-        {content}
+        {movie ? contentEl(movie) : "Nie znaleziono filmu"}
+        <div><Link to ="/movies"><button>{t("back_to_movies")}</button></Link></div>
         
-        <Link to ="/movies"><button>Powrót do listy filmów</button></Link>
         </div>
      );
 }
@@ -137,7 +136,8 @@ const mapStateToProps = (state, props) => {
     return {
         movie: state.entities.movies.byId[id],
         persons: getAllPersons(state),
-        actors: getAllActors(state)
+        actors: getAllActors(state),
+        movieId: id
     };
     
 }
@@ -147,7 +147,8 @@ const mapDispatchToProps = {
     getMovieActors,
     addActor,
     deleteMovieActor,
-    setMovieDirector
+    setMovieDirector,
+    getMovie
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MovieDetails);

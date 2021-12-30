@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage} from "formik";
 import {v4 as uuidv4 } from 'uuid';
 import * as Yup from 'yup';
+import { initReactI18next, useTranslation } from 'react-i18next';
 import { getAllMovies} from "../../ducks/movies/selectors";
 import { createMovie, editMovie} from "../../ducks/movies/operations";
 
@@ -16,6 +17,8 @@ const movieSchema = Yup.object().shape({
 })
 
 const MovieForm = (props) => {
+    const { t } = useTranslation();
+
     const movie = props.movie;
     const initialValues = movie ? ({
         id: movie.id,
@@ -58,30 +61,30 @@ const MovieForm = (props) => {
             enableReinitialize={true}>
         <Form>
         <div>
-        <label >Nazwa filmu : </label>
+        <label >{t("title")} : </label>
             <Field name="title"></Field>
             <ErrorMessage name="title" component="div"/>
 
-            <label >Genre: </label>
+            <label >{t("genre")} : </label>
             <Field name="genre" type="text"></Field>
             <ErrorMessage name="genre" component="div"/>
 
-            <label >Opis: </label>
+            <label >{t("description")} : </label>
             <Field name="description" type="text"></Field>
             <ErrorMessage name="description" component="div"/>
 
-            <label >Release date: </label>
+            <label >{t("release_date")} : </label>
             <Field name="release_date" type="date"></Field>
             <ErrorMessage name="release_date" component="div"/>
 
-            <label >Image url: </label>
+            <label >{t("image_url")} : </label>
             <Field name="image_url" type="text"></Field>
             <ErrorMessage name="image_url" component="div"/>
             
-            <button type="submit">Dodaj</button>
+            <button type="submit">{t("add")}</button>
         </div>
             
-            <Link to="/movies"><button>Powrót do listy filmów</button></Link>
+            <Link to="/movies"><button>{t("back_to_movies")}</button></Link>
         </Form>
 
         

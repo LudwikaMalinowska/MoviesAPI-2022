@@ -1,6 +1,7 @@
 import { connect } from "react-redux";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { initReactI18next, useTranslation } from 'react-i18next';
 import { getActorList } from "../../ducks/actors/operations";
 import { getAllActors } from "../../ducks/actors/selectors";
 import { getMovieList } from "../../ducks/movies/operations";
@@ -10,6 +11,7 @@ import {getAllMovies} from "../../ducks/movies/selectors";
 
 
 const PersonDetails = ({person, actors, movies, deletePerson}, props) => {
+    const { t } = useTranslation();
 
     useEffect(() => {
         getActorList();
@@ -76,25 +78,25 @@ const PersonDetails = ({person, actors, movies, deletePerson}, props) => {
         <p>{person.nationality}</p>
 
         <ul>
-            Reżyser w filmach:
+            {t("director_in")}:
             {directorIn()}
         </ul>
         <ul>
-            Aktor w filmach:
+            {t("actor_in")}:
             {actorIn()}
 
         </ul>
 
-        <Link to={editLink}><button>Edytuj</button></Link>
-        <button onClick={handleDelete}>Usuń</button>
+        <Link to={editLink}><button>{t("edit")}</button></Link>
+        <button onClick={handleDelete}>{t("delete")}</button>
         </div>
         
-    ) : "Nie znaleziono osoby";
-
+    ) : `${t("person_not_found")}`;
+    
     return ( 
         <div>
         {content}
-        <Link to="/persons"><button>Powrót do listy osób</button></Link>
+        <Link to="/persons"><button>{t("back_to_persons")}</button></Link>
         
         
         </div>

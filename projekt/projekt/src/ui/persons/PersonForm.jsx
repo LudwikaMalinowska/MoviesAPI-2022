@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage} from "formik";
 import {v4 as uuidv4 } from 'uuid';
 import * as Yup from 'yup';
+import { initReactI18next, useTranslation } from 'react-i18next';
 import {getAllPersons} from "../../ducks/persons/selectors";
 import {createPerson, editPerson} from "../../ducks/persons/operations";
 
@@ -16,6 +17,7 @@ const personSchema = Yup.object().shape({
 
 
 const PersonForm = ({person, createPerson, editPerson}, props) => {
+    const { t } = useTranslation();
     const initialValues = person ? ({
         id: person.id,
         first_name: person.first_name,
@@ -51,27 +53,27 @@ const PersonForm = ({person, createPerson, editPerson}, props) => {
             enableReinitialize={true}>
         <Form>
         <div>
-        <label >Imię : </label>
+        <label >{t("first_name")} : </label>
             <Field name="first_name"></Field>
             <ErrorMessage name="first_name" component="div"/>
 
-            <label >Nazwisko: </label>
+            <label >{t("last_name")}: </label>
             <Field name="last_name" type="text"></Field>
             <ErrorMessage name="last_name" component="div"/>
 
-            <label >Nationality: </label>
+            <label >{t("nationality")}: </label>
             <Field name="nationality" type="text"></Field>
             <ErrorMessage name="nationality" component="div"/>
 
-            <label >Data urodzenia: </label>
+            <label >{t("birth_date")}: </label>
             <Field name="birth_date" type="date"></Field>
             <ErrorMessage name="birth_date" component="div"/>
 
             
-            <button type="submit">Dodaj</button>
+            <button type="submit">{t("add")}</button>
         </div>
 
-        <Link to="/persons"><button>Powrót do listy osób</button></Link>
+        <Link to="/persons"><button>{t("back_to_persons")}</button></Link>
             
         </Form>
         </Formik>

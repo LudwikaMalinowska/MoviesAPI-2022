@@ -37,6 +37,14 @@ const movieReducer = (state = [], action) => {
        case 'MOVIE_DIRECTOR_SET_SUCCESS':
             return [...state, action.payload];
 
+        case 'MOVIE_REQUEST_START':
+            return [...action.payload];
+        case 'MOVIE_REQUEST_FAILED':
+            return [...state, action.payload];
+        case 'MOVIE_REQUEST_SUCCESS':
+            return [...state, action.payload];
+        
+
         default:
             return state;
     }

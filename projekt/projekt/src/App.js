@@ -6,6 +6,11 @@ import {
   Link
 } from "react-router-dom";
 
+import i18next from 'i18next';
+import { initReactI18next, useTranslation } from 'react-i18next';
+import Backend from 'i18next-http-backend';
+import languages from './config/languages';
+
 import Dashboard from './ui/core/Dashboard'
 
 import MovieList from './ui/movies/MovieList';
@@ -20,23 +25,58 @@ import ActorList from './ui/actors/ActorList';
 import ActorDetails from './ui/actors/ActorDetails';
 import ActorForm from './ui/actors/ActorForm';
 
+
+const language = languages.find(value => value === localStorage.getItem('language'));
+
+i18next.use(Backend)
+  // .use(LanguageDetector)
+  .use(initReactI18next)
+  .init({
+    lng: language || 'en',
+    // aktywuje LanguageDetector 
+    // detection: { order: ["path", "navigator"] },
+    fallbackLng: 'en',
+    ns: [ 'main' ],
+    defaultNS: 'main',
+    react: {
+      wait: true,
+      useSuspense: false
+    },
+    interpolation: {
+      escapeValue: false
+    },
+    backend: {
+      loadPath: '/locales/{{lng}}/{{ns}}.json'
+    }
+  })
+
+
 function App() {
+  const { t, i18n } = useTranslation();
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+    localStorage.setItem('language', lng);
+  }
+
   return (
     <Router>
       <div className="App">
+        <button onClick={() => changeLanguage('pl')}>PL</button>
+        <button onClick={() => changeLanguage('en')}>EN</button>
         <nav>
           <ul>
             <li>
-              <Link to="/">Home</Link>
+              <Link to="/">{t("home")}</Link>
             </li>
             <li>
-              <Link to="/movies">Movies</Link>
+              <Link to="/movies">{t("movies")}</Link>
             </li>
             <li>
-              <Link to="/persons">Persons</Link>
+              <Link to="/persons">{t("persons")}</Link>
             </li>
             <li>
-              <Link to="/actors">Actors</Link>
+              <Link to="/actors">{t("actors")}</Link>
             </li>
           </ul>
         </nav>
@@ -54,9 +94,9 @@ function App() {
         <Route exact path="/persons/:id/edit" component={PersonForm}/>
 
         <Route exact path="/actors" component={ActorList}/>
-        <Route exact path="/actors/add" component={ActorForm}/>
+        {/* <Route exact path="/actors/add" component={ActorForm}/>
         <Route exact path="/actors/:id" component={ActorDetails}/>
-        <Route exact path="/actors/:id/edit" component={ActorForm}/>
+        <Route exact path="/actors/:id/edit" component={ActorForm}/> */}
 
         <Route exact path="/" component={Dashboard}/>
         </Switch>

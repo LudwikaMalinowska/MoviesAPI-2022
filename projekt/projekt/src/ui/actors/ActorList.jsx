@@ -1,3 +1,4 @@
+import { initReactI18next, useTranslation } from 'react-i18next';
 import { useEffect } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
@@ -7,6 +8,7 @@ import { getAllPersons } from "../../ducks/persons/selectors";
 
 
 const ActorList = ({actors, persons, getActorList}, props) => {
+    const { t } = useTranslation();
     console.log("actors:", actors);
     useEffect(() => {
         
@@ -21,7 +23,7 @@ const ActorList = ({actors, persons, getActorList}, props) => {
         const actorLink = `/persons/${actor.person_id}`
         return (<li key={actor.id}>
             <p>{person.first_name} {person.last_name}</p>
-            <Link to={actorLink}><button>Szczegóły</button></Link>
+            <Link to={actorLink}><button>{t("details")}</button></Link>
 
         </li>
         )

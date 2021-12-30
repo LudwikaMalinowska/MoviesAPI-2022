@@ -32,6 +32,30 @@ export const getMovieList = () => {
     })
 }
 
+export const getMovie = (movieId) => {
+    return createAction({
+        endpoint: `http://localhost:5000/api/movies/${movieId}`,
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        types: [
+            'MOVIE_REQUEST_START',
+            {
+                type: 'MOVIE_REQUEST_SUCCESS',
+                payload: async (action, state, res) => {
+                    console.log('PAYLOAD', action, state, res);
+                    const json = await res.json();
+                    const { entities } = normalize(json, moviesSchema)
+                    return entities;
+                },
+                meta: { actionType: 'GET_ALL' }
+           },
+           'MOVIE_REQUEST_FAILED'
+        ]
+    })
+}
+
 export const createMovie = (newMovie) => {
     //  console.log("newpr: ", newProduct);
     return createAction({

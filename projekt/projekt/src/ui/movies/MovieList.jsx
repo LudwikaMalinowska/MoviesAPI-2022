@@ -1,10 +1,12 @@
 import { useEffect, useState, useRef } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { initReactI18next, useTranslation } from 'react-i18next';
 import { getMovieList } from "../../ducks/movies/operations";
 import { getAllMovies } from "../../ducks/movies/selectors";
 
 const MovieList = ({movies, getMovieList}, props) => {
+    const { t } = useTranslation();
     console.log("movies:", movies);
     const [displayedMovies, setDisplayedMovies] = useState(movies);
     const inputEl = useRef(null);
@@ -36,7 +38,7 @@ const MovieList = ({movies, getMovieList}, props) => {
             <img src={movie.image_url} alt={movie.title} style={{height: "200px"}} />
             <p>{movie.title}</p>
             <p>{movie.release_date.substring(0, 10)}</p>
-            <Link to={movieLink}><button>Szczegóły</button></Link>
+            <Link to={movieLink}><button>{t("details")}</button></Link>
 
         </li>
         )
@@ -153,9 +155,9 @@ const MovieList = ({movies, getMovieList}, props) => {
 
     return ( 
         <ul>
-            <Link to="/movies/add"><button>Dodaj nowy film</button></Link>
+            <Link to="/movies/add"><button>{t("add_new_movie")}</button></Link>
             <br/>
-            Gatunek:  
+            {t("genre")}:  
             <select name="genre" id="genre"
             onChange={handleSelectGenreChange}
             ref={selectEl}
@@ -169,9 +171,9 @@ const MovieList = ({movies, getMovieList}, props) => {
                 // onChange={handleSelectDateChange}
                 ref={selectDateEl}
                 >
-                    <option value="date-before">Filmy starsze niż</option>
-                    <option value="date-after">Filmy nowsze niż</option>
-                    <option value="date-between">Release date pomiędzy</option>
+                    <option value="date-before">{t("movies_older_than")}</option>
+                    <option value="date-after">{t("movies_newer_than")}</option>
+                    <option value="date-between">{t("release_date_between")}</option>
                 </select>
                 <input type="date" ref={inputDate1El}/> 
 
@@ -180,7 +182,7 @@ const MovieList = ({movies, getMovieList}, props) => {
                 ): null } */}
                 <input type="date" ref={inputDate2El}/> 
                 {/* display hidden */}
-                <button onClick={handleDateFilter}>Filtruj</button>
+                <button onClick={handleDateFilter}>{t("filter")}</button>
 
             </div>
             
@@ -188,20 +190,20 @@ const MovieList = ({movies, getMovieList}, props) => {
 
 
             <br/>
-            Szukaj: <input type="text" 
+            {t("filter")}: <input type="text" 
             ref={inputEl}
             onChange={handleInputChange}/>
 
-            Sortuj: <select name="sort" id="sort"
+            {t("sort")}: <select name="sort" id="sort"
             ref={sortSelectEl}
             onChange={handleSortChange}
             >
-                <option value="sort-alphabetic">Alfabetycznie A-Z</option>
-                <option value="sort-alphabetic-reverse">Alfabetycznie Z-A</option>
-                <option value="sort-date">Według daty - rosnąco</option>
-                <option value="sort-date-reverse">Według daty - malejąco</option>
-                <option value="sort-id">Według id - rosnąco</option>
-                <option value="sort-id-reverse">Według id - malejąco</option>
+                <option value="sort-alphabetic">{t("sort_alphabetically")}</option>
+                <option value="sort-alphabetic-reverse">{t("sort_alphabetically_reverse")}</option>
+                <option value="sort-date">{t("sort_date")}</option>
+                <option value="sort-date-reverse">{t("sort_date_reverse")}</option>
+                <option value="sort-id">{t("sort_id")}</option>
+                <option value="sort-id-reverse">{t("sort_id_reverse")}</option>
             </select>
 
             
