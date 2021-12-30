@@ -71,13 +71,37 @@ export const addActor = (movieId, actor) => {
             {
                 type: 'MOVIE_ACTOR_ADD_SUCCESS',
                 payload: async (action, state, res) => {
-                    // const { entities } = normalize(actor, movieSchema);
+                    const { entities } = normalize(actor, actorsSchema);
                     console.log("ad");
-                    return actor;
+                    return entities;
                 },
                 meta: { actionType: 'ADD' }
            },
             'MOVIE_ACTOR_ADD_FAILURE'
+        ]
+    })
+}
+
+export const deleteMovieActor = (actor) => {
+
+    return createAction({
+        endpoint: `http://localhost:5000/api/movies/${actor.movie_id}/actors/${actor.person_id}`,
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        // body: JSON.stringify(movieToDelete),
+        types: [
+            'MOVIE_ACTOR_DELETE_START',
+            {
+                type: 'MOVIE_ACTOR_DELETE_SUCCESS',
+                payload: async (action, state, res) => {
+                    const { entities } = normalize(actor, actorSchema);
+                    return entities;
+                },
+                meta: { actionType: 'DELETE' }
+           },
+            'MOVIE_ACTOR_DELETE_FAILURE'
         ]
     })
 }

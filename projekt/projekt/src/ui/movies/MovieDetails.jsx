@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 import { deleteMovie} from "../../ducks/movies/operations";
 // import { getAllMovieActors } from "../../ducks/movies/selectors";
 import { getAllPersons } from "../../ducks/persons/selectors";
-import { addActor, getMovieActors} from "../../ducks/actors/operations";
+import { addActor, deleteMovieActor, getMovieActors} from "../../ducks/actors/operations";
 import { getAllActors } from "../../ducks/actors/selectors";
 
 
-const MovieDetails = ({movie, persons, actors, deleteMovie, getMovieActors}, props) => {
+const MovieDetails = ({movie, persons, actors, deleteMovie, getMovieActors, addActor, deleteMovieActor}, props) => {
     const selectActorEl = useRef(null);
     console.log(actors);
 
@@ -26,10 +26,11 @@ const MovieDetails = ({movie, persons, actors, deleteMovie, getMovieActors}, pro
 
     const handleActorAdd = () => {
         const actorId = Number(selectActorEl.current.value);
-        console.log(actors);
-        console.log(actorId);
-        console.log(persons);
+        // console.log("actors:", actors);
+        // console.log("actorId:", actorId);
+        // console.log("persons:", persons);
         const actorToAdd = persons.find(person => person.id === actorId);
+        // console.log("actorToAdd", actorToAdd);
         addActor(movie.id, actorToAdd);
 
     }
@@ -53,7 +54,9 @@ const MovieDetails = ({movie, persons, actors, deleteMovie, getMovieActors}, pro
         return (<li key={actor.id}>
         <Link to={toLink}>
         {person.first_name} {person.last_name}
-        </Link></li>)
+        </Link>
+        <button onClick={() => deleteMovieActor(actor)}>X</button>
+        </li>)
     })
 
     const addActorOptions = persons.map(person => {
@@ -116,7 +119,8 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = {
     deleteMovie,
     getMovieActors,
-    addActor
+    addActor,
+    deleteMovieActor
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MovieDetails);
