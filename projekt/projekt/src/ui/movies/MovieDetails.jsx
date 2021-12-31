@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { initReactI18next, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { deleteMovie, getMovie, setMovieDirector} from "../../ducks/movies/operations";
 // import { getAllMovieActors } from "../../ducks/movies/selectors";
 import { getAllPersons } from "../../ducks/persons/selectors";
@@ -14,6 +14,7 @@ const MovieDetails = ({movie, persons, actors, deleteMovie, getMovieActors, addA
     const selectActorEl = useRef(null);
     const selectDirectorEl = useRef(null);
     const [changingDirector, setChangingDirector] = useState(false);
+    const [addingActor, setAddingActor] = useState(false);
     console.log(movie);
 
     useEffect(() => {
@@ -32,6 +33,7 @@ const MovieDetails = ({movie, persons, actors, deleteMovie, getMovieActors, addA
         const actorId = Number(selectActorEl.current.value);
         const actorToAdd = persons.find(person => person.id === actorId);
         addActor(movie.id, actorToAdd);
+        setAddingActor(false);
     }
 
     const handleChooseDirector = () => {
@@ -84,6 +86,16 @@ const MovieDetails = ({movie, persons, actors, deleteMovie, getMovieActors, addA
         <button onClick={handleChooseDirector}>{t("save")}</button>
         </div>
     )
+
+    const selectActorElements = (
+        <div>
+        <select name="actors" id="actors"
+        ref={selectActorEl}> 
+            {persons && personOptions(persons)}
+        </select>
+        <button onClick={handleActorAdd}>{t("save")}</button>
+        </div>
+    )
     
     const contentEl = (movie) => {
         const editLink = `/movies/${movie.id}/edit`
@@ -102,11 +114,15 @@ const MovieDetails = ({movie, persons, actors, deleteMovie, getMovieActors, addA
         <ul>
             {actors && movie_actors(actors)}
         </ul>
-        <select name="actors" id="actors"
-        ref={selectActorEl}> 
-            {personOptions}
-        </select>
-        <button onClick={handleActorAdd}>{t("add_actor")}</button>
+        {addingActor ? 
+        
+            selectActorElements
+
+        : (
+            <button onClick={() => setAddingActor(true)}>{t("add_actor")}</button>
+        )}
+        
+        
         </div>
         
 

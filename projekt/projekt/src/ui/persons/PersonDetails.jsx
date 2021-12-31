@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { initReactI18next, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { getActorList } from "../../ducks/actors/operations";
 import { getAllActors } from "../../ducks/actors/selectors";
 import { getMovieList } from "../../ducks/movies/operations";

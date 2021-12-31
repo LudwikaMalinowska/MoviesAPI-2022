@@ -40,9 +40,11 @@
     "save": "Zapisz",
     "first_name": "Imię",
     "last_name": "Nazwisko",
-    "nationality": "Obywatelstwo",
+    "nationality": "Narodowość",
     "birth_date": "Data urodzenia",
     "person_not_found": "Nie znaleziono osoby",
     "edit": "Edytuj",
-    "delete": "Usuń"
+    "delete": "Usuń",
+    "all_genres": "Wszystkie gatunki",
+    "all_nationalities": "Wszystkie narodowości"
 }

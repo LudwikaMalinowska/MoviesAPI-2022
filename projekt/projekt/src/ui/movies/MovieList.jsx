@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { initReactI18next, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { getMovieList } from "../../ducks/movies/operations";
 import { getAllMovies } from "../../ducks/movies/selectors";
 
@@ -60,9 +60,13 @@ const MovieList = ({movies, getMovieList}, props) => {
     const handleSelectGenreChange = () => {
         const selectValue = selectEl.current.value;
 
-        const newMovies = movies.filter(movie => movie.genre === selectValue);
-
-        setDisplayedMovies(newMovies);
+        if (selectValue !== "all") {
+            const newMovies = movies.filter(movie => movie.genre === selectValue);
+            setDisplayedMovies(newMovies);
+        } else {
+            setDisplayedMovies(movies);
+        }
+        
     }
 
     const handleDateFilter = () => {
@@ -162,6 +166,7 @@ const MovieList = ({movies, getMovieList}, props) => {
             onChange={handleSelectGenreChange}
             ref={selectEl}
             >
+            <option value="all" key="all">{t("all_genres")}</option>
                 {selectOptions}
             </select>
 

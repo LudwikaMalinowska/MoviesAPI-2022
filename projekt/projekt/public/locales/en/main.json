@@ -44,5 +44,7 @@
     "birth_date": "Birth date",
     "person_not_found": "Person_not_found",
     "edit": "Edit",
-    "delete": "Delete"
+    "delete": "Delete",
+    "all_genres": "All genres",
+    "all_nationalities": "All nationalities"
 }

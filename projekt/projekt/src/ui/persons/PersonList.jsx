@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { initReactI18next, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { getPersonList } from "../../ducks/persons/operations";
 import { getAllPersons } from "../../ducks/persons/selectors";
 
@@ -63,9 +63,14 @@ const PersonList = ({persons, getPersonList}, props) => {
 
     const handleSelectChange = () => {
         const value = selectEl.current.value;
-        const newPersons = persons.filter(person => person.nationality === value);
 
-        setDisplayedPersons(newPersons);
+        if (value !== "all") {
+            const newPersons = persons.filter(person => person.nationality === value);
+            setDisplayedPersons(newPersons);
+        } else {
+            setDisplayedPersons(persons);
+        }
+        
     }
 
     const handleDateFilter = () => {
@@ -170,12 +175,17 @@ const PersonList = ({persons, getPersonList}, props) => {
             
             <Link to="persons/add"><button>{t("add_new_person")}</button></Link>
 
+            <div>
+            {t("nationality")}: 
             <select name="nationality" id="nationality"
             onChange={handleSelectChange}
             ref={selectEl}
             >
+            <option value="all" key="all">{t("all_nationalities")}</option>
                 {selectOptions}
             </select>
+            </div>
+            
 
             <div className="date-filters">
 

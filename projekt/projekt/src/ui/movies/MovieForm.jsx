@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage} from "formik";
 import {v4 as uuidv4 } from 'uuid';
 import * as Yup from 'yup';
-import { initReactI18next, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { getAllMovies} from "../../ducks/movies/selectors";
 import { createMovie, editMovie} from "../../ducks/movies/operations";
 
