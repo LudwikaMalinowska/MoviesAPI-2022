@@ -1,6 +1,6 @@
 import { createAction } from "redux-api-middleware"
 import { schema, normalize} from 'normalizr';
-
+import types from "./types";
 
 const movieSchema = new schema.Entity('movies');
 const moviesSchema = [movieSchema];
@@ -16,9 +16,9 @@ export const getMovieList = () => {
             'Content-Type': 'application/json'
         },
         types: [
-            'MOVIE_LIST_REQUEST_START',
+            types.MOVIE_LIST_REQUEST_START,
             {
-                type: 'MOVIE_LIST_REQUEST_SUCCESS',
+                type: types.MOVIE_LIST_REQUEST_SUCCESS,
                 payload: async (action, state, res) => {
                     console.log('PAYLOAD', action, state, res);
                     const json = await res.json();
@@ -27,7 +27,7 @@ export const getMovieList = () => {
                 },
                 meta: { actionType: 'GET_ALL' }
            },
-           'MOVIE_LIST_REQUEST_FAILED'
+           types.MOVIE_LIST_REQUEST_FAILED
         ]
     })
 }
@@ -40,9 +40,9 @@ export const getMovie = (movieId) => {
             'Content-Type': 'application/json'
         },
         types: [
-            'MOVIE_REQUEST_START',
+            types.MOVIE_REQUEST_START,
             {
-                type: 'MOVIE_REQUEST_SUCCESS',
+                type: types.MOVIE_REQUEST_SUCCESS,
                 payload: async (action, state, res) => {
                     console.log('PAYLOAD', action, state, res);
                     const json = await res.json();
@@ -51,7 +51,7 @@ export const getMovie = (movieId) => {
                 },
                 meta: { actionType: 'GET_ALL' }
            },
-           'MOVIE_REQUEST_FAILED'
+           types.MOVIE_REQUEST_FAILED
         ]
     })
 }
@@ -66,16 +66,16 @@ export const createMovie = (newMovie) => {
         },
         body: JSON.stringify(newMovie),
         types: [
-            'MOVIE_CREATE_START',
+            types.MOVIE_CREATE_START,
             {
-                type: 'MOVIE_CREATE_SUCCESS',
+                type: types.MOVIE_CREATE_SUCCESS,
                 payload: async (action, state, res) => {
                     const { entities } = normalize(newMovie, movieSchema);
                     return entities;
                 },
                 meta: { actionType: 'ADD' }
            },
-            'MOVIE_CREATE_FAILURE'
+            types.MOVIE_CREATE_FAILURE
         ]
     })
 }
@@ -90,16 +90,16 @@ export const editMovie = (editedMovie) => {
         },
         body: JSON.stringify(editedMovie),
         types: [
-            'MOVIE_EDIT_START',
+            types.MOVIE_EDIT_START,
             {
-                type: 'MOVIE_EDIT_SUCCESS',
+                type: types.MOVIE_EDIT_SUCCESS,
                 payload: async (action, state, res) => {
                     const { entities } = normalize(editedMovie, movieSchema);
                     return entities;
                 },
                 meta: { actionType: 'EDIT' }
            },
-            'MOVIE_EDIT_FAILURE'
+            types.MOVIE_EDIT_FAILURE
         ]
     })
 }
@@ -114,16 +114,16 @@ export const deleteMovie = (movieToDelete) => {
         },
         body: JSON.stringify(movieToDelete),
         types: [
-            'MOVIE_DELETE_START',
+            types.MOVIE_DELETE_START,
             {
-                type: 'MOVIE_DELETE_SUCCESS',
+                type: types.MOVIE_DELETE_SUCCESS,
                 payload: async (action, state, res) => {
                     const { entities } = normalize(movieToDelete, movieSchema);
                     return entities;
                 },
                 meta: { actionType: 'DELETE' }
            },
-            'MOVIE_DELETE_FAILURE'
+            types.MOVIE_DELETE_FAILURE
         ]
     })
 }
@@ -138,16 +138,16 @@ export const setMovieDirector = (movieId, person) => {
         },
         body: JSON.stringify(person),
         types: [
-            'MOVIE_DIRECTOR_SET_START',
+            types.MOVIE_DIRECTOR_SET_START,
             {
-                type: 'MOVIE_DIRECTOR_SET_SUCCESS',
+                type: types.MOVIE_DIRECTOR_SET_SUCCESS,
                 payload: async (action, state, res) => {
                     const { entities } = normalize(person, movieSchema);
                     return entities;
                 },
                 meta: { actionType: 'PATCH' }
            },
-           'MOVIE_DIRECTOR_SET_FAILURE'
+           types.MOVIE_DIRECTOR_SET_FAILURE
         ]
     })
 }

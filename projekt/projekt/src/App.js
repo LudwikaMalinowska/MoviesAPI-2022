@@ -22,8 +22,6 @@ import PersonDetails from './ui/persons/PersonDetails';
 import PersonForm from './ui/persons/PersonForm';
 
 import ActorList from './ui/actors/ActorList';
-import ActorDetails from './ui/actors/ActorDetails';
-import ActorForm from './ui/actors/ActorForm';
 
 
 const language = languages.find(value => value === localStorage.getItem('language'));
@@ -94,10 +92,7 @@ function App() {
         <Route exact path="/persons/:id/edit" component={PersonForm}/>
 
         <Route exact path="/actors" component={ActorList}/>
-        {/* <Route exact path="/actors/add" component={ActorForm}/>
-        <Route exact path="/actors/:id" component={ActorDetails}/>
-        <Route exact path="/actors/:id/edit" component={ActorForm}/> */}
-
+        
         <Route exact path="/" component={Dashboard}/>
         </Switch>
 

@@ -1,5 +1,6 @@
 import { createAction } from "redux-api-middleware"
 import { schema, normalize} from 'normalizr';
+import types from "./types";
 
 const personSchema = new schema.Entity('persons');
 const personsSchema = [personSchema];
@@ -15,9 +16,9 @@ export const getPersonList = () => {
             'Content-Type': 'application/json',
         },
         types: [
-            'PERSON_LIST_REQUEST_START',
+            types.PERSON_LIST_REQUEST_START,
             {
-                type: 'PERSON_LIST_REQUEST_SUCCESS',
+                type: types.PERSON_LIST_REQUEST_SUCCESS,
                 payload: async (action, state, res) => {
                     console.log('PAYLOAD', action, state, res);
                     const json = await res.json();
@@ -26,7 +27,7 @@ export const getPersonList = () => {
                 },
                 meta: { actionType: 'GET_ALL' }
            },
-           'PERSON_LIST_REQUEST_FAILED'
+           types.PERSON_LIST_REQUEST_FAILED
         ],
     })
 }
@@ -41,16 +42,16 @@ export const createPerson = (newPerson) => {
         },
         body: JSON.stringify(newPerson),
         types: [
-            'PERSON_CREATE_START',
+            types.PERSON_CREATE_START,
             {
-                type: 'PERSON_CREATE_SUCCESS',
+                type: types.PERSON_CREATE_SUCCESS,
                 payload: async (action, state, res) => {
                     const { entities } = normalize(newPerson, personSchema);
                     return entities;
                 },
                 meta: { actionType: 'ADD' }
            },
-            'PERSON_CREATE_FAILURE'
+            types.PERSON_CREATE_FAILURE
         ]
     })
 }
@@ -65,16 +66,16 @@ export const editPerson = (editedPerson) => {
         },
         body: JSON.stringify(editedPerson),
         types: [
-            'PERSON_EDIT_START',
+            types.PERSON_EDIT_START,
             {
-                type: 'PERSON_EDIT_SUCCESS',
+                type: types.PERSON_EDIT_SUCCESS,
                 payload: async (action, state, res) => {
                     const { entities } = normalize(editedPerson, personSchema);
                     return entities;
                 },
                 meta: { actionType: 'EDIT' }
            },
-            'PERSON_EDIT_FAILURE'
+            types.PERSON_EDIT_FAILURE
         ]
     })
 }
@@ -89,16 +90,16 @@ export const deletePerson = (personToDelete) => {
         },
         body: JSON.stringify(personToDelete),
         types: [
-            'PERSON_DELETE_START',
+            types.PERSON_DELETE_START,
             {
-                type: 'PERSON_DELETE_SUCCESS',
+                type: types.PERSON_DELETE_SUCCESS,
                 payload: async (action, state, res) => {
                     const { entities } = normalize(personToDelete, personSchema);
                     return entities;
                 },
                 meta: { actionType: 'DELETE' }
            },
-            'PERSON_DELETE_FAILURE'
+            types.PERSON_DELETE_FAILURE
         ]
     })
 }

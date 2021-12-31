@@ -1,33 +1,33 @@
-
+import types from "./types";
 
 const personReducer = (state = [], action) => {
     switch(action.type) {
-        case 'PERSON_LIST_REQUEST_START': 
+        case types.PERSON_LIST_REQUEST_START: 
             return [...action.payload];
-        case 'PERSON_LIST_REQUEST_FAILED':
+        case types.PERSON_LIST_REQUEST_FAILED:
             return [...state, action.payload];
-        case 'PERSON_LIST_REQUEST_SUCCESS':
+        case types.PERSON_LIST_REQUEST_SUCCESS:
             return [...state, action.payload];
 
-        case 'PERSON_CREATE_START':
+        case types.PERSON_CREATE_START:
             return [...action.payload];
-        case 'PERSON_CREATE_FAILURE':
+        case types.PERSON_CREATE_FAILURE:
             return [...state, action.payload];
-        case 'PERSON_CREATE_SUCCESS':
+        case types.PERSON_CREATE_SUCCESS:
             return [...state, action.payload];
 
-        case 'PERSON_EDIT_START':
+        case types.PERSON_EDIT_START:
             return [...action.payload];
-        case 'PERSON_EDIT_FAILURE':
+        case types.PERSON_EDIT_FAILURE:
             return [...state, action.payload];
-        case 'PERSON_EDIT_SUCCESS':
+        case types.PERSON_EDIT_SUCCESS:
             return [...state, action.payload];
 
-        case 'PERSON_DELETE_START':
+        case types.PERSON_DELETE_START:
             return [...action.payload];
-        case 'PERSON_DELETE_FAILURE':
+        case types.PERSON_DELETE_FAILURE:
             return [...state, action.payload];
-        case 'PERSON_DELETE_SUCCESS':
+        case types.PERSON_DELETE_SUCCESS:
             return [...state, action.payload];
             
         
