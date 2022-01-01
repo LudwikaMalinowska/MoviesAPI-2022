@@ -30,7 +30,7 @@ const MovieForm = (props) => {
         director: movie.director,
     }) :
     ({
-        id: uuidv4(),
+        // id: uuidv4(),
         title: "",
         genre: "",
         release_date: "2021-01-01",
@@ -39,18 +39,18 @@ const MovieForm = (props) => {
         director: null,
     })
     const handleSubmit = (values) => {
-        console.log(values);
-        console.log("movie:", movie);
+        
         if (movie) {
             props.editMovie(values);
-            alert("Edytowano")
+            // alert("Edytowano")
+            window.history.back();
         }
         else {
             props.createMovie(values);
             alert("dodano")
         }
             
-        // window.history.back();
+        
     }
 
     return ( 

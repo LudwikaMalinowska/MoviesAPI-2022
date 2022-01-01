@@ -70,7 +70,9 @@ export const createMovie = (newMovie) => {
             {
                 type: types.MOVIE_CREATE_SUCCESS,
                 payload: async (action, state, res) => {
-                    const { entities } = normalize(newMovie, movieSchema);
+                    console.log('PAYLOAD', action, state, res);
+                    const json = await res.json();
+                    const { entities } = normalize(json, movieSchema);
                     return entities;
                 },
                 meta: { actionType: 'ADD' }
@@ -94,7 +96,10 @@ export const editMovie = (editedMovie) => {
             {
                 type: types.MOVIE_EDIT_SUCCESS,
                 payload: async (action, state, res) => {
-                    const { entities } = normalize(editedMovie, movieSchema);
+                    console.log('PAYLOAD', action, state, res);
+                    const json = await res.json();
+                    console.log("json: ", json);
+                    const { entities } = normalize(json, movieSchema);
                     return entities;
                 },
                 meta: { actionType: 'EDIT' }

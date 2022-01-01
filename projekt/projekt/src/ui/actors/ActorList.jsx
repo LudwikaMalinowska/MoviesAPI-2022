@@ -13,8 +13,8 @@ const ActorList = ({actors, persons, getActorList}, props) => {
     useEffect(() => {
         
 
-        // if (movies.length === 0)
-        getActorList();
+        if (actors.length === 0)
+            getActorList();
     }, []);
 
     const actorList = actors ? (actors.map(actor => {

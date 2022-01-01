@@ -26,7 +26,7 @@ const PersonForm = ({person, createPerson, editPerson}, props) => {
         nationality: person.nationality,
     }) :
     ({
-        id: uuidv4(),
+        // id: uuidv4(),
         first_name: "",
         last_name: "",
         birth_date: "2021-01-01",
@@ -36,13 +36,14 @@ const PersonForm = ({person, createPerson, editPerson}, props) => {
 
         if (person) {
             editPerson(values)
-            alert("Edytowano")
+            // alert("Edytowano")
+            window.history.back();
         } else {
             createPerson(values);
             alert("dodano")
         }
         
-        // window.history.back();
+        
     }
 
     return ( 

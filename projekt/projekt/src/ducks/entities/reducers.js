@@ -25,6 +25,8 @@ export const entityReducer = (entity, state = { allIds: [], byId: {} }, action) 
     console.log("\nentity: ", entity, "\nstate: ", state, "\naction: ", action);
     const {actionType} = action.meta;
     const actionEntities = action.payload[entity];
+    let newObj;
+    let newObjId;
 
     switch(actionType) {
         case 'GET_ALL':
@@ -44,13 +46,13 @@ export const entityReducer = (entity, state = { allIds: [], byId: {} }, action) 
                 allIds: Object.keys(actionEntities)
             }
         case 'ADD':
-            const newObj = action.payload;
-            const newObjId = Object.keys(newObj.products)[0];
+            newObj = action.payload;
+            newObjId = Object.keys(newObj[entity])[0];
             
             return {
                 byId: {
                     ...state.byId,
-                    [newObjId]: newObj.products[newObjId] 
+                    [newObjId]: newObj[entity][newObjId] 
                 },
                 allIds: [
                     ...state.allIds,
@@ -61,6 +63,26 @@ export const entityReducer = (entity, state = { allIds: [], byId: {} }, action) 
             return {
                 byId: _.omit(state.byId, actionEntities),
                 allIds: state.allIds.filter(id => !Object.keys(actionEntities).includes(id)),
+            }
+        case 'EDIT':
+            newObj = action.payload;
+            newObjId = Object.keys(newObj[entity])[0];
+
+            const nState = _.omit(state.byId, actionEntities);
+            const g = {
+                byId: {
+                    ...nState,
+                    [newObjId]: newObj[entity][newObjId] 
+                }, 
+                allIds: state.allIds
+            };
+            console.log("g", g);
+            return {
+                byId: {
+                    ...nState,
+                    [newObjId]: newObj[entity][newObjId] 
+                }, 
+                allIds: state.allIds
             }
         default:
             // console.log('Error action not recognized');
