@@ -9,6 +9,7 @@ const MovieList = ({movies, getMovieList}, props) => {
     const { t } = useTranslation();
     console.log("movies:", movies);
     const [displayedMovies, setDisplayedMovies] = useState(movies);
+    const [filterOn, setFilterOn] = useState(false)
     const inputEl = useRef(null);
     const selectEl = useRef(null);
     const sortSelectEl = useRef(null);
@@ -32,7 +33,8 @@ const MovieList = ({movies, getMovieList}, props) => {
         
     }, []);
 
-    const movieList = displayedMovies ? (displayedMovies.map(movie => {
+    const movieContent = filterOn ? displayedMovies : movies;
+    const movieList = movieContent ? (movieContent.map(movie => {
         const movieLink = `/movies/${movie.id}`
         return (<li key={movie.id}>
             <img src={movie.image_url} alt={movie.title} style={{height: "200px"}} />
@@ -47,29 +49,36 @@ const MovieList = ({movies, getMovieList}, props) => {
 
     const handleInputChange = () => {
         const inputValue = inputEl.current.value.toLowerCase();
+        setFilterOn(true);
 
         console.log(inputValue);
         const newMovies = movies.filter(movie => (movie.title.toLowerCase().includes(inputValue)))
 
         if (inputValue !== "")
             setDisplayedMovies(newMovies);
-        else 
+        else {
             setDisplayedMovies(movies);
+            setFilterOn(false);
+        }
+            
     }
 
     const handleSelectGenreChange = () => {
         const selectValue = selectEl.current.value;
+        setFilterOn(true);
 
         if (selectValue !== "all") {
             const newMovies = movies.filter(movie => movie.genre === selectValue);
             setDisplayedMovies(newMovies);
         } else {
+            setFilterOn(false);
             setDisplayedMovies(movies);
         }
         
     }
 
     const handleDateFilter = () => {
+        setFilterOn(true);
         const selectValue = selectDateEl.current.value;
         const inputDate1 = new Date(inputDate1El.current.value);
         let newMovies = displayedMovies;
@@ -113,10 +122,14 @@ const MovieList = ({movies, getMovieList}, props) => {
     }
 
     const handleSortChange = () => {
+        setFilterOn(true);
         const sortValue = sortSelectEl.current.value;
 
-        const sortedMovies = [...movies];
+        let sortedMovies = [...movies];
         switch (sortValue){
+            case "dont-sort":
+                sortedMovies = movies;
+                break;
             case "sort-alphabetic":
                 sortedMovies.sort((movie1, movie2) => (movie1.title.toLowerCase()).localeCompare(movie2.title.toLowerCase()));
                 break;
@@ -203,6 +216,7 @@ const MovieList = ({movies, getMovieList}, props) => {
             ref={sortSelectEl}
             onChange={handleSortChange}
             >
+                <option value="dont-sort">{t("dont_sort")}</option>
                 <option value="sort-alphabetic">{t("sort_alphabetically")}</option>
                 <option value="sort-alphabetic-reverse">{t("sort_alphabetically_reverse")}</option>
                 <option value="sort-date">{t("sort_date")}</option>
