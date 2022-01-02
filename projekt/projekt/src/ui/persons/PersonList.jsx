@@ -11,6 +11,7 @@ const PersonList = ({persons, getPersonList}, props) => {
     // console.log("persons: ", persons);
     const { t } = useTranslation();
     const [displayedPersons, setDisplayedPersons] = useState(persons);
+    const [filterOn, setFilterOn] = useState(false);
     const inputEl = useRef(null);
     const selectEl = useRef(null);
     const sortSelectEl = useRef(null);
@@ -33,7 +34,8 @@ const PersonList = ({persons, getPersonList}, props) => {
             getPersonList();
     }, []);
 
-    const personList = displayedPersons ? (displayedPersons.map(person => {
+    const personContent = filterOn ? displayedPersons : persons;
+    const personList = personContent ? (personContent.map(person => {
         const personLink = `/persons/${person.id}`
         return (<li key={person.id}>
             <p>{person.first_name} {person.last_name}</p>
@@ -46,18 +48,26 @@ const PersonList = ({persons, getPersonList}, props) => {
     ) : null;
 
     const handleInputChange = () => {
+        setFilterOn(true);
         const inputValue = inputEl.current.value.toLowerCase();
         
-        const newPersons = persons.filter(person => {
-            const f_name_ok = person.first_name
-            .toLowerCase().includes(inputValue)
-            const l_name_ok = person.last_name
-            .toLowerCase().includes(inputValue)
+        if (inputValue !== "") {
+            const newPersons = persons.filter(person => {
+                const f_name_ok = person.first_name
+                .toLowerCase().includes(inputValue)
+                const l_name_ok = person.last_name
+                .toLowerCase().includes(inputValue)
+    
+                return f_name_ok || l_name_ok;
+            })
+    
+            setDisplayedPersons(newPersons);
+        } else {
 
-            return f_name_ok || l_name_ok;
-        })
-
-        setDisplayedPersons(newPersons);
+            setFilterOn(false);
+            setDisplayedPersons(persons);
+        }
+        
         
     }
 
@@ -65,15 +75,18 @@ const PersonList = ({persons, getPersonList}, props) => {
         const value = selectEl.current.value;
 
         if (value !== "all") {
+            setFilterOn(true);
             const newPersons = persons.filter(person => person.nationality === value);
             setDisplayedPersons(newPersons);
         } else {
+            setFilterOn(false);
             setDisplayedPersons(persons);
         }
         
     }
 
     const handleDateFilter = () => {
+        setFilterOn(true);
         const selectValue = selectDateEl.current.value;
         const inputDate1 = new Date(inputDate1El.current.value);
         let newPersons = displayedPersons;
@@ -117,10 +130,15 @@ const PersonList = ({persons, getPersonList}, props) => {
     }
 
     const handleSortChange = () => {
+        setFilterOn(true);
         const sortValue = sortSelectEl.current.value;
 
-        const sortedPersons = [...persons];
+        let sortedPersons = [...persons];
         switch (sortValue){
+            case "dont-sort":
+                sortedPersons = persons;
+                setFilterOn(false);
+                break;
             case "sort-alphabetic":
                 sortedPersons.sort((person1, person2) => {
                     const name1 = `${person1.first_name} ${person1.last_name}`;
@@ -214,6 +232,7 @@ const PersonList = ({persons, getPersonList}, props) => {
             ref={sortSelectEl}
             onChange={handleSortChange}
             >
+                <option value="dont-sort">{t("dont_sort")}</option>
                 <option value="sort-alphabetic">{t("sort_alphabetically")}</option>
                 <option value="sort-alphabetic-reverse">{t("sort_alphabetically_reverse")}</option>
                 <option value="sort-date">{t("sort_date")}</option>
