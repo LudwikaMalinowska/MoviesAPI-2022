@@ -1,6 +1,8 @@
 import { createAction } from "redux-api-middleware"
 import { schema, normalize} from 'normalizr';
+import types from "./types";
 const axios = require('axios');
+
 
 const actorSchema = new schema.Entity('actors');
 const actorsSchema = [actorSchema];
@@ -16,9 +18,9 @@ export const getActorList = () => {
             'Content-Type': 'application/json'
         },
         types: [
-            'ACTORS_LIST_REQUEST_START',
+            types.ACTORS_LIST_REQUEST_START,
             {
-                type: 'ACTORS_LIST_REQUEST_SUCCESS',
+                type: types.ACTORS_LIST_REQUEST_SUCCESS,
                 payload: async (action, state, res) => {
                     console.log('PAYLOAD', action, state, res);
                     const json = await res.json();
@@ -27,7 +29,7 @@ export const getActorList = () => {
                 },
                 meta: { actionType: 'GET_ALL' }
            },
-           'ACTORS_LIST_REQUEST_FAILED'
+           types.ACTORS_LIST_REQUEST_FAILED
         ]
     })
 }
@@ -41,9 +43,9 @@ export const getMovieActors = (movieId) => {
             'Content-Type': 'application/json'
         },
         types: [
-            'MOVIE_ACTORS_REQUEST_START',
+            types.MOVIE_ACTORS_REQUEST_START,
             {
-                type: 'MOVIE_ACTORS_REQUEST_SUCCESS',
+                type: types.MOVIE_ACTORS_REQUEST_SUCCESS,
                 payload: async (action, state, res) => {
                     console.log('PAYLOAD', action, state, res);
                     const json = await res.json();
@@ -52,7 +54,7 @@ export const getMovieActors = (movieId) => {
                 },
                 meta: { actionType: 'GET_ALL' }
            },
-           'MOVIE_ACTORS_REQUEST_FAILED'
+           types.MOVIE_ACTORS_REQUEST_FAILED
         ]
     })
 }
@@ -67,17 +69,18 @@ export const addActor = (movieId, actor) => {
         },
         body: JSON.stringify(actor),
         types: [
-            'MOVIE_ACTOR_ADD_START',
+            types.MOVIE_ACTOR_ADD_START,
             {
-                type: 'MOVIE_ACTOR_ADD_SUCCESS',
+                type: types.MOVIE_ACTOR_ADD_SUCCESS,
                 payload: async (action, state, res) => {
-                    const { entities } = normalize(actor, actorsSchema);
+                    const json = await res.json();
+                    const { entities } = normalize(json, actorSchema);
                     console.log("ad");
                     return entities;
                 },
                 meta: { actionType: 'ADD' }
            },
-            'MOVIE_ACTOR_ADD_FAILURE'
+            types.MOVIE_ACTOR_ADD_FAILURE
         ]
     })
 }
@@ -90,18 +93,18 @@ export const deleteMovieActor = (actor) => {
         headers: {
             'Content-Type': 'application/json'
         },
-        // body: JSON.stringify(movieToDelete),
+        body: JSON.stringify(actor),
         types: [
-            'MOVIE_ACTOR_DELETE_START',
+            types.MOVIE_ACTOR_DELETE_START,
             {
-                type: 'MOVIE_ACTOR_DELETE_SUCCESS',
+                type: types.MOVIE_ACTOR_DELETE_SUCCESS,
                 payload: async (action, state, res) => {
                     const { entities } = normalize(actor, actorSchema);
                     return entities;
                 },
                 meta: { actionType: 'DELETE' }
            },
-            'MOVIE_ACTOR_DELETE_FAILURE'
+            types.MOVIE_ACTOR_DELETE_FAILURE
         ]
     })
 }

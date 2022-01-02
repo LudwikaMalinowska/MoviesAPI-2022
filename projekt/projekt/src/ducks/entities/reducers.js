@@ -61,8 +61,14 @@ export const entityReducer = (entity, state = { allIds: [], byId: {} }, action) 
                 ]
             }
         case 'DELETE':
+            const delObj = action.payload;
+            const delObjId = Object.keys(delObj[entity])[0];
+            console.log("acEn:", actionEntities);
+            console.log("---s1", state.byId);
+            nState = _.omit(state.byId, delObjId);
+            console.log("---s2", nState);
             return {
-                byId: _.omit(state.byId, actionEntities),
+                byId: nState,
                 allIds: state.allIds.filter(id => !Object.keys(actionEntities).includes(id)),
             }
         case 'EDIT':

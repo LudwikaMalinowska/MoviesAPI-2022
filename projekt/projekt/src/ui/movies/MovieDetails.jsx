@@ -20,7 +20,7 @@ const MovieDetails = ({movie, persons, actors, deleteMovie, getMovieActors, addA
     useEffect(() => {
         getMovie(movieId);
         console.log("mid:", movieId);
-        // getMovieActors(movieId);  
+        getMovieActors(movieId);  
             
     }, []);
 
