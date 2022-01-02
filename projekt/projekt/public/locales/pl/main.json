@@ -46,5 +46,7 @@
     "edit": "Edytuj",
     "delete": "Usuń",
     "all_genres": "Wszystkie gatunki",
-    "all_nationalities": "Wszystkie narodowości"
+    "all_nationalities": "Wszystkie narodowości",
+    "no_data": "Brak danych",
+    "set": "Ustaw"
 }

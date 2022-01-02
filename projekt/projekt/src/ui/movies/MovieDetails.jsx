@@ -38,12 +38,18 @@ const MovieDetails = ({movie, persons, actors, deleteMovie, getMovieActors, addA
 
     const handleChooseDirector = () => {
         const personId = Number(selectDirectorEl.current.value);
-        const choosenPerson = persons.find(person => person.id === personId);
-        setMovieDirector(movie.id, choosenPerson);
+        const updatedMovie = {
+            ...movie,
+            director_id: personId
+        }
+        setMovieDirector(updatedMovie);
         setChangingDirector(false);
     } 
 
-    let movieDirectorLink = "Brak danych";
+    let movieDirectorLink = (<div>{t("no_data")} <button
+        onClick={()=> setChangingDirector(true)}
+    >{t("set")}</button></div>);
+
     if (movie && movie.director_id) {
         const director = persons.find(person => person.id === movie.director_id);
         console.log("director: ", director);

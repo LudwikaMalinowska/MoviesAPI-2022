@@ -27,6 +27,7 @@ export const entityReducer = (entity, state = { allIds: [], byId: {} }, action) 
     const actionEntities = action.payload[entity];
     let newObj;
     let newObjId;
+    let nState;
 
     switch(actionType) {
         case 'GET_ALL':
@@ -68,7 +69,7 @@ export const entityReducer = (entity, state = { allIds: [], byId: {} }, action) 
             newObj = action.payload;
             newObjId = Object.keys(newObj[entity])[0];
 
-            const nState = _.omit(state.byId, actionEntities);
+            nState = _.omit(state.byId, actionEntities);
             const g = {
                 byId: {
                     ...nState,
@@ -77,6 +78,18 @@ export const entityReducer = (entity, state = { allIds: [], byId: {} }, action) 
                 allIds: state.allIds
             };
             console.log("g", g);
+            return {
+                byId: {
+                    ...nState,
+                    [newObjId]: newObj[entity][newObjId] 
+                }, 
+                allIds: state.allIds
+            }
+        case 'PATCH':
+            newObj = action.payload;
+            newObjId = Object.keys(newObj[entity])[0];
+            nState = _.omit(state.byId, actionEntities);
+            
             return {
                 byId: {
                     ...nState,
