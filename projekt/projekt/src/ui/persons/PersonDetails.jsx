@@ -5,15 +5,18 @@ import { useTranslation } from 'react-i18next';
 import { getActorList } from "../../ducks/actors/operations";
 import { getAllActors } from "../../ducks/actors/selectors";
 import { getMovieList } from "../../ducks/movies/operations";
-import { deletePerson } from "../../ducks/persons/operations";
+import { deletePerson, getPerson } from "../../ducks/persons/operations";
 import {getAllMovies} from "../../ducks/movies/selectors";
 
 
 
-const PersonDetails = ({person, actors, movies, deletePerson}, props) => {
+const PersonDetails = ({person, actors, movies, deletePerson, getPerson, personId, getMovieList, getActorList}, props) => {
     const { t } = useTranslation();
 
     useEffect(() => {
+        if (person === undefined)
+            getPerson(personId);
+
         getActorList();
         getMovieList();
     }, []);
@@ -40,7 +43,7 @@ const PersonDetails = ({person, actors, movies, deletePerson}, props) => {
         const moviesLiElements = moviesDirected.map(movie => {
             const toLink = `/movies/${movie.id}`
             return (
-                <li><Link to={toLink}>{movie.title}</Link></li>
+                <li key={movie.id}><Link to={toLink}>{movie.title}</Link></li>
             )
         })
 
@@ -61,7 +64,7 @@ const PersonDetails = ({person, actors, movies, deletePerson}, props) => {
         const moviesLiElements = moviesIn.map(movie =>{
             const toLink = `/movies/${movie.id}`
             return (
-                <li><Link to={toLink}>{movie.title}</Link></li>
+                <li key={movie.id}><Link to={toLink}>{movie.title}</Link></li>
             )
         } )
         // console.log(moviesIn);
@@ -69,8 +72,9 @@ const PersonDetails = ({person, actors, movies, deletePerson}, props) => {
         return (<ul>{moviesLiElements}</ul>)
     }
 
+    const contentEl = (person) => {
     const editLink = `/persons/${person.id}/edit`
-    const content = person ? (
+    const content = (
         <div>
         <p>{person.first_name} {person.last_name}</p>
         <p>{person.id}</p>
@@ -91,12 +95,18 @@ const PersonDetails = ({person, actors, movies, deletePerson}, props) => {
         <button onClick={handleDelete}>{t("delete")}</button>
         </div>
         
-    ) : `${t("person_not_found")}`;
+    );
+
+    return content
+    }
     
     return ( 
         <div>
-        {content}
-        <Link to="/persons"><button>{t("back_to_persons")}</button></Link>
+        {person ? contentEl(person) : "Nie znaleziono osoby"}
+        <div>
+            <Link to="/persons"><button>{t("back_to_persons")}
+        </button></Link>
+        </div>
         
         
         </div>
@@ -109,7 +119,8 @@ const mapStateToProps = (state, props) => {
     return {
         person: state.entities.persons.byId[id],
         movies: getAllMovies(state),
-        actors: getAllActors(state)
+        actors: getAllActors(state),
+        personId: id
     };
     
 }
@@ -117,7 +128,8 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = {
     deletePerson,
     getMovieList,
-    getActorList
+    getActorList,
+    getPerson
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PersonDetails);

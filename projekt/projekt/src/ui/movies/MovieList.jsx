@@ -27,7 +27,7 @@ const MovieList = ({movies, getMovieList}, props) => {
     useEffect(() => {
 
         
-        if (movies.length === 0)
+        if (movies.length <= 1)
             getMovieList();
         
     }, []);

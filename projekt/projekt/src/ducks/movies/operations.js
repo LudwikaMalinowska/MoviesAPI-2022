@@ -46,7 +46,7 @@ export const getMovie = (movieId) => {
                 payload: async (action, state, res) => {
                     console.log('PAYLOAD', action, state, res);
                     const json = await res.json();
-                    const { entities } = normalize(json, moviesSchema)
+                    const { entities } = normalize(json, movieSchema)
                     return entities;
                 },
                 meta: { actionType: 'GET_ALL' }

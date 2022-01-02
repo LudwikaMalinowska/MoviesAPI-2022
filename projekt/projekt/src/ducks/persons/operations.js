@@ -32,6 +32,30 @@ export const getPersonList = () => {
     })
 }
 
+export const getPerson = (personId) => {
+    return createAction({
+        endpoint: `http://localhost:5000/api/persons/${personId}`,
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        types: [
+            types.PERSON_REQUEST_START,
+            {
+                type: types.PERSON_REQUEST_SUCCESS,
+                payload: async (action, state, res) => {
+                    console.log('PAYLOAD', action, state, res);
+                    const json = await res.json();
+                    const { entities } = normalize(json, personSchema)
+                    return entities;
+                },
+                meta: { actionType: 'GET_ALL' }
+           },
+           types.PERSON_REQUEST_FAILED
+        ]
+    })
+}
+
 export const createPerson = (newPerson) => {
     
     return createAction({

@@ -7,6 +7,7 @@ import { deleteMovie, getMovie, setMovieDirector} from "../../ducks/movies/opera
 import { getAllPersons } from "../../ducks/persons/selectors";
 import { addActor, deleteMovieActor, getMovieActors} from "../../ducks/actors/operations";
 import { getAllActors } from "../../ducks/actors/selectors";
+import { getPersonList } from "../../ducks/persons/operations";
 
 
 const MovieDetails = ({movie, persons, actors, deleteMovie, getMovieActors, addActor, deleteMovieActor, setMovieDirector, movieId, getMovie}, props) => {
@@ -18,7 +19,12 @@ const MovieDetails = ({movie, persons, actors, deleteMovie, getMovieActors, addA
     console.log(movie);
 
     useEffect(() => {
-        getMovie(movieId);
+        console.log("-----movie: ", movie);
+        if (movie === undefined) {
+            getPersonList();
+            getMovie(movieId);
+        }
+            
         console.log("mid:", movieId);
         getMovieActors(movieId);  
             
@@ -50,10 +56,13 @@ const MovieDetails = ({movie, persons, actors, deleteMovie, getMovieActors, addA
         onClick={()=> setChangingDirector(true)}
     >{t("set")}</button></div>);
 
-    if (movie && movie.director_id) {
+console.log("--persons", persons);
+    if (movie && (persons.length > 0) && movie.director_id) {
+        console.log("--movie", movie);
+        console.log("--------persons", persons);
         const director = persons.find(person => person.id === movie.director_id);
         console.log("director: ", director);
-        const linkTo = `/persons/${director.id}`;
+        const linkTo = `/persons/${movie.director_id}`;
         movieDirectorLink = (<p>
             <Link to={linkTo}>
         {director.first_name} {director.last_name}
@@ -118,7 +127,7 @@ const MovieDetails = ({movie, persons, actors, deleteMovie, getMovieActors, addA
         <div>
         <p>{t("actors")}</p>
         <ul>
-            {actors && movie_actors(actors)}
+            {actors && persons.length > 0 && movie_actors(actors)}
         </ul>
         {addingActor ? 
         
@@ -170,7 +179,8 @@ const mapDispatchToProps = {
     addActor,
     deleteMovieActor,
     setMovieDirector,
-    getMovie
+    getMovie,
+    getPersonList,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MovieDetails);

@@ -29,7 +29,7 @@ const PersonList = ({persons, getPersonList}, props) => {
 
     useEffect(() => {
 
-        if (persons.length === 0)
+        if (persons.length <= 1)
             getPersonList();
     }, []);
 

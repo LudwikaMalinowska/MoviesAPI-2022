@@ -29,7 +29,14 @@ const personReducer = (state = [], action) => {
             return [...state, action.payload];
         case types.PERSON_DELETE_SUCCESS:
             return [...state, action.payload];
-            
+
+        case types.PERSON_REQUEST_START:
+            return [...action.payload];
+        case types.PERSON_REQUEST_FAILED:
+            return [...state, action.payload];
+        case types.PERSON_REQUEST_SUCCESS:
+            return [...state, action.payload];
+        
         
         default:
             return state;

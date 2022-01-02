@@ -18,9 +18,9 @@ export const getActorList = () => {
             'Content-Type': 'application/json'
         },
         types: [
-            types.ACTORS_LIST_REQUEST_START,
+            types.ACTOR_LIST_REQUEST_START,
             {
-                type: types.ACTORS_LIST_REQUEST_SUCCESS,
+                type: types.ACTOR_LIST_REQUEST_SUCCESS,
                 payload: async (action, state, res) => {
                     console.log('PAYLOAD', action, state, res);
                     const json = await res.json();
@@ -29,7 +29,7 @@ export const getActorList = () => {
                 },
                 meta: { actionType: 'GET_ALL' }
            },
-           types.ACTORS_LIST_REQUEST_FAILED
+           types.ACTOR_LIST_REQUEST_FAILED
         ]
     })
 }
