@@ -7,7 +7,6 @@ const moviesSchema = [movieSchema];
 
 
 
-
 export const getMovieList = () => {
     return createAction({
         endpoint: 'http://localhost:5000/api/movies',
@@ -133,7 +132,7 @@ export const deleteMovie = (movieToDelete) => {
     })
 }
 
-export const setMovieDirector = (movie) => {
+export const setMovieDirector = (movie, director) => {
 
     return createAction({
         endpoint: `http://localhost:5000/api/movies/${movie.id}/director`,
@@ -141,7 +140,7 @@ export const setMovieDirector = (movie) => {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(movie),
+        body: JSON.stringify(director),
         types: [
             types.MOVIE_DIRECTOR_SET_START,
             {

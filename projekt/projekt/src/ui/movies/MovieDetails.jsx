@@ -44,11 +44,12 @@ const MovieDetails = ({movie, persons, actors, deleteMovie, getMovieActors, addA
 
     const handleChooseDirector = () => {
         const personId = Number(selectDirectorEl.current.value);
+        const director = persons.find(person => person.id === personId);
         const updatedMovie = {
             ...movie,
             director_id: personId
         }
-        setMovieDirector(updatedMovie);
+        setMovieDirector(updatedMovie, director);
         setChangingDirector(false);
     } 
 

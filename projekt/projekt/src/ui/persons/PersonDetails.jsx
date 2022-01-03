@@ -4,13 +4,13 @@ import { Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import { getActorList } from "../../ducks/actors/operations";
 import { getAllActors } from "../../ducks/actors/selectors";
-import { getMovieList } from "../../ducks/movies/operations";
+import { getMovieList, editMovie } from "../../ducks/movies/operations";
 import { deletePerson, getPerson } from "../../ducks/persons/operations";
 import {getAllMovies} from "../../ducks/movies/selectors";
 
 
 
-const PersonDetails = ({person, actors, movies, deletePerson, getPerson, personId, getMovieList, getActorList}, props) => {
+const PersonDetails = ({person, actors, movies, deletePerson, getPerson, personId, getMovieList, getActorList, editMovie}, props) => {
     const { t } = useTranslation();
 
     useEffect(() => {
@@ -22,22 +22,33 @@ const PersonDetails = ({person, actors, movies, deletePerson, getPerson, personI
     }, []);
 
     const handleDelete = () => {
+        const moviesDirected = findDirectedMovies(movies);
+        for (const movie of moviesDirected) {
+            const updatedMovie = {
+                ...movie,
+                director_id: null
+            }
+            //edit movie PUT
+            editMovie(updatedMovie);
+        }
         deletePerson(person);
         alert("usunięto")
     }
+
+    const findDirectedMovies = (movies) => movies.filter(movie => {
+            
+        const isDir = movie.director_id ? 
+        (movie.director_id === person.id)
+        : false;
+
+        return isDir;
+    })
 
     
 
     const directorIn = () => {
         // console.log("movies: ", movies);
-        const moviesDirected = movies.filter(movie => {
-            
-            const isDir = movie.director_id ? 
-            (movie.director_id === person.id)
-            : false;
-
-            return isDir;
-        })
+        const moviesDirected = findDirectedMovies(movies);
         // console.log("movies directed: ", moviesDirected);
 
         const moviesLiElements = moviesDirected.map(movie => {
@@ -129,7 +140,8 @@ const mapDispatchToProps = {
     deletePerson,
     getMovieList,
     getActorList,
-    getPerson
+    getPerson,
+    editMovie
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PersonDetails);
