@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
-import { deleteMovieActor, getActorList } from "../../ducks/actors/operations";
+import { getActorList } from "../../ducks/actors/operations";
 import { getAllActors } from "../../ducks/actors/selectors";
 import { getMovieList, editMovie } from "../../ducks/movies/operations";
 import { deletePerson, getPerson } from "../../ducks/persons/operations";
@@ -10,7 +10,7 @@ import {getAllMovies} from "../../ducks/movies/selectors";
 
 
 
-const PersonDetails = ({person, actors, movies, deletePerson, getPerson, personId, getMovieList, getActorList, editMovie, deleteMovieActor}, props) => {
+const PersonDetails = ({person, actors, movies, deletePerson, getPerson, personId, getMovieList, getActorList, editMovie}, props) => {
     const { t } = useTranslation();
 
     useEffect(() => {
@@ -28,18 +28,18 @@ const PersonDetails = ({person, actors, movies, deletePerson, getPerson, personI
                 ...movie,
                 director_id: null
             }
-            
+
             editMovie(updatedMovie);
         }
 
         const actorData = actors.filter(actor => actor.person_id === person.id);
-        console.log(actorData);
-        for (const actor of actorData) {
-            deleteMovieActor(actor)
-        }
         
-        deletePerson(person);
-        alert("usunięto")
+        if (actorData.length !== 0){
+            alert("Nie można usunąć osoby. Usuń ją najpierw z filmów w których gra.")
+        } else {
+            deletePerson(person);
+            alert("usunięto")
+        }
     }
 
     const findDirectedMovies = (movies) => movies.filter(movie => {
@@ -154,8 +154,7 @@ const mapDispatchToProps = {
     getMovieList,
     getActorList,
     getPerson,
-    editMovie,
-    deleteMovieActor
+    editMovie
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PersonDetails);
