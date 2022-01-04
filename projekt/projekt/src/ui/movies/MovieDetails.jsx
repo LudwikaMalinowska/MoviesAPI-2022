@@ -5,29 +5,26 @@ import { useTranslation } from 'react-i18next';
 import { deleteMovie, getMovie, setMovieDirector} from "../../ducks/movies/operations";
 // import { getAllMovieActors } from "../../ducks/movies/selectors";
 import { getAllPersons } from "../../ducks/persons/selectors";
-import { addActor, deleteMovieActor, getMovieActors} from "../../ducks/actors/operations";
+import { addActor, deleteMovieActor, getActorList, getMovieActors} from "../../ducks/actors/operations";
 import { getAllActors } from "../../ducks/actors/selectors";
 import { getPersonList } from "../../ducks/persons/operations";
 
 
-const MovieDetails = ({movie, persons, actors, deleteMovie, getMovieActors, addActor, deleteMovieActor, setMovieDirector, movieId, getMovie}, props) => {
+const MovieDetails = ({movie, persons, actors, deleteMovie, getMovieActors, addActor, deleteMovieActor, setMovieDirector, movieId, getMovie, getPersonList, 
+getActorList, movieActors}, props) => {
     const { t } = useTranslation();
     const selectActorEl = useRef(null);
     const selectDirectorEl = useRef(null);
     const [changingDirector, setChangingDirector] = useState(false);
     const [addingActor, setAddingActor] = useState(false);
-    console.log(movie);
 
     useEffect(() => {
-        console.log("-----movie: ", movie);
         if (movie === undefined) {
-            getPersonList();
             getMovie(movieId);
         }
-            
-        console.log("mid:", movieId);
-        getMovieActors(movieId);  
-            
+
+        getPersonList();
+        getActorList();     
     }, []);
 
     const handleDelete = () => {
@@ -57,12 +54,10 @@ const MovieDetails = ({movie, persons, actors, deleteMovie, getMovieActors, addA
         onClick={()=> setChangingDirector(true)}
     >{t("set")}</button></div>);
 
-console.log("--persons", persons);
+
     if (movie && (persons.length > 0) && movie.director_id) {
-        console.log("--movie", movie);
-        console.log("--------persons", persons);
         const director = persons.find(person => person.id === movie.director_id);
-        console.log("director: ", director);
+        
         const linkTo = `/persons/${movie.director_id}`;
         movieDirectorLink = (<p>
             <Link to={linkTo}>
@@ -77,7 +72,6 @@ console.log("--persons", persons);
     
 
     const movie_actors = (actors) => actors.map(actor => {
-        console.log(actor);
         const person = persons.find(person => person.id === actor.person_id)
         const toLink = `/persons/${actor.person_id}`
         return (<li key={actor.id}>
@@ -128,7 +122,7 @@ console.log("--persons", persons);
         <div>
         <p>{t("actors")}</p>
         <ul>
-            {actors && persons.length > 0 && movie_actors(actors)}
+            {actors && persons.length > 0 && movie_actors(movieActors)}
         </ul>
         {addingActor ? 
         
@@ -162,13 +156,17 @@ console.log("--persons", persons);
 }
  
 const mapStateToProps = (state, props) => {
-    // console.log(state);
-    const id = props.match.params.idMovie;
+    const id = Number(props.match.params.idMovie);
     console.log(state);
+
+    const actors = getAllActors(state);
+    const movieActors = actors.filter(actor => actor.movie_id === id);
+
     return {
         movie: state.entities.movies.byId[id],
         persons: getAllPersons(state),
-        actors: getAllActors(state),
+        movieActors,
+        actors,
         movieId: id
     };
     
@@ -182,6 +180,7 @@ const mapDispatchToProps = {
     setMovieDirector,
     getMovie,
     getPersonList,
+    getActorList
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MovieDetails);

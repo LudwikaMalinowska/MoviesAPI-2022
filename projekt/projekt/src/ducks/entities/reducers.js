@@ -17,7 +17,7 @@ const defaultState = allEntities.reduce(
     }), {}
 );
 
-console.log(defaultState);
+// console.log(defaultState);
 
 
 
@@ -31,7 +31,6 @@ export const entityReducer = (entity, state = { allIds: [], byId: {} }, action) 
 
     switch(actionType) {
         case 'GET_ALL':
-            
             return {
                 byId: {
                     ...Object.keys(actionEntities).reduce(
@@ -83,7 +82,6 @@ export const entityReducer = (entity, state = { allIds: [], byId: {} }, action) 
                 }, 
                 allIds: state.allIds
             };
-            console.log("g", g);
             return {
                 byId: {
                     ...nState,
@@ -112,7 +110,7 @@ export const entityReducer = (entity, state = { allIds: [], byId: {} }, action) 
 export const entities = (state = defaultState, action) => {
     if(!action.meta || !action.meta.actionType) return state;
 
-    console.log(action);
+    // console.log(action);
     return {
         ...state,
         ...Object.keys(action.payload).reduce(

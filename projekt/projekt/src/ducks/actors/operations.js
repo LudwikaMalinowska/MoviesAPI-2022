@@ -60,7 +60,6 @@ export const getMovieActors = (movieId) => {
 }
 
 export const addActor = (movieId, actor) => {
-    console.log(movieId, actor);
     return createAction({
         endpoint: `http://localhost:5000/api/movies/${movieId}/actors`,
         method: 'POST',
@@ -75,7 +74,6 @@ export const addActor = (movieId, actor) => {
                 payload: async (action, state, res) => {
                     const json = await res.json();
                     const { entities } = normalize(json, actorSchema);
-                    console.log("ad");
                     return entities;
                 },
                 meta: { actionType: 'ADD' }
