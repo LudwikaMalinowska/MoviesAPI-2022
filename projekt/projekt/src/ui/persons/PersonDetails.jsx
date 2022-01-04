@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
-import { getActorList } from "../../ducks/actors/operations";
+import { deleteMovieActor, getActorList } from "../../ducks/actors/operations";
 import { getAllActors } from "../../ducks/actors/selectors";
 import { getMovieList, editMovie } from "../../ducks/movies/operations";
 import { deletePerson, getPerson } from "../../ducks/persons/operations";
@@ -10,7 +10,7 @@ import {getAllMovies} from "../../ducks/movies/selectors";
 
 
 
-const PersonDetails = ({person, actors, movies, deletePerson, getPerson, personId, getMovieList, getActorList, editMovie}, props) => {
+const PersonDetails = ({person, actors, movies, deletePerson, getPerson, personId, getMovieList, getActorList, editMovie, deleteMovieActor}, props) => {
     const { t } = useTranslation();
 
     useEffect(() => {
@@ -28,9 +28,16 @@ const PersonDetails = ({person, actors, movies, deletePerson, getPerson, personI
                 ...movie,
                 director_id: null
             }
-            //edit movie PUT
+            
             editMovie(updatedMovie);
         }
+
+        const actorData = actors.filter(actor => actor.person_id === person.id);
+        console.log(actorData);
+        for (const actor of actorData) {
+            deleteMovieActor(actor)
+        }
+        
         deletePerson(person);
         alert("usunięto")
     }
@@ -61,7 +68,7 @@ const PersonDetails = ({person, actors, movies, deletePerson, getPerson, personI
         return (<ul>{moviesLiElements}</ul>)
     }
 
-    const actorIn = () => {
+    const findMoviesIn = (movies, actors) => {
         const actorData = actors.filter(actor => actor.person_id === person.id);
         // console.log(actorData);
         const moviesIn = movies.filter(movie => {
@@ -71,7 +78,13 @@ const PersonDetails = ({person, actors, movies, deletePerson, getPerson, personI
             }
             return false;
         });
-        
+
+        return moviesIn;
+    }
+
+    const actorIn = () => {
+        const moviesIn = findMoviesIn(movies, actors);
+
         const moviesLiElements = moviesIn.map(movie =>{
             const toLink = `/movies/${movie.id}`
             return (
@@ -141,7 +154,8 @@ const mapDispatchToProps = {
     getMovieList,
     getActorList,
     getPerson,
-    editMovie
+    editMovie,
+    deleteMovieActor
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PersonDetails);
