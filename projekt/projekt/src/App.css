@@ -2,7 +2,7 @@
   text-align: center;
 }
 
-button {
+.App button {
   margin: 1px;
   padding: 5px;
   border-color: transparent;
@@ -11,15 +11,19 @@ button {
   color: #ccc;
 }
 
-button:hover {
+.App button:hover {
   color: #fff;
 }
 
-button:active {
+.App button:active {
   text-decoration: underline;
   color: #fff;
 }
 
-ul {
+.App ul {
   list-style-type: none;
+}
+
+.App .bold {
+  font-weight: bold;
 }

@@ -17,11 +17,13 @@ const Statistics = ({actors, movies, persons, getActorList, getMovieList, getPer
     }, [])
 
     const findMostMovieActors = (actors, persons) => {
+        console.log(actors);
         const countMoviesPlayed = []
         for (const person of persons) {
             let movieIds = [];
             for (const actor of actors) {
-                movieIds.push(actor.movie_id);
+                if (actor.person_id === person.id)
+                    movieIds.push(actor.movie_id);
             }
 
             countMoviesPlayed.push({
@@ -38,7 +40,7 @@ const Statistics = ({actors, movies, persons, getActorList, getMovieList, getPer
         const mostMovieActors = findMostMovieActors(actors, persons);
         mostMovieActors.sort(actor => actor.count);
         const content = mostMovieActors.map(actor => {
-
+            console.log("actor:", actor);
             const person = persons.find(person => person.id === actor.person_id);
             const moviesPlayed = actor.movie_ids.map(id => {
                 const actor_movie = movies.find(movie => movie.id === id);
@@ -47,7 +49,7 @@ const Statistics = ({actors, movies, persons, getActorList, getMovieList, getPer
             })
             return (
                 <li key={actor.person_id}>
-                    <p>{person.first_name} {person.last_name}</p>
+                    <p className="bold">{person.first_name} {person.last_name}</p>
                     <p>Liczba filmów: {actor.count}</p>
                     <p>Filmy:</p>
                     <ul>{moviesPlayed}</ul>
@@ -57,7 +59,7 @@ const Statistics = ({actors, movies, persons, getActorList, getMovieList, getPer
         )
 
         const topThreeActors = content.slice(0,3);
-        return topThreeActors;
+        return <ul>{topThreeActors}</ul>;
     }
 
     return ( 
