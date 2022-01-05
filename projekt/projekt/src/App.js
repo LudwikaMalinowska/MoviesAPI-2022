@@ -22,6 +22,7 @@ import PersonDetails from './ui/persons/PersonDetails';
 import PersonForm from './ui/persons/PersonForm';
 
 import ActorList from './ui/actors/ActorList';
+import Statistics from './ui/statistics/Statistics';
 
 
 const language = languages.find(value => value === localStorage.getItem('language'));
@@ -76,6 +77,9 @@ function App() {
             <li>
               <Link to="/actors">{t("actors")}</Link>
             </li>
+            <li>
+              <Link to="/statistics">Statistics</Link>
+            </li>
           </ul>
         </nav>
 
@@ -92,6 +96,7 @@ function App() {
         <Route exact path="/persons/:id/edit" component={PersonForm}/>
 
         <Route exact path="/actors" component={ActorList}/>
+        <Route exact path="/statistics" component={Statistics}/>
         
         <Route exact path="/" component={Dashboard}/>
         </Switch>

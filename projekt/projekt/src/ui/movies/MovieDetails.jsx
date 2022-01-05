@@ -24,7 +24,8 @@ getActorList, movieActors}, props) => {
         }
 
         getPersonList();
-        getActorList();     
+        // getActorList();  
+        getMovieActors(movieId);   
     }, []);
 
     const handleDelete = () => {
