@@ -7,6 +7,7 @@ import {getMovieList} from "../../ducks/movies/operations";
 import {getActorList} from "../../ducks/actors/operations";
 import { getAllActors } from "../../ducks/actors/selectors";
 import {getAllMovies} from "../../ducks/movies/selectors";
+const _ = require('lodash');
 
 
 const Statistics = ({actors, movies, persons, getActorList, getMovieList, getPersonList}, props) => {
@@ -62,10 +63,48 @@ const Statistics = ({actors, movies, persons, getActorList, getMovieList, getPer
         return <ul>{topThreeActors}</ul>;
     }
 
+    const countMostActorsCountries = (actors, persons) => {
+        const personsIds = actors.map(actor => actor.person_id);
+        const actorPersons = persons.filter(person => personsIds.includes(person.id));
+        // const nationalities = actorPersons.map(person => person.nationality);
+
+        let nationalitiesCount = _.countBy(actorPersons, (actor) => actor.nationality);
+        const keys = Object.keys(nationalitiesCount);
+        // console.log(nationalitiesCount);
+
+        nationalitiesCount = keys.map(key => (
+            {
+                nationality: key,
+                count: nationalitiesCount[key]
+            }
+        ))
+
+        return nationalitiesCount;
+    }
+
+    const mostActorsNationalitiesEl = () => {
+        let mostActorsNationalities = countMostActorsCountries(actors, persons);
+        // console.log("-mm", mostActorsNationalities);
+        mostActorsNationalities.sort(obj => obj.count)
+        const content = mostActorsNationalities.map(nat => (
+            <div key={nat.nationality}>
+                <p>Narodowość: {nat.nationality}, Liczba aktorów: {nat.count}</p>
+            </div>
+        ))
+
+        return (
+            <div className="actors-nationalities">
+                <p className="bold">Liczba aktorów według narodowości:</p>
+                {content}
+            </div>
+        )
+    }
+
     return ( 
         <div>
             Statistics
             {persons && movies && actors && mostMovieActorsEl()}
+            {persons && movies && actors && mostActorsNationalitiesEl()}
         </div>
      );
 }

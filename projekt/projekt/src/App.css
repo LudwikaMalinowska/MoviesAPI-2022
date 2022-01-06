@@ -11,12 +11,12 @@
   color: #ccc;
 }
 
-.App button:hover {
+.App button:active {
+  text-decoration: underline;
   color: #fff;
 }
 
-.App button:active {
-  text-decoration: underline;
+.App button:hover {
   color: #fff;
 }
 

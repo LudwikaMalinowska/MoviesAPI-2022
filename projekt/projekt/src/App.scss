@@ -8,18 +8,17 @@
         background: #000000;
         text-decoration: none;
         color: #ccc;
+
+        &:active {
+            text-decoration: underline;
+            color: #fff;
+        }
+
+        &:hover {
+            color: #fff;
+        }
     }
     
-    
-    button:hover {
-        color: #fff;
-    }
-    
-    button:active {
-        text-decoration: underline;
-        color: #fff;
-    
-    }
     
     ul {
         list-style-type: none;
