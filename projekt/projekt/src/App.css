@@ -27,3 +27,13 @@
 .App .bold {
   font-weight: bold;
 }
+
+.App .pagination {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.App .pagination button {
+  padding: 7px;
+}

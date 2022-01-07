@@ -27,6 +27,16 @@
     .bold {
         font-weight: bold;
     }
+
+    .pagination {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+
+        button {
+            padding: 7px;
+        }
+    }
 }
 
 

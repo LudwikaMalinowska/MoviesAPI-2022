@@ -4,12 +4,16 @@ import { Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import { getMovieList } from "../../ducks/movies/operations";
 import { getAllMovies } from "../../ducks/movies/selectors";
+import Pagination from "../core/Pagination";
 
 const MovieList = ({movies, getMovieList}, props) => {
     const { t } = useTranslation();
     console.log("movies:", movies);
     const [displayedMovies, setDisplayedMovies] = useState(movies);
     const [filterOn, setFilterOn] = useState(false)
+    const movieContent = filterOn ? displayedMovies : movies;
+    
+
     const inputEl = useRef(null);
     const selectEl = useRef(null);
     const sortSelectEl = useRef(null);
@@ -17,6 +21,17 @@ const MovieList = ({movies, getMovieList}, props) => {
     const selectDateEl = useRef(null);
     const inputDate1El = useRef(null);
     const inputDate2El = useRef(null);
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(5);
+
+    // Get current movies
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentMovies = movieContent.slice(indexOfFirstItem, indexOfLastItem);
+
+    // Change page
+    const paginate = pageNumber => setCurrentPage(pageNumber);
     
 
     let genres = movies.map(movie => movie.genre);
@@ -33,8 +48,8 @@ const MovieList = ({movies, getMovieList}, props) => {
         
     }, []);
 
-    const movieContent = filterOn ? displayedMovies : movies;
-    const movieList = movieContent ? (movieContent.map(movie => {
+    // const movieList = movieContent ? (movieContent.map(movie => {
+    const movieList = currentMovies ? (currentMovies.map(movie => {
         const movieLink = `/movies/${movie.id}`
         return (<li key={movie.id}>
             <img src={movie.image_url} alt={movie.title} style={{height: "200px"}} />
@@ -228,6 +243,12 @@ const MovieList = ({movies, getMovieList}, props) => {
             
 
             {movieList}
+
+            <Pagination
+                itemsPerPage={itemsPerPage}
+                totalItems={movieContent.length}
+                paginate={paginate}
+            />
         </ul>
      );
 }
