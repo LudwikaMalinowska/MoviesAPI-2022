@@ -201,7 +201,7 @@ const PersonList = ({persons, getPersonList}, props) => {
     }
 
     return ( 
-        <ul>
+        <div className="persons">
             
             
             <Link to="persons/add"><button>{t("add_new_person")}</button></Link>
@@ -254,7 +254,9 @@ const PersonList = ({persons, getPersonList}, props) => {
                 <option value="sort-id-reverse">{t("sort_id_reverse")}</option>
             </select>
 
-            {personList}
+            <ul className="personList">
+                {personList}
+            </ul>
 
             <Pagination
                 itemsPerPage={itemsPerPage}
@@ -262,7 +264,7 @@ const PersonList = ({persons, getPersonList}, props) => {
                 paginate={paginate}
                 endpoint="/persons#"
             />
-        </ul>
+        </div>
      );
 }
  

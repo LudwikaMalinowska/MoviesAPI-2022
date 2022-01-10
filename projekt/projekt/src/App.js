@@ -61,9 +61,12 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <button onClick={() => changeLanguage('pl')}>PL</button>
-        <button onClick={() => changeLanguage('en')}>EN</button>
-        <nav>
+        <div className="language-buttons">
+          <button onClick={() => changeLanguage('pl')}>PL</button>
+          <button onClick={() => changeLanguage('en')}>EN</button>
+        </div>
+        
+        <nav className='navbar'>
           <ul>
             <li>
               <Link to="/">{t("home")}</Link>

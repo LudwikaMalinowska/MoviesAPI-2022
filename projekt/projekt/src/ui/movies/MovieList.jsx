@@ -186,7 +186,7 @@ const MovieList = ({movies, getMovieList}, props) => {
 
 
     return ( 
-        <ul>
+        <div className="movies">
             <Link to="/movies/add"><button>{t("add_new_movie")}</button></Link>
             <br/>
             {t("genre")}:  
@@ -241,8 +241,10 @@ const MovieList = ({movies, getMovieList}, props) => {
             </select>
 
             
-
-            {movieList}
+            <ul className="movieList">
+                {movieList}
+            </ul>
+            
 
             <Pagination
                 itemsPerPage={itemsPerPage}
@@ -250,7 +252,7 @@ const MovieList = ({movies, getMovieList}, props) => {
                 paginate={paginate}
                 endpoint="/movies#"
             />
-        </ul>
+        </div>
      );
 }
  
