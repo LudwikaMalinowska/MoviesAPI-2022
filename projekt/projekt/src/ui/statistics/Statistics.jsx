@@ -1,6 +1,7 @@
 import { connect } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 import { getPersonList } from "../../ducks/persons/operations";
 import { getAllPersons } from "../../ducks/persons/selectors";
 import {getMovieList} from "../../ducks/movies/operations";
@@ -11,6 +12,8 @@ const _ = require('lodash');
 
 
 const Statistics = ({actors, movies, persons, getActorList, getMovieList, getPersonList}, props) => {
+    const { t } = useTranslation();
+
     useEffect(() => {
         getPersonList();
         getMovieList();
@@ -51,8 +54,8 @@ const Statistics = ({actors, movies, persons, getActorList, getMovieList, getPer
             return (
                 <li key={actor.person_id}>
                     <p className="bold">{person.first_name} {person.last_name}</p>
-                    <p>Liczba filmów: {actor.count}</p>
-                    <p>Filmy:</p>
+                    <p>{t("movie_count")}: {actor.count}</p>
+                    <p>{t("movies")}:</p>
                     <ul>{moviesPlayed}</ul>
                 </li>
             )
@@ -88,13 +91,13 @@ const Statistics = ({actors, movies, persons, getActorList, getMovieList, getPer
         mostActorsNationalities.sort(obj => obj.count)
         const content = mostActorsNationalities.map(nat => (
             <div key={nat.nationality}>
-                <p>Narodowość: {nat.nationality}, Liczba aktorów: {nat.count}</p>
+                <p>{t("nationality")}: {nat.nationality}, {t("actor_count")}: {nat.count}</p>
             </div>
         ))
 
         return (
             <div className="actors-nationalities">
-                <p className="bold">Liczba aktorów według narodowości:</p>
+                <p className="bold">{t("number_of_actors_nationality")}:</p>
                 {content}
             </div>
         )
@@ -102,7 +105,7 @@ const Statistics = ({actors, movies, persons, getActorList, getMovieList, getPer
 
     return ( 
         <div>
-            Statistics
+            {t("statistics")}
             {persons && movies && actors && mostMovieActorsEl()}
             {persons && movies && actors && mostActorsNationalitiesEl()}
         </div>

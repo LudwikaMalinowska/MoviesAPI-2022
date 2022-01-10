@@ -49,5 +49,9 @@
     "all_nationalities": "Wszystkie narodowości",
     "no_data": "Brak danych",
     "set": "Ustaw",
-    "dont_sort": "Nie sortuj"
+    "dont_sort": "Nie sortuj",
+    "number_of_actors_nationality": "Liczba aktorów według narodowości",
+    "statistics": "Statystyki",
+    "movie_count": "Liczba filmów",
+    "actor_count": "Liczba aktorów"
 }

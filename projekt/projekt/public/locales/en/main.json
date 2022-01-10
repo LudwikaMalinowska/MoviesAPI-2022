@@ -49,5 +49,9 @@
     "all_nationalities": "All nationalities",
     "no_data": "No data",
     "set": "Set",
-    "dont_sort": "Don't sort"
+    "dont_sort": "Don't sort",
+    "number_of_actors_nationality": "Number of actors by nationality",
+    "statistics": "Statistics",
+    "movie_count": "Movie count",
+    "actor_count": "Actor count"
 }
