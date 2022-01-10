@@ -5,13 +5,15 @@ import { useTranslation } from 'react-i18next';
 import { getPersonList } from "../../ducks/persons/operations";
 import { getAllPersons } from "../../ducks/persons/selectors";
 
-
+import Pagination from "../core/Pagination";
 
 const PersonList = ({persons, getPersonList}, props) => {
     // console.log("persons: ", persons);
     const { t } = useTranslation();
     const [displayedPersons, setDisplayedPersons] = useState(persons);
     const [filterOn, setFilterOn] = useState(false);
+    const personContent = filterOn ? displayedPersons : persons;
+
     const inputEl = useRef(null);
     const selectEl = useRef(null);
     const sortSelectEl = useRef(null);
@@ -19,6 +21,17 @@ const PersonList = ({persons, getPersonList}, props) => {
     const selectDateEl = useRef(null);
     const inputDate1El = useRef(null);
     const inputDate2El = useRef(null);
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(5);
+
+    // Get current movies
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentPersons = personContent.slice(indexOfFirstItem, indexOfLastItem);
+
+    // Change page
+    const paginate = pageNumber => setCurrentPage(pageNumber);
     
 
     let nationalities = persons.map(person => person.nationality);
@@ -34,8 +47,8 @@ const PersonList = ({persons, getPersonList}, props) => {
             getPersonList();
     }, []);
 
-    const personContent = filterOn ? displayedPersons : persons;
-    const personList = personContent ? (personContent.map(person => {
+    
+    const personList = currentPersons ? (currentPersons.map(person => {
         const personLink = `/persons/${person.id}`
         return (<li key={person.id}>
             <p>{person.first_name} {person.last_name}</p>
@@ -242,6 +255,13 @@ const PersonList = ({persons, getPersonList}, props) => {
             </select>
 
             {personList}
+
+            <Pagination
+                itemsPerPage={itemsPerPage}
+                totalItems={personContent.length}
+                paginate={paginate}
+                endpoint="/persons#"
+            />
         </ul>
      );
 }

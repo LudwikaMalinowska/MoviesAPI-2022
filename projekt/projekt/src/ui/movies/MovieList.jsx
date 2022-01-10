@@ -248,6 +248,7 @@ const MovieList = ({movies, getMovieList}, props) => {
                 itemsPerPage={itemsPerPage}
                 totalItems={movieContent.length}
                 paginate={paginate}
+                endpoint="/movies#"
             />
         </ul>
      );
