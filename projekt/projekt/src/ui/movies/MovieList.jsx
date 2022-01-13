@@ -79,6 +79,24 @@ const MovieList = ({movies, getMovieList}, props) => {
         return newMovies;
     }
 
+    const handleDateSelectChange = () => {
+        const selectValue = selectDateEl.current.value;
+        switch (selectValue) {
+            case "date-before":
+                inputDate2El.current.className = "hidden"
+                break;
+            case "date-after":
+                inputDate2El.current.className = "hidden"
+                break;
+            case "date-between":
+                console.log(inputDate2El.current.className);
+                inputDate2El.current.className = "visible"
+                break;
+            default:
+                break;
+        }
+    }
+
     const handleDateFilter = (movies) => {
         const selectValue = selectDateEl.current.value;
         const inputDate1 = new Date(inputDate1El.current.value);
@@ -207,6 +225,7 @@ const MovieList = ({movies, getMovieList}, props) => {
             <div className="date-filters">
 
                 <select name="date-filter" id="date-filter"
+                onChange={handleDateSelectChange}
                 ref={selectDateEl}
                 >
                     <option value="date-before">{t("movies_older_than")}</option>
@@ -218,7 +237,7 @@ const MovieList = ({movies, getMovieList}, props) => {
                 {/* {selectDateEl.current.value === "date-between" ? (
                     <input type="date" ref={inputDate2El}/> 
                 ): null } */}
-                <input type="date" ref={inputDate2El}/> 
+                <input id="date2" className="hidden" type="date" ref={inputDate2El}/> 
                 {/* display hidden */}
                 <button 
                 // onClick={handleDateFilter}
