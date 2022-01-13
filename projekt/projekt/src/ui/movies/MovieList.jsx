@@ -145,7 +145,8 @@ const MovieList = ({movies, getMovieList}, props) => {
         setFilterOn(true);
         const sortValue = sortSelectEl.current.value;
 
-        let sortedMovies = [...movies];
+        // let sortedMovies = [...movies];
+        let sortedMovies = [...displayedMovies];
         switch (sortValue){
             case "dont-sort":
                 sortedMovies = movies;

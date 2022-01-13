@@ -60,42 +60,24 @@ const PersonList = ({persons, getPersonList}, props) => {
     })
     ) : null;
 
-    const handleInputChange = () => {
-        setFilterOn(true);
+    
+    const handleInputChange = (persons) => {
         const inputValue = inputEl.current.value.toLowerCase();
+        let newPersons = persons.filter(person => {
+            const name = `${person.first_name} ${person.last_name}`.toLowerCase();
+            return name.includes(inputValue);
+        })
         
-        if (inputValue !== "") {
-            const newPersons = persons.filter(person => {
-                const f_name_ok = person.first_name
-                .toLowerCase().includes(inputValue)
-                const l_name_ok = person.last_name
-                .toLowerCase().includes(inputValue)
-    
-                return f_name_ok || l_name_ok;
-            })
-    
-            setDisplayedPersons(newPersons);
-        } else {
-
-            setFilterOn(false);
-            setDisplayedPersons(persons);
-        }
-        
-        
+        return newPersons;      
     }
 
-    const handleSelectChange = () => {
-        const value = selectEl.current.value;
+    
 
-        if (value !== "all") {
-            setFilterOn(true);
-            const newPersons = persons.filter(person => person.nationality === value);
-            setDisplayedPersons(newPersons);
-        } else {
-            setFilterOn(false);
-            setDisplayedPersons(persons);
-        }
-        
+    const handleSelectChange = (persons) => {
+        const selectValue = selectEl.current.value;
+        let newPersons = persons.filter(person => person.nationality === selectValue);
+
+        return newPersons;
     }
 
     const handleDateFilter = () => {
@@ -136,17 +118,38 @@ const PersonList = ({persons, getPersonList}, props) => {
                 break;
         }
 
-        console.log("newPersons:", newPersons);
+        
+        return newPersons;
+    }
+
+    const filter = () => {
+        setFilterOn(true);
+        const selectNationalityValue = selectEl.current.value;
+        const inputTextValue = inputEl.current.value.toLowerCase();
+        const dateInputValue = inputDate1El.current.value;
+
+        let newPersons = persons;
+        if (selectNationalityValue !== "all"){
+            newPersons = handleSelectChange(newPersons);
+        } 
+
+        if (inputTextValue !== ""){
+            newPersons = handleInputChange(newPersons);
+        } 
+
+        if (dateInputValue !== ""){
+            newPersons = handleDateFilter(newPersons);
+        } 
 
         setDisplayedPersons(newPersons);
-
     }
 
     const handleSortChange = () => {
         setFilterOn(true);
         const sortValue = sortSelectEl.current.value;
 
-        let sortedPersons = [...persons];
+        // let sortedPersons = [...persons];
+        let sortedPersons = [...displayedPersons];
         switch (sortValue){
             case "dont-sort":
                 sortedPersons = persons;
@@ -209,7 +212,7 @@ const PersonList = ({persons, getPersonList}, props) => {
             <div>
             {t("nationality")}: 
             <select name="nationality" id="nationality"
-            onChange={handleSelectChange}
+            onChange={filter}
             ref={selectEl}
             >
             <option value="all" key="all">{t("all_nationalities")}</option>
@@ -231,7 +234,9 @@ const PersonList = ({persons, getPersonList}, props) => {
 
                 <input type="date" ref={inputDate2El}/> 
                 {/* display hidden */}
-                <button onClick={handleDateFilter}>{t("filter")}</button>
+                <button 
+                onClick={filter}
+                >{t("filter")}</button>
 
             </div>
 
@@ -239,7 +244,8 @@ const PersonList = ({persons, getPersonList}, props) => {
             <br/>
             {t("search")}: <input type="text" 
             ref={inputEl}
-            onChange={handleInputChange}/>
+                onChange={filter}
+            />
 
             {t("sort")}: <select name="sort" id="sort"
             ref={sortSelectEl}
