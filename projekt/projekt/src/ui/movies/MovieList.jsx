@@ -62,41 +62,27 @@ const MovieList = ({movies, getMovieList}, props) => {
     })
     ) : null;
 
-    const handleInputChange = () => {
+
+    const handleInputChange = (movies) => {
         const inputValue = inputEl.current.value.toLowerCase();
-        setFilterOn(true);
-
-        console.log(inputValue);
-        const newMovies = movies.filter(movie => (movie.title.toLowerCase().includes(inputValue)))
-
-        if (inputValue !== "")
-            setDisplayedMovies(newMovies);
-        else {
-            setDisplayedMovies(movies);
-            setFilterOn(false);
-        }
-            
-    }
-
-    const handleSelectGenreChange = () => {
-        const selectValue = selectEl.current.value;
-        setFilterOn(true);
-
-        if (selectValue !== "all") {
-            const newMovies = movies.filter(movie => movie.genre === selectValue);
-            setDisplayedMovies(newMovies);
-        } else {
-            setFilterOn(false);
-            setDisplayedMovies(movies);
-        }
+        let newMovies = movies.filter(movie => (movie.title.toLowerCase().includes(inputValue)))
         
+        return newMovies;      
     }
 
-    const handleDateFilter = () => {
-        setFilterOn(true);
+    
+
+    const handleSelectGenreChange = (movies) => {
+        const selectValue = selectEl.current.value;
+        let newMovies = movies.filter(movie => movie.genre === selectValue);
+
+        return newMovies;
+    }
+
+    const handleDateFilter = (movies) => {
         const selectValue = selectDateEl.current.value;
         const inputDate1 = new Date(inputDate1El.current.value);
-        let newMovies = displayedMovies;
+        let newMovies = movies;
 
         switch (selectValue) {
             case "date-before":
@@ -129,11 +115,30 @@ const MovieList = ({movies, getMovieList}, props) => {
             default:
                 break;
         }
+        
+        return newMovies;
+    }
 
-        console.log("newMovies:", newMovies);
+    const filter = () => {
+        setFilterOn(true);
+        const selectGenreValue = selectEl.current.value;
+        const inputTextValue = inputEl.current.value.toLowerCase();
+        const dateInputValue = inputDate1El.current.value;
+
+        let newMovies = movies;
+        if (selectGenreValue !== "all"){
+            newMovies = handleSelectGenreChange(newMovies);
+        } 
+
+        if (inputTextValue !== ""){
+            newMovies = handleInputChange(newMovies);
+        } 
+
+        if (dateInputValue !== ""){
+            newMovies = handleDateFilter(newMovies);
+        } 
 
         setDisplayedMovies(newMovies);
-
     }
 
     const handleSortChange = () => {
@@ -191,7 +196,7 @@ const MovieList = ({movies, getMovieList}, props) => {
             <br/>
             {t("genre")}:  
             <select name="genre" id="genre"
-            onChange={handleSelectGenreChange}
+            onChange={filter}
             ref={selectEl}
             >
             <option value="all" key="all">{t("all_genres")}</option>
@@ -201,7 +206,6 @@ const MovieList = ({movies, getMovieList}, props) => {
             <div className="date-filters">
 
                 <select name="date-filter" id="date-filter"
-                // onChange={handleSelectDateChange}
                 ref={selectDateEl}
                 >
                     <option value="date-before">{t("movies_older_than")}</option>
@@ -215,7 +219,11 @@ const MovieList = ({movies, getMovieList}, props) => {
                 ): null } */}
                 <input type="date" ref={inputDate2El}/> 
                 {/* display hidden */}
-                <button onClick={handleDateFilter}>{t("filter")}</button>
+                <button 
+                // onClick={handleDateFilter}
+                onClick={filter}
+                >
+                {t("filter")}</button>
 
             </div>
             
@@ -225,7 +233,8 @@ const MovieList = ({movies, getMovieList}, props) => {
             <br/>
             {t("filter")}: <input type="text" 
             ref={inputEl}
-            onChange={handleInputChange}/>
+                onChange={filter}
+            />
 
             {t("sort")}: <select name="sort" id="sort"
             ref={sortSelectEl}
