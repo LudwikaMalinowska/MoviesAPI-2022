@@ -91,6 +91,10 @@
   font-weight: bold;
 }
 
+.App input#date2.hidden {
+  display: none;
+}
+
 .App .pagination {
   display: flex;
   flex-direction: row;

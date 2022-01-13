@@ -97,6 +97,12 @@
         font-weight: bold;
     }
 
+    input#date2 {
+        &.hidden {
+            display: none;
+        }
+    }
+
     .pagination {
         display: flex;
         flex-direction: row;

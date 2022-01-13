@@ -80,6 +80,24 @@ const PersonList = ({persons, getPersonList}, props) => {
         return newPersons;
     }
 
+    const handleDateSelectChange = () => {
+        const selectValue = selectDateEl.current.value;
+        switch (selectValue) {
+            case "date-before":
+                inputDate2El.current.className = "hidden"
+                break;
+            case "date-after":
+                inputDate2El.current.className = "hidden"
+                break;
+            case "date-between":
+                console.log(inputDate2El.current.className);
+                inputDate2El.current.className = "visible"
+                break;
+            default:
+                break;
+        }
+    }
+
     const handleDateFilter = () => {
         setFilterOn(true);
         const selectValue = selectDateEl.current.value;
@@ -104,6 +122,7 @@ const PersonList = ({persons, getPersonList}, props) => {
 
                 break;
             case "date-between":
+                console.log(inputDate2El);
                 newPersons = persons.filter(person => {
                     const personDate = new Date(person.birth_date);
                     const inputDate2 = new Date(inputDate2El.current.value);
@@ -224,6 +243,7 @@ const PersonList = ({persons, getPersonList}, props) => {
             <div className="date-filters">
 
                 <select name="date-filter" id="date-filter"
+                onChange={handleDateSelectChange}
                 ref={selectDateEl}
                 >
                     <option value="date-before">{t("older_than")}</option>
@@ -232,7 +252,7 @@ const PersonList = ({persons, getPersonList}, props) => {
                 </select>
                 <input type="date" ref={inputDate1El}/> 
 
-                <input type="date" ref={inputDate2El}/> 
+                <input id="date2" className="hidden" type="date" ref={inputDate2El}/> 
                 {/* display hidden */}
                 <button 
                 onClick={filter}
