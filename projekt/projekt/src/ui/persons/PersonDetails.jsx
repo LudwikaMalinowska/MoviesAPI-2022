@@ -101,7 +101,7 @@ const PersonDetails = ({person, actors, movies, deletePerson, getPerson, personI
         <div>
         <p>{t("name")}: {person.first_name} {person.last_name}</p>
         <p>Id: {person.id}</p>
-        <p>{t("birth_date")}: {person.birth_date}</p>
+        <p>{t("birth_date")}: {person.birth_date.slice(0,10)}</p>
         <p>{t("nationality")}: {person.nationality}</p>
 
         <ul>
