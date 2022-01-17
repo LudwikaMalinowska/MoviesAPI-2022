@@ -15,9 +15,12 @@ const Dashboard = ({movies, persons, actors, getMovieList, getActorList, getPers
 
     useEffect(() => {
 
-        getPersonList();
-        getMovieList();
-        getActorList();
+        if (persons.length <= 1)
+            getPersonList();
+        if (movies.length <= 1)
+            getMovieList();
+        if (actors.length <= 1)
+            getActorList();
         
     }, []);
 

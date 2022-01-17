@@ -15,9 +15,12 @@ const Statistics = ({actors, movies, persons, getActorList, getMovieList, getPer
     const { t } = useTranslation();
 
     useEffect(() => {
-        getPersonList();
-        getMovieList();
-        getActorList();
+        if (persons.length <= 1)
+            getPersonList();
+        if (movies.length <= 1)
+            getMovieList();
+        if (actors.length <= 1)
+            getActorList();
     }, [])
 
     const findMostMovieActors = (actors, persons) => {

@@ -17,8 +17,10 @@ const PersonDetails = ({person, actors, movies, deletePerson, getPerson, personI
         if (person === undefined)
             getPerson(personId);
 
-        getActorList();
-        getMovieList();
+        if (actors.length <= 1)
+            getActorList();
+        if (movies.length <= 1)
+            getMovieList();
     }, []);
 
     const handleDelete = () => {

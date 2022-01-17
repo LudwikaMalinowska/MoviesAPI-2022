@@ -13,10 +13,11 @@ const ActorList = ({actors, persons, getActorList, getPersonList}, props) => {
     
     useEffect(() => {
         
-        if (actors.length === 0)
+        if (persons.length <= 1)
             getPersonList();
-        if (actors.length === 0)
-            getActorList();
+        
+        getActorList();
+        
     }, []);
 
     const actorList = actors ? (actors.map(actor => {
