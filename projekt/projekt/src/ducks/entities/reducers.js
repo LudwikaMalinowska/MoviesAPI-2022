@@ -101,6 +101,8 @@ export const entityReducer = (entity, state = { allIds: [], byId: {} }, action) 
                 }, 
                 allIds: state.allIds
             }
+        case 'FAILURE':
+            return state;
         default:
             // console.log('Error action not recognized');
             return state;

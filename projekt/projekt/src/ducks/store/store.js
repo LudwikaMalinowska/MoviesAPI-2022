@@ -3,6 +3,7 @@ import {createStore, applyMiddleware, compose, combineReducers} from 'redux';
 
 import logger from 'redux-logger';
 import { createMiddleware } from 'redux-api-middleware';
+import failureCatcher from "../middlewares/ActionFailureCatcher";
 
 import PersonReducer from '../persons/PersonReducer';
 import MovieReducer from '../movies/MovieReducer';
@@ -22,7 +23,7 @@ const combinedReducers = combineReducers({
 // });
 
 const store = createStore(combinedReducers, 
-  composeEnhancers(applyMiddleware(thunk, createMiddleware(), logger)),
+  composeEnhancers(applyMiddleware(thunk, createMiddleware(), logger, failureCatcher)),
 );
 
 export default store;

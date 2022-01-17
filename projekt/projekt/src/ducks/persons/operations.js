@@ -27,7 +27,11 @@ export const getPersonList = () => {
                 },
                 meta: { actionType: 'GET_ALL' }
            },
-           types.PERSON_LIST_REQUEST_FAILED
+           {
+               type: types.PERSON_LIST_REQUEST_FAILED,
+               meta: {actionType: 'FAILURE'}
+           }
+           
         ],
     })
 }

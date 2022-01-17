@@ -26,7 +26,11 @@ export const getMovieList = () => {
                 },
                 meta: { actionType: 'GET_ALL' }
            },
-           types.MOVIE_LIST_REQUEST_FAILED
+           {
+               type: types.MOVIE_LIST_REQUEST_FAILED,
+               meta: { actionType: 'FAILURE' }
+           }
+           
         ]
     })
 }

@@ -97,17 +97,66 @@ const Statistics = ({actors, movies, persons, getActorList, getMovieList, getPer
 
         return (
             <div className="actors-nationalities">
-                <p className="bold">{t("number_of_actors_nationality")}:</p>
                 {content}
             </div>
         )
     }
 
+    const countActorsInMovie = (movies, actors) => {
+        const countActors = [];
+
+        for (const movie of movies) {
+            const actorIds = [];
+            for (const actor of actors) {
+                if (actor.movie_id === movie.id){
+                    actorIds.push(actor.person_id);
+                }
+            }
+
+            countActors.push({
+                movie_id: movie.id,
+                actor_ids: actorIds,
+                actor_count: actorIds.length
+            })
+        }
+
+        return countActors;
+    }
+
+    const mostActorMovies = (movies, actors) => {
+        const countActors = countActorsInMovie(movies, actors);
+        countActors.sort((m1, m2) => m2.actor_count - m1.actor_count);
+        console.log("---countactors:", countActors);
+        const top3Movies = countActors.slice(0,3)
+
+        const content = top3Movies.map(count_movie => {
+            const movie = movies.find(movie => movie.id === count_movie.movie_id);
+
+            return (
+            <div className="movie" key={movie.id}>
+                <p>{movie.title} - {count_movie.actor_count}</p>
+                 <Link to={`/movies/${movie.id}`}><button>{t("details")}</button></Link>
+             </div>
+            )
+        })
+
+        return (<div className="top-most-actor-movies">
+            {content}
+        </div>)
+    }
+
     return ( 
         <div>
-            {t("statistics")}
+            <h2>{t("statistics")}</h2>
+            <h3>{t("movies_with_most_actors")}</h3>
+            <div>{mostActorMovies(movies, actors)}</div>
+
+            <h3>{t("actors_with_most_movies")}</h3>
             {persons && movies && actors && mostMovieActorsEl()}
+            
+            <h3>{t("number_of_actors_nationality")}:</h3>
             {persons && movies && actors && mostActorsNationalitiesEl()}
+            
         </div>
      );
 }

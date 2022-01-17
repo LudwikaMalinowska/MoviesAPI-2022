@@ -53,5 +53,7 @@
     "number_of_actors_nationality": "Liczba aktorów według narodowości",
     "statistics": "Statystyki",
     "movie_count": "Liczba filmów",
-    "actor_count": "Liczba aktorów"
+    "actor_count": "Liczba aktorów",
+    "actors_with_most_movies": "Aktorzy z największą liczbą filmów w karierze",
+    "movies_with_most_actors": "Filmy z największą ilością aktorów"
 }
