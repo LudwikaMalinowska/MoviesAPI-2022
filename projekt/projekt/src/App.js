@@ -81,7 +81,7 @@ function App() {
               <Link to="/actors">{t("actors")}</Link>
             </li>
             <li>
-              <Link to="/statistics">Statistics</Link>
+              <Link to="/statistics">{t("statistics")}</Link>
             </li>
           </ul>
         </nav>

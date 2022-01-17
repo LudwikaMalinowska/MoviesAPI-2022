@@ -55,5 +55,8 @@
     "movie_count": "Liczba filmów",
     "actor_count": "Liczba aktorów",
     "actors_with_most_movies": "Aktorzy z największą liczbą filmów w karierze",
-    "movies_with_most_actors": "Filmy z największą ilością aktorów"
+    "movies_with_most_actors": "Filmy z największą ilością aktorów",
+    "movies_in_database": "Liczba filmów w bazie",
+    "persons_in_database": "Liczba osób w bazie",
+    "newest_movies": "Najnowsze filmy"
 }

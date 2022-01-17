@@ -1,6 +1,7 @@
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
+import { useTranslation } from 'react-i18next';
 
 import { getPersonList } from "../../ducks/persons/operations";
 import { getAllPersons } from "../../ducks/persons/selectors";
@@ -10,6 +11,7 @@ import { getAllActors } from "../../ducks/actors/selectors";
 import {getAllMovies} from "../../ducks/movies/selectors";
 
 const Dashboard = ({movies, persons, actors, getMovieList, getActorList, getPersonList}, props) => {
+    const { t } = useTranslation();
 
     useEffect(() => {
 
@@ -34,7 +36,8 @@ const Dashboard = ({movies, persons, actors, getMovieList, getActorList, getPers
         const movieBoard = recentMovies.map(movie => (
             <div className="movie" key={movie.id}>
                 <p>{movie.title} - {movie.release_date.slice(0,10)} </p>
-                <Link to={`/movies/${movie.id}`}><button>Szczegóły</button></Link>
+                <Link to={`/movies/${movie.id}`}>
+                <button>{t("details")}</button></Link>
             </div>
         ))
 
@@ -47,9 +50,9 @@ const Dashboard = ({movies, persons, actors, getMovieList, getActorList, getPers
 
     return ( 
         <div>
-        <h4>Liczba filmów w bazie: {movies.length}</h4>
-        <h4>Liczba osób w bazie: {persons.length}</h4>
-        <h3>Najnowsze filmy: </h3>
+        <h4>{t("movies_in_database")}: {movies.length}</h4>
+        <h4>{t("persons_in_database")}: {persons.length}</h4>
+        <h3>{t("newest_movies")}: </h3>
         <div>{newestMovies(movies)}</div>
         </div>
      );
