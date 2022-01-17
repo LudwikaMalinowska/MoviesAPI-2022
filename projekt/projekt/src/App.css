@@ -87,6 +87,10 @@
   margin-left: 0;
 }
 
+.App ul li p.movie-link {
+  font-size: 13px;
+}
+
 .App .bold {
   font-weight: bold;
 }
