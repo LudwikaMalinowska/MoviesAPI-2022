@@ -42,9 +42,9 @@ const Statistics = ({actors, movies, persons, getActorList, getMovieList, getPer
         return countMoviesPlayed;
     }
 
-    const mostMovieActorsEl = () => {
+    const mostMovieActorsEl = (movies, persons, actors) => {
         const mostMovieActors = findMostMovieActors(actors, persons);
-        mostMovieActors.sort(actor => actor.count);
+        mostMovieActors.sort((actor1, actor2) => actor2.count - actor1.count);
         const content = mostMovieActors.map(actor => {
             const person = persons.find(person => person.id === actor.person_id);
             const moviesPlayed = actor.movie_ids.map(id => {
@@ -84,7 +84,7 @@ const Statistics = ({actors, movies, persons, getActorList, getMovieList, getPer
         return nationalitiesCount;
     }
 
-    const mostActorsNationalitiesEl = () => {
+    const mostActorsNationalitiesEl = (persons, actors) => {
         let mostActorsNationalities = countMostActorsCountries(actors, persons);
         mostActorsNationalities.sort(obj => obj.count)
 
@@ -151,10 +151,10 @@ const Statistics = ({actors, movies, persons, getActorList, getMovieList, getPer
             <div>{mostActorMovies(movies, actors)}</div>
 
             <h3>{t("actors_with_most_movies")}</h3>
-            {persons && movies && actors && mostMovieActorsEl()}
+            {mostMovieActorsEl(movies, persons, actors)}
             
             <h3>{t("number_of_actors_nationality")}:</h3>
-            {persons && movies && actors && mostActorsNationalitiesEl()}
+            {movies && mostActorsNationalitiesEl(persons, actors)}
             
         </div>
      );
