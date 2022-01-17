@@ -5,14 +5,16 @@ import { Link } from "react-router-dom";
 import { getActorList } from '../../ducks/actors/operations';
 import {getAllActors} from '../../ducks/actors/selectors';
 import { getAllPersons } from "../../ducks/persons/selectors";
+import { getPersonList } from '../../ducks/persons/operations';
 
 
-const ActorList = ({actors, persons, getActorList}, props) => {
+const ActorList = ({actors, persons, getActorList, getPersonList}, props) => {
     const { t } = useTranslation();
-    console.log("actors:", actors);
+    
     useEffect(() => {
         
-
+        if (actors.length === 0)
+            getPersonList();
         if (actors.length === 0)
             getActorList();
     }, []);
@@ -38,7 +40,6 @@ const ActorList = ({actors, persons, getActorList}, props) => {
 }
  
 const mapStateToProps = (state) => {
-    // console.log(state);
     return {
         actors: getAllActors(state),
         persons: getAllPersons(state)
@@ -47,7 +48,8 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
-    getActorList
+    getActorList,
+    getPersonList
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ActorList);

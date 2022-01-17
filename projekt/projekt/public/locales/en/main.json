@@ -58,5 +58,7 @@
     "movies_with_most_actors": "Movies with most number of actors",
     "movies_in_database": "Number of movies in the database",
     "persons_in_database": "Number of persons in the database",
-    "newest_movies": "Newest movies"
+    "newest_movies": "Newest movies",
+    "could_not_delete_person": "Could not delete person. Delete the person from their movies first",
+    "deleted": "Deleted"
 }

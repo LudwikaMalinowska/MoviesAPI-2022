@@ -2,8 +2,8 @@ import { connect } from "react-redux";
 import { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
+
 import { deleteMovie, getMovie, setMovieDirector} from "../../ducks/movies/operations";
-// import { getAllMovieActors } from "../../ducks/movies/selectors";
 import { getAllPersons } from "../../ducks/persons/selectors";
 import { addActor, deleteMovieActor, getActorList, getMovieActors} from "../../ducks/actors/operations";
 import { getAllActors } from "../../ducks/actors/selectors";
@@ -112,12 +112,12 @@ getActorList, movieActors}, props) => {
         const editLink = `/movies/${movie.id}/edit`
         let content = (
         <div>
-            <p>{movie.title}</p>
+            <p>{t("title")}: {movie.title}</p>
         <img src={movie.image_url} alt={movie.title}/>
-        <p>{movie.description}</p>
-        <p>{movie.release_date}</p>
-        <p>{movie.genre}</p>
-        <p>{movie.id}</p>
+        <p>{t("description")}: {movie.description}</p>
+        <p>{t("release_date")}: {movie.release_date.slice(0,10)}</p>
+        <p>{t("genre")}: {movie.genre}</p>
+        <p>Id: {movie.id}</p>
         <div>{t("director")}: {changingDirector ? directorSelect : movieDirectorLink}</div>
 
         <div>
@@ -149,7 +149,7 @@ getActorList, movieActors}, props) => {
     return ( 
         <div>
         
-        {movie ? contentEl(movie) : "Nie znaleziono filmu"}
+        {movie ? contentEl(movie) : t("movie_not_found")}
         <div><Link to ="/movies"><button>{t("back_to_movies")}</button></Link></div>
         
         </div>
@@ -158,7 +158,6 @@ getActorList, movieActors}, props) => {
  
 const mapStateToProps = (state, props) => {
     const id = Number(props.match.params.idMovie);
-    console.log(state);
 
     const actors = getAllActors(state);
     const movieActors = actors.filter(actor => actor.movie_id === id);

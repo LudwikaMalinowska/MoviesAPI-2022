@@ -35,10 +35,10 @@ const PersonDetails = ({person, actors, movies, deletePerson, getPerson, personI
         const actorData = actors.filter(actor => actor.person_id === person.id);
         
         if (actorData.length !== 0){
-            alert("Nie można usunąć osoby. Usuń ją najpierw z filmów w których gra.")
+            alert(t("could_not_delete_person"))
         } else {
             deletePerson(person);
-            alert("usunięto")
+            alert(t("deleted"))
         }
     }
 
@@ -54,9 +54,7 @@ const PersonDetails = ({person, actors, movies, deletePerson, getPerson, personI
     
 
     const directorIn = () => {
-        // console.log("movies: ", movies);
         const moviesDirected = findDirectedMovies(movies);
-        // console.log("movies directed: ", moviesDirected);
 
         const moviesLiElements = moviesDirected.map(movie => {
             const toLink = `/movies/${movie.id}`
@@ -70,7 +68,7 @@ const PersonDetails = ({person, actors, movies, deletePerson, getPerson, personI
 
     const findMoviesIn = (movies, actors) => {
         const actorData = actors.filter(actor => actor.person_id === person.id);
-        // console.log(actorData);
+        
         const moviesIn = movies.filter(movie => {
             for (const data of actorData){
                 if (data.movie_id === movie.id)
@@ -91,7 +89,6 @@ const PersonDetails = ({person, actors, movies, deletePerson, getPerson, personI
                 <li key={movie.id}><Link to={toLink}>{movie.title}</Link></li>
             )
         } )
-        // console.log(moviesIn);
 
         return (<ul>{moviesLiElements}</ul>)
     }
@@ -100,10 +97,10 @@ const PersonDetails = ({person, actors, movies, deletePerson, getPerson, personI
     const editLink = `/persons/${person.id}/edit`
     const content = (
         <div>
-        <p>{person.first_name} {person.last_name}</p>
-        <p>{person.id}</p>
-        <p>{person.birth_date}</p>
-        <p>{person.nationality}</p>
+        <p>{t("name")}: {person.first_name} {person.last_name}</p>
+        <p>Id: {person.id}</p>
+        <p>{t("birth_date")}: {person.birth_date}</p>
+        <p>{t("nationality")}: {person.nationality}</p>
 
         <ul>
             {t("director_in")}:
@@ -126,7 +123,7 @@ const PersonDetails = ({person, actors, movies, deletePerson, getPerson, personI
     
     return ( 
         <div>
-        {person ? contentEl(person) : "Nie znaleziono osoby"}
+        {person ? contentEl(person) : t("person_not_found")}
         <div>
             <Link to="/persons"><button>{t("back_to_persons")}
         </button></Link>
@@ -138,7 +135,6 @@ const PersonDetails = ({person, actors, movies, deletePerson, getPerson, personI
 }
  
 const mapStateToProps = (state, props) => {
-    // console.log(state);
     const id = props.match.params.id;
     return {
         person: state.entities.persons.byId[id],

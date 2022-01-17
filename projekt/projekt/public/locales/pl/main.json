@@ -43,6 +43,7 @@
     "nationality": "Narodowość",
     "birth_date": "Data urodzenia",
     "person_not_found": "Nie znaleziono osoby",
+    "movie_not_found": "Nie znaleziono filmu",
     "edit": "Edytuj",
     "delete": "Usuń",
     "all_genres": "Wszystkie gatunki",
@@ -58,5 +59,7 @@
     "movies_with_most_actors": "Filmy z największą ilością aktorów",
     "movies_in_database": "Liczba filmów w bazie",
     "persons_in_database": "Liczba osób w bazie",
-    "newest_movies": "Najnowsze filmy"
+    "newest_movies": "Najnowsze filmy",
+    "could_not_delete_person": "Nie można usunąć osoby. Usuń ją najpierw z filmów w których gra.",
+    "deleted": "Usunięto"
 }
