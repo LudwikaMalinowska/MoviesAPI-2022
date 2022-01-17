@@ -1,7 +1,6 @@
 import { createAction } from "redux-api-middleware"
 import { schema, normalize} from 'normalizr';
 import types from "./types";
-const axios = require('axios');
 
 
 const actorSchema = new schema.Entity('actors');
