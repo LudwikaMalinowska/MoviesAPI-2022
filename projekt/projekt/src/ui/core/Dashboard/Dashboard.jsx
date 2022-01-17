@@ -2,13 +2,14 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { useTranslation } from 'react-i18next';
+import "./Dashboard.css"
 
-import { getPersonList } from "../../ducks/persons/operations";
-import { getAllPersons } from "../../ducks/persons/selectors";
-import {getMovieList} from "../../ducks/movies/operations";
-import {getActorList} from "../../ducks/actors/operations";
-import { getAllActors } from "../../ducks/actors/selectors";
-import {getAllMovies} from "../../ducks/movies/selectors";
+import { getPersonList } from "../../../ducks/persons/operations";
+import { getAllPersons } from "../../../ducks/persons/selectors";
+import {getMovieList} from "../../../ducks/movies/operations";
+import {getActorList} from "../../../ducks/actors/operations";
+import { getAllActors } from "../../../ducks/actors/selectors";
+import {getAllMovies} from "../../../ducks/movies/selectors";
 
 const Dashboard = ({movies, persons, actors, getMovieList, getActorList, getPersonList}, props) => {
     const { t } = useTranslation();
@@ -38,6 +39,7 @@ const Dashboard = ({movies, persons, actors, getMovieList, getActorList, getPers
 
         const movieBoard = recentMovies.map(movie => (
             <div className="movie" key={movie.id}>
+                <img src={movie.image_url} alt={movie.title} />
                 <p>{movie.title} - {movie.release_date.slice(0,10)} </p>
                 <Link to={`/movies/${movie.id}`}>
                 <button>{t("details")}</button></Link>
@@ -56,7 +58,9 @@ const Dashboard = ({movies, persons, actors, getMovieList, getActorList, getPers
         <h4>{t("movies_in_database")}: {movies.length}</h4>
         <h4>{t("persons_in_database")}: {persons.length}</h4>
         <h3>{t("newest_movies")}: </h3>
-        <div>{newestMovies(movies)}</div>
+        <div className="newest-movies">
+            {newestMovies(movies)}
+        </div>
         </div>
      );
 }

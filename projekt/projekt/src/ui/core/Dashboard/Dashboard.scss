@@ -1,0 +1,16 @@
+.newest-movies {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    
+
+    .movie {
+        padding: 50px;
+
+
+        img {
+            height: 350px;
+        }
+    }
+}

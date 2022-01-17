@@ -2,9 +2,11 @@ import { useEffect, useState, useRef } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
-import { getMovieList } from "../../ducks/movies/operations";
-import { getAllMovies } from "../../ducks/movies/selectors";
-import Pagination from "../core/Pagination";
+import { getMovieList } from "../../../ducks/movies/operations";
+import { getAllMovies } from "../../../ducks/movies/selectors";
+
+import "./MovieList.css"
+import Pagination from "../../core/Pagination";
 
 const MovieList = ({movies, getMovieList}, props) => {
     const { t } = useTranslation();
@@ -50,13 +52,13 @@ const MovieList = ({movies, getMovieList}, props) => {
 
     const movieList = currentMovies ? (currentMovies.map(movie => {
         const movieLink = `/movies/${movie.id}`
-        return (<li key={movie.id}>
-            <img src={movie.image_url} alt={movie.title} style={{height: "200px"}} />
+        return (<div key={movie.id} className="movie">
+            <img src={movie.image_url} alt={movie.title} />
             <p>{movie.title}</p>
             <p>{movie.release_date.substring(0, 10)}</p>
             <Link to={movieLink}><button>{t("details")}</button></Link>
 
-        </li>
+        </div>
         )
     })
     ) : null;
@@ -262,9 +264,9 @@ const MovieList = ({movies, getMovieList}, props) => {
             </select>
 
             
-            <ul className="movieList">
+            <div className="movieList">
                 {movieList}
-            </ul>
+            </div>
             
 
             <Pagination

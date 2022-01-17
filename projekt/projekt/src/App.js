@@ -11,9 +11,9 @@ import { initReactI18next, useTranslation } from 'react-i18next';
 import Backend from 'i18next-http-backend';
 import languages from './config/languages';
 
-import Dashboard from './ui/core/Dashboard'
+import Dashboard from './ui/core/Dashboard/Dashboard'
 
-import MovieList from './ui/movies/MovieList';
+import MovieList from './ui/movies/MovieList/MovieList';
 import MovieDetails from './ui/movies/MovieDetails';
 import MovieForm from './ui/movies/MovieForm';
 
