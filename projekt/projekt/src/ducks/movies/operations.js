@@ -19,7 +19,6 @@ export const getMovieList = () => {
             {
                 type: types.MOVIE_LIST_REQUEST_SUCCESS,
                 payload: async (action, state, res) => {
-                    console.log('PAYLOAD', action, state, res);
                     const json = await res.json();
                     const { entities } = normalize(json, moviesSchema)
                     return entities;
@@ -47,7 +46,6 @@ export const getMovie = (movieId) => {
             {
                 type: types.MOVIE_REQUEST_SUCCESS,
                 payload: async (action, state, res) => {
-                    console.log('PAYLOAD', action, state, res);
                     const json = await res.json();
                     const { entities } = normalize(json, movieSchema)
                     return entities;
@@ -60,7 +58,6 @@ export const getMovie = (movieId) => {
 }
 
 export const createMovie = (newMovie) => {
-    //  console.log("newpr: ", newProduct);
     return createAction({
         endpoint: 'http://localhost:5000/api/movies',
         method: 'POST',
@@ -73,7 +70,6 @@ export const createMovie = (newMovie) => {
             {
                 type: types.MOVIE_CREATE_SUCCESS,
                 payload: async (action, state, res) => {
-                    console.log('PAYLOAD', action, state, res);
                     const json = await res.json();
                     const { entities } = normalize(json, movieSchema);
                     return entities;
@@ -99,9 +95,7 @@ export const editMovie = (editedMovie) => {
             {
                 type: types.MOVIE_EDIT_SUCCESS,
                 payload: async (action, state, res) => {
-                    console.log('PAYLOAD', action, state, res);
                     const json = await res.json();
-                    console.log("json: ", json);
                     const { entities } = normalize(json, movieSchema);
                     return entities;
                 },

@@ -17,12 +17,11 @@ const defaultState = allEntities.reduce(
     }), {}
 );
 
-// console.log(defaultState);
 
 
 
 export const entityReducer = (entity, state = { allIds: [], byId: {} }, action) => {
-    console.log("\nentity: ", entity, "\nstate: ", state, "\naction: ", action);
+    // console.log("\nentity: ", entity, "\nstate: ", state, "\naction: ", action);
     const {actionType} = action.meta;
     const actionEntities = action.payload[entity];
     let newObj;
@@ -62,10 +61,8 @@ export const entityReducer = (entity, state = { allIds: [], byId: {} }, action) 
         case 'DELETE':
             const delObj = action.payload;
             const delObjId = Object.keys(delObj[entity])[0];
-            console.log("acEn:", actionEntities);
-            console.log("---s1", state.byId);
             nState = _.omit(state.byId, delObjId);
-            console.log("---s2", nState);
+
             return {
                 byId: nState,
                 allIds: state.allIds.filter(id => !Object.keys(actionEntities).includes(id)),
@@ -75,13 +72,7 @@ export const entityReducer = (entity, state = { allIds: [], byId: {} }, action) 
             newObjId = Object.keys(newObj[entity])[0];
 
             nState = _.omit(state.byId, actionEntities);
-            const g = {
-                byId: {
-                    ...nState,
-                    [newObjId]: newObj[entity][newObjId] 
-                }, 
-                allIds: state.allIds
-            };
+            
             return {
                 byId: {
                     ...nState,
@@ -104,7 +95,6 @@ export const entityReducer = (entity, state = { allIds: [], byId: {} }, action) 
         case 'FAILURE':
             return state;
         default:
-            // console.log('Error action not recognized');
             return state;
     }
 }
@@ -112,7 +102,6 @@ export const entityReducer = (entity, state = { allIds: [], byId: {} }, action) 
 export const entities = (state = defaultState, action) => {
     if(!action.meta || !action.meta.actionType) return state;
 
-    // console.log(action);
     return {
         ...state,
         ...Object.keys(action.payload).reduce(

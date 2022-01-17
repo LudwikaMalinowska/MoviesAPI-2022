@@ -1,7 +1,6 @@
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage} from "formik";
-import {v4 as uuidv4 } from 'uuid';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { getAllMovies} from "../../ducks/movies/selectors";
@@ -30,7 +29,6 @@ const MovieForm = (props) => {
         director: movie.director,
     }) :
     ({
-        // id: uuidv4(),
         title: "",
         genre: "",
         release_date: "2021-01-01",
@@ -42,7 +40,6 @@ const MovieForm = (props) => {
         
         if (movie) {
             props.editMovie(values);
-            // alert("Edytowano")
             window.history.back();
         }
         else {

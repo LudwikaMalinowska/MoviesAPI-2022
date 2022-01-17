@@ -20,7 +20,6 @@ export const getPersonList = () => {
             {
                 type: types.PERSON_LIST_REQUEST_SUCCESS,
                 payload: async (action, state, res) => {
-                    console.log('PAYLOAD', action, state, res);
                     const json = await res.json();
                     const { entities } = normalize(json, personsSchema)
                     return entities;
@@ -48,7 +47,6 @@ export const getPerson = (personId) => {
             {
                 type: types.PERSON_REQUEST_SUCCESS,
                 payload: async (action, state, res) => {
-                    console.log('PAYLOAD', action, state, res);
                     const json = await res.json();
                     const { entities } = normalize(json, personSchema)
                     return entities;
@@ -74,7 +72,6 @@ export const createPerson = (newPerson) => {
             {
                 type: types.PERSON_CREATE_SUCCESS,
                 payload: async (action, state, res) => {
-                    console.log('PAYLOAD', action, state, res);
                     const json = await res.json();
                     const { entities } = normalize(json, personSchema);
                     return entities;
@@ -100,7 +97,6 @@ export const editPerson = (editedPerson) => {
             {
                 type: types.PERSON_EDIT_SUCCESS,
                 payload: async (action, state, res) => {
-                    console.log('PAYLOAD', action, state, res);
                     const json = await res.json();
                     const { entities } = normalize(json, personSchema);
                     return entities;

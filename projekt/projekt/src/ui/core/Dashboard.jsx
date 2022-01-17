@@ -24,7 +24,7 @@ const Dashboard = ({movies, persons, actors, getMovieList, getActorList, getPers
 
     const newestMovies = (movies) => {
         let sortedMovies = [...movies];
-        console.log(sortedMovies);
+        
         sortedMovies.sort((movie1, movie2) => {
             const date1 = new Date(movie1.release_date);
             const date2 = new Date (movie2.release_date);

@@ -21,7 +21,6 @@ const Statistics = ({actors, movies, persons, getActorList, getMovieList, getPer
     }, [])
 
     const findMostMovieActors = (actors, persons) => {
-        console.log(actors);
         const countMoviesPlayed = []
         for (const person of persons) {
             let movieIds = [];
@@ -44,7 +43,6 @@ const Statistics = ({actors, movies, persons, getActorList, getMovieList, getPer
         const mostMovieActors = findMostMovieActors(actors, persons);
         mostMovieActors.sort(actor => actor.count);
         const content = mostMovieActors.map(actor => {
-            console.log("actor:", actor);
             const person = persons.find(person => person.id === actor.person_id);
             const moviesPlayed = actor.movie_ids.map(id => {
                 const actor_movie = movies.find(movie => movie.id === id);
@@ -69,11 +67,9 @@ const Statistics = ({actors, movies, persons, getActorList, getMovieList, getPer
     const countMostActorsCountries = (actors, persons) => {
         const personsIds = actors.map(actor => actor.person_id);
         const actorPersons = persons.filter(person => personsIds.includes(person.id));
-        // const nationalities = actorPersons.map(person => person.nationality);
 
         let nationalitiesCount = _.countBy(actorPersons, (actor) => actor.nationality);
         const keys = Object.keys(nationalitiesCount);
-        // console.log(nationalitiesCount);
 
         nationalitiesCount = keys.map(key => (
             {
@@ -87,8 +83,8 @@ const Statistics = ({actors, movies, persons, getActorList, getMovieList, getPer
 
     const mostActorsNationalitiesEl = () => {
         let mostActorsNationalities = countMostActorsCountries(actors, persons);
-        // console.log("-mm", mostActorsNationalities);
         mostActorsNationalities.sort(obj => obj.count)
+
         const content = mostActorsNationalities.map(nat => (
             <div key={nat.nationality}>
                 <p>{t("nationality")}: {nat.nationality}, {t("actor_count")}: {nat.count}</p>
@@ -126,7 +122,7 @@ const Statistics = ({actors, movies, persons, getActorList, getMovieList, getPer
     const mostActorMovies = (movies, actors) => {
         const countActors = countActorsInMovie(movies, actors);
         countActors.sort((m1, m2) => m2.actor_count - m1.actor_count);
-        console.log("---countactors:", countActors);
+        
         const top3Movies = countActors.slice(0,3)
 
         const content = top3Movies.map(count_movie => {
@@ -162,7 +158,6 @@ const Statistics = ({actors, movies, persons, getActorList, getMovieList, getPer
 }
  
 const mapStateToProps = (state) => {
-    // console.log(state);
     return {
         persons: getAllPersons(state),
         movies: getAllMovies(state),

@@ -8,8 +8,8 @@ import { getAllPersons } from "../../ducks/persons/selectors";
 import Pagination from "../core/Pagination";
 
 const PersonList = ({persons, getPersonList}, props) => {
-    // console.log("persons: ", persons);
     const { t } = useTranslation();
+    
     const [displayedPersons, setDisplayedPersons] = useState(persons);
     const [filterOn, setFilterOn] = useState(false);
     const personContent = filterOn ? displayedPersons : persons;
@@ -90,7 +90,6 @@ const PersonList = ({persons, getPersonList}, props) => {
                 inputDate2El.current.className = "hidden"
                 break;
             case "date-between":
-                console.log(inputDate2El.current.className);
                 inputDate2El.current.className = "visible"
                 break;
             default:
@@ -122,7 +121,6 @@ const PersonList = ({persons, getPersonList}, props) => {
 
                 break;
             case "date-between":
-                console.log(inputDate2El);
                 newPersons = persons.filter(person => {
                     const personDate = new Date(person.birth_date);
                     const inputDate2 = new Date(inputDate2El.current.value);
@@ -167,7 +165,6 @@ const PersonList = ({persons, getPersonList}, props) => {
         setFilterOn(true);
         const sortValue = sortSelectEl.current.value;
 
-        // let sortedPersons = [...persons];
         let sortedPersons = [...displayedPersons];
         switch (sortValue){
             case "dont-sort":
@@ -218,7 +215,6 @@ const PersonList = ({persons, getPersonList}, props) => {
                 break;
         }
 
-        console.log("sorted:", sortedPersons);
         setDisplayedPersons(sortedPersons);
     }
 
@@ -295,7 +291,6 @@ const PersonList = ({persons, getPersonList}, props) => {
 }
  
 const mapStateToProps = (state) => {
-    // console.log(state);
     return {
         persons: getAllPersons(state)
     };

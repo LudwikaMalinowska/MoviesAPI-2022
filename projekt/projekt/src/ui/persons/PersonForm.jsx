@@ -1,7 +1,6 @@
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage} from "formik";
-import {v4 as uuidv4 } from 'uuid';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import {getAllPersons} from "../../ducks/persons/selectors";
@@ -26,7 +25,6 @@ const PersonForm = ({person, createPerson, editPerson}, props) => {
         nationality: person.nationality,
     }) :
     ({
-        // id: uuidv4(),
         first_name: "",
         last_name: "",
         birth_date: "2021-01-01",
@@ -36,7 +34,6 @@ const PersonForm = ({person, createPerson, editPerson}, props) => {
 
         if (person) {
             editPerson(values)
-            // alert("Edytowano")
             window.history.back();
         } else {
             createPerson(values);

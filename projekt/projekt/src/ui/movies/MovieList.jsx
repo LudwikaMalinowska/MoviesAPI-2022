@@ -8,7 +8,7 @@ import Pagination from "../core/Pagination";
 
 const MovieList = ({movies, getMovieList}, props) => {
     const { t } = useTranslation();
-    console.log("movies:", movies);
+    
     const [displayedMovies, setDisplayedMovies] = useState(movies);
     const [filterOn, setFilterOn] = useState(false)
     const movieContent = filterOn ? displayedMovies : movies;
@@ -48,7 +48,6 @@ const MovieList = ({movies, getMovieList}, props) => {
         
     }, []);
 
-    // const movieList = movieContent ? (movieContent.map(movie => {
     const movieList = currentMovies ? (currentMovies.map(movie => {
         const movieLink = `/movies/${movie.id}`
         return (<li key={movie.id}>
@@ -89,7 +88,6 @@ const MovieList = ({movies, getMovieList}, props) => {
                 inputDate2El.current.className = "hidden"
                 break;
             case "date-between":
-                console.log(inputDate2El.current.className);
                 inputDate2El.current.className = "visible"
                 break;
             default:
@@ -163,7 +161,6 @@ const MovieList = ({movies, getMovieList}, props) => {
         setFilterOn(true);
         const sortValue = sortSelectEl.current.value;
 
-        // let sortedMovies = [...movies];
         let sortedMovies = [...displayedMovies];
         switch (sortValue){
             case "dont-sort":
@@ -203,7 +200,6 @@ const MovieList = ({movies, getMovieList}, props) => {
                 break;
         }
 
-        // console.log(sortedMovies);
         setDisplayedMovies(sortedMovies);
     }
 
@@ -234,13 +230,9 @@ const MovieList = ({movies, getMovieList}, props) => {
                 </select>
                 <input type="date" ref={inputDate1El}/> 
 
-                {/* {selectDateEl.current.value === "date-between" ? (
-                    <input type="date" ref={inputDate2El}/> 
-                ): null } */}
                 <input id="date2" className="hidden" type="date" ref={inputDate2El}/> 
-                {/* display hidden */}
+                
                 <button 
-                // onClick={handleDateFilter}
                 onClick={filter}
                 >
                 {t("filter")}</button>
@@ -286,7 +278,6 @@ const MovieList = ({movies, getMovieList}, props) => {
 }
  
 const mapStateToProps = (state) => {
-    // console.log(state);
     return {
         movies: getAllMovies(state),
     };

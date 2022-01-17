@@ -22,7 +22,6 @@ export const getActorList = () => {
             {
                 type: types.ACTOR_LIST_REQUEST_SUCCESS,
                 payload: async (action, state, res) => {
-                    console.log('PAYLOAD', action, state, res);
                     const json = await res.json();
                     const { entities } = normalize(json, actorsSchema)
                     return entities;
@@ -47,7 +46,6 @@ export const getMovieActors = (movieId) => {
             {
                 type: types.MOVIE_ACTORS_REQUEST_SUCCESS,
                 payload: async (action, state, res) => {
-                    console.log('PAYLOAD', action, state, res);
                     const json = await res.json();
                     const { entities } = normalize(json, actorsSchema)
                     return entities;
@@ -107,11 +105,4 @@ export const deleteMovieActor = (actor) => {
     })
 }
 
-// export const getMovieActors = (movieId) => {
-//     axios.get(`http://localhost:5000/api/movies/${movieId}/actors`)
-//     .then(function (response) {
-//       // handle success
-//       console.log("mactors response: ", response.data);
-//       return response.data;
-//     })
-// } 
+
