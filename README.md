@@ -1,2 +1,0 @@
-# Malinowska Ludwika
-
